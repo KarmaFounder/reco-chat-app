@@ -774,7 +774,7 @@ export default function App({
             <div className="flex flex-col h-full overflow-hidden px-4 py-4 lg:p-6 relative z-10 w-full opacity-100">
               {/* Header */}
               <div className="flex items-center gap-3 mb-4 ai-style-change-1">
-                <div className="hidden md:block w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                <div className="hidden sm:block w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   {productImageUrl ? (
                     <img src={productImageUrl} alt={productName} className="w-full h-full object-cover" />
                   ) : (
@@ -848,9 +848,9 @@ export default function App({
                 <img
                   src={shopLogoUrl}
                   alt="Store logo"
-                  className="hidden lg:block h-[27px] max-w-[102px] object-contain"
+                  className="hidden sm:block h-[27px] max-w-[102px] object-contain"
                 />
-              ) : <div className="hidden lg:block w-8" />}
+              ) : <div className="hidden sm:block w-8" />}
 
               {/* Close Button */}
               <button
@@ -1043,7 +1043,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v295</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v296</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }
