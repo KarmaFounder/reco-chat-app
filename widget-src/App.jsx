@@ -323,10 +323,19 @@ export default function App({
     if (root) {
       let logoUrl = root.dataset.shopLogoUrl;
       console.log("🖼️ Shop logo URL from data attribute:", logoUrl);
-      // Ensure https: protocol (handle protocol-relative URLs)
+      // Ensure https: protocol (handle protocol-relative URLs and malformed https: URLs)
       if (logoUrl && logoUrl.trim() !== "") {
+        // Handle protocol-relative URLs (//cdn.shopify.com/...)
         if (logoUrl.startsWith("//")) {
           logoUrl = "https:" + logoUrl;
+        }
+        // Handle malformed https: URLs (https:cdn.shopify.com instead of https://cdn.shopify.com)
+        else if (logoUrl.startsWith("https:") && !logoUrl.startsWith("https://")) {
+          logoUrl = logoUrl.replace("https:", "https://");
+        }
+        // Handle malformed http: URLs
+        else if (logoUrl.startsWith("http:") && !logoUrl.startsWith("http://")) {
+          logoUrl = logoUrl.replace("http:", "http://");
         }
         setShopLogoUrl(logoUrl);
       }
@@ -339,10 +348,19 @@ export default function App({
     if (root) {
       let imageUrl = root.dataset.productImageUrl;
       console.log("📸 Product image URL from data attribute:", imageUrl);
-      // Ensure https: protocol (handle protocol-relative URLs)
+      // Ensure https: protocol (handle protocol-relative URLs and malformed https: URLs)
       if (imageUrl && imageUrl.trim() !== "") {
+        // Handle protocol-relative URLs (//cdn.shopify.com/...)
         if (imageUrl.startsWith("//")) {
           imageUrl = "https:" + imageUrl;
+        }
+        // Handle malformed https: URLs (https:cdn.shopify.com instead of https://cdn.shopify.com)
+        else if (imageUrl.startsWith("https:") && !imageUrl.startsWith("https://")) {
+          imageUrl = imageUrl.replace("https:", "https://");
+        }
+        // Handle malformed http: URLs
+        else if (imageUrl.startsWith("http:") && !imageUrl.startsWith("http://")) {
+          imageUrl = imageUrl.replace("http:", "http://");
         }
         setProductImageUrl(imageUrl);
       }
@@ -772,7 +790,7 @@ export default function App({
 
           {/* Sidebar Card (Glides Behind) */}
           <aside
-            className={`pointer-events-auto bg-[#FAF8F5] rounded-3xl shadow-2xl flex-col min-h-0 h-auto lg:h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] relative lg:absolute w-full lg:w-[450px] lg:top-0 lg:bottom-0
+            className={`pointer-events-auto bg-[#FAF8F5] rounded-3xl shadow-2xl flex flex-col min-h-0 h-auto lg:h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] relative lg:absolute w-full lg:w-[450px] lg:top-0 lg:bottom-0
                 ${isSidebarOpen
                 ? "lg:translate-x-[-610px] z-10 opacity-100 scale-100 lg:left-1/2"
                 : "lg:translate-x-[-475px] z-0 opacity-100 scale-95 lg:left-1/2 brightness-[0.98]"}`}
@@ -783,8 +801,8 @@ export default function App({
             {/* Sidebar Content */}
             <div className="flex flex-col h-full overflow-hidden px-4 py-4 lg:p-6 relative z-10 w-full opacity-100">
               {/* Header */}
-              <div className="flex items-center gap-3 mb-4 ai-style-change-1">
-                <div className="hidden sm:block w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+              <div className="flex items-center gap-3 mb-4 ai-style-change-1 max-lg:hidden">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   {productImageUrl ? (
                     <img src={productImageUrl} alt={productName} className="w-full h-full object-cover" />
                   ) : (
@@ -852,15 +870,15 @@ export default function App({
 
 
             {/* Header */}
-            <div className="reco-modal-header mobile-header-tight flex-none !p-2 lg:!px-6 lg:!pt-6 lg:!pb-4 flex w-full !justify-end lg:!justify-between items-center relative z-10 bg-transparent">
+            <div className="reco-modal-header mobile-header-tight flex-none !p-2 lg:!px-6 lg:!pt-6 lg:!pb-4 flex w-full justify-between items-center relative z-10 bg-transparent">
               {/* Shop Logo */}
               {shopLogoUrl ? (
                 <img
                   src={shopLogoUrl}
                   alt="Store logo"
-                  className="hidden sm:block h-[27px] max-w-[102px] object-contain"
+                  className="h-[27px] max-w-[102px] object-contain"
                 />
-              ) : <div className="hidden sm:block w-8" />}
+              ) : <div className="w-8" />}
 
               {/* Close Button */}
               <button
