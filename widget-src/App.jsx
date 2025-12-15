@@ -327,6 +327,17 @@ export default function App({
     }
   }, []);
 
+  // Load product image URL from data attribute
+  useEffect(() => {
+    const root = document.getElementById("reco-chat-root");
+    if (root) {
+      const imageUrl = root.dataset.productImageUrl;
+      if (imageUrl && imageUrl.trim() !== "") {
+        setProductImageUrl(imageUrl);
+      }
+    }
+  }, []);
+
   // Initialize per-session thread on mount (persisted server-side, per device)
   useEffect(() => {
     if (threadId) return;
@@ -1031,7 +1042,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v293</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v294</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }
