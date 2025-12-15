@@ -321,9 +321,15 @@ export default function App({
   useEffect(() => {
     const root = document.getElementById("reco-chat-root");
     if (root) {
-      const logoUrl = root.dataset.shopLogoUrl;
+      let logoUrl = root.dataset.shopLogoUrl;
       console.log("🖼️ Shop logo URL from data attribute:", logoUrl);
-      if (logoUrl && logoUrl.trim() !== "") setShopLogoUrl(logoUrl);
+      // Ensure https: protocol (handle protocol-relative URLs)
+      if (logoUrl && logoUrl.trim() !== "") {
+        if (logoUrl.startsWith("//")) {
+          logoUrl = "https:" + logoUrl;
+        }
+        setShopLogoUrl(logoUrl);
+      }
     }
   }, []);
 
@@ -331,9 +337,13 @@ export default function App({
   useEffect(() => {
     const root = document.getElementById("reco-chat-root");
     if (root) {
-      const imageUrl = root.dataset.productImageUrl;
+      let imageUrl = root.dataset.productImageUrl;
       console.log("📸 Product image URL from data attribute:", imageUrl);
+      // Ensure https: protocol (handle protocol-relative URLs)
       if (imageUrl && imageUrl.trim() !== "") {
+        if (imageUrl.startsWith("//")) {
+          imageUrl = "https:" + imageUrl;
+        }
         setProductImageUrl(imageUrl);
       }
     }
@@ -1043,7 +1053,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v296</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v297</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }
