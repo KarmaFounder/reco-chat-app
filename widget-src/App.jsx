@@ -332,6 +332,7 @@ export default function App({
     const root = document.getElementById("reco-chat-root");
     if (root) {
       const imageUrl = root.dataset.productImageUrl;
+      console.log("📸 Product image URL from data attribute:", imageUrl);
       if (imageUrl && imageUrl.trim() !== "") {
         setProductImageUrl(imageUrl);
       }
@@ -1042,7 +1043,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v294</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v295</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }
