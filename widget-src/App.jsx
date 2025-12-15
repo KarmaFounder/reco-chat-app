@@ -822,7 +822,7 @@ export default function App({
                 {(isLoading && !sources.length) ? (
                   // Detailed Skeleton - 6 cards with "blocks"
                   Array(6).fill(0).map((_, i) => (
-                    <div key={i} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 animate-pulse w-full lg:flex-shrink-0 lg:w-[280px]">
+                    <div key={i} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 animate-pulse w-full lg:flex-shrink-0 lg:w-[280px] min-h-[120px]">
                       <div className="flex justify-between items-center mb-3">
                         <div className="h-4 bg-gray-200 rounded w-1/3"></div>
                         <div className="flex gap-1">
@@ -837,7 +837,7 @@ export default function App({
                     </div>
                   ))
                 ) : !sources.length ? (
-                  <div className="rounded-xl bg-white p-4 text-center text-sm text-gray-400 border border-gray-100 shadow-sm w-full lg:w-auto lg:flex-shrink-0 lg:w-[280px]">
+                  <div className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400 border border-gray-100 shadow-sm w-full lg:w-auto lg:flex-shrink-0 lg:w-[280px] min-h-[120px] flex items-center justify-center">
                     Ask a question to see matching reviews here.
                   </div>
                 ) : (
