@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.reco-cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Reco Widget Styles */
+.reco-modal-header {
+  @apply flex items-center justify-between px-6 pt-6 pb-4 bg-[#FAF8F5];
+}
+
+.reco-header-product-info {
+  @apply flex flex-col;
+}
+
+.reco-header-product-name {
+  @apply text-sm font-semibold text-gray-900;
+}
+
+.reco-header-product-meta {
+  @apply text-xs text-gray-500;
+}
+
+.reco-back-button {
+  @apply text-xs font-medium text-white bg-[#2D2D2D] hover:bg-[#1a1a1a] transition-colors px-4 py-2 rounded-full;
+}
+
+.reco-branding {
+  @apply fixed bottom-4 right-4 text-[10px] font-bold tracking-widest text-gray-400 uppercase pointer-events-none z-[2147483648];
+}
