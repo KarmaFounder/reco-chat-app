@@ -1,0 +1,12 @@
+{
+    "buildCommand": "npm run build",
+    "installCommand": "npm install",
+    "framework": "remix",
+    "outputDirectory": "build/server",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ]
+}

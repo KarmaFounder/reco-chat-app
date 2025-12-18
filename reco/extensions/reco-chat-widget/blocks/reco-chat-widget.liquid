@@ -1,0 +1,107 @@
+{% schema %}
+{
+  "name": "Reco Chat Widget",
+  "target": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "input_placeholder_text",
+      "label": "Input placeholder",
+      "default": "Ask anything...",
+      "info": "Leave empty to use product name in placeholder"
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'reco-widget-main.css' | asset_url | stylesheet_tag }}
+{{ 'reco-widget-overrides.css' | asset_url | append: '?v=66' | stylesheet_tag }}
+
+
+
+
+{% if product %}
+  <div
+    id="reco-chat-root"
+    data-product-id="{{ product.id }}"
+    data-product-handle="{{ product.handle }}"
+    data-product-title="{{ product.title }}"
+    data-product-name="{{ product.title }}"
+    data-product="{{ product.title }}"
+    data-product-image-url="https:{{ product.featured_image | image_url: width: 300 }}"
+    data-product-price="{{ product.price | money_without_trailing_zeros }}"
+    data-product-type="{{ product.type }}"
+    data-input-placeholder="{{ block.settings.input_placeholder_text }}"
+    data-shop-logo-url="{% if settings.logo %}https:{{ settings.logo | image_url: width: 200 }}{% elsif shop.brand.logo %}https:{{ shop.brand.logo | image_url: width: 200 }}{% else %}{% endif %}"
+  ></div>
+
+  <link rel="stylesheet" href="{{ 'reco-widget-main.css' | asset_url }}">
+  <script src="{{ 'reco-widget-v297.js' | asset_url }}" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const root = document.getElementById('reco-chat-root');
+      if (!root) return;
+      
+      const selector = '.mt-4.flex.items-center.justify-center.gap-2';
+      const headerText = root.dataset.inputHeader || '';
+      const showHeader = root.dataset.showHeader === 'true';
+      const placeholder = root.dataset.inputPlaceholder || '';
+      
+      // Pre-process header HTML
+      const headerHTML = headerText ? headerText.replace(/\breal\b/gi, '<em>$&</em>') : '';
+
+      function enhance(container) {
+        if (!container || container.dataset.recoHeaderInjected === '1') return;
+        container.dataset.recoHeaderInjected = '1';
+        
+        // Insert header only if enabled
+        if (showHeader) {
+          const header = document.createElement('div');
+          header.className = 'reco-input-header';
+          header.innerHTML = headerHTML;
+          container.insertBefore(header, container.firstChild);
+        }
+        
+        // Wrap input and button in a positioned div
+        const input = container.querySelector('input');
+        const button = container.querySelector('button');
+        if (input && button) {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'reco-input-wrapper';
+          wrapper.style.position = 'relative';
+          input.parentNode.insertBefore(wrapper, input);
+          wrapper.appendChild(input);
+          wrapper.appendChild(button);
+          
+          // Change button text to "Ask Reco" if it's just an icon or "Send"
+          // The preview shows "Ask Reco". The bundle might set it to "Send".
+          // We can override it here if needed, but let's respect the bundle or CSS.
+          // Actually, the user wants "Ask Reco" inside the input.
+          button.textContent = "Ask Reco";
+        }
+        
+        // Update placeholder if provided
+        if (placeholder && input) {
+          input.placeholder = placeholder;
+        }
+      }
+
+      const tryEnhance = () => {
+        root.querySelectorAll(selector).forEach(enhance);
+        const modal = root.querySelector('.fixed.inset-0');
+        if (modal) {
+          modal.querySelectorAll(selector).forEach(enhance);
+        }
+      };
+
+      // tryEnhance();
+      // const obs = new MutationObserver(() => {
+      //   tryEnhance();
+      // });
+      // obs.observe(root, { childList: true, subtree: true });
+    });
+  </script>
+{% endif %}
