@@ -22,7 +22,15 @@
             "destination": "/support.html"
         },
         {
-            "source": "/((?!landing|privacy|support|_assets|favicon).*)",
+            "source": "/app-dashboard",
+            "destination": "/app-dashboard.html"
+        },
+        {
+            "source": "/app-subscription",
+            "destination": "/app-subscription.html"
+        },
+        {
+            "source": "/((?!landing|privacy|support|app-dashboard|app-subscription|_assets|favicon|okendo|judge).*)",
             "destination": "/api/index"
         }
     ]
