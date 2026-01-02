@@ -1,8 +1,13 @@
 {
     "buildCommand": "npm run build",
     "installCommand": "npm install",
-    "framework": "vite",
+    "framework": null,
     "outputDirectory": "build/client",
+    "functions": {
+        "api/index.js": {
+            "includeFiles": "build/**"
+        }
+    },
     "rewrites": [
         {
             "source": "/(.*)",
