@@ -1,6 +1,9 @@
-import { createRequestListener } from "@react-router/node";
-import * as build from "../build/server/index.js";
+import { createRequestHandler } from "@react-router/node";
 
-export default createRequestListener(() => build, {
+// Import the build - the build is bundled by Vercel
+const build = await import("../build/server/index.js");
+
+export default createRequestHandler({
+    build,
     mode: process.env.NODE_ENV,
 });
