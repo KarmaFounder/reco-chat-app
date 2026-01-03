@@ -1,23 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reco - AI Shopping Assistant for Shopify</title>
-  <meta name="description" content="Turn reviews into revenue with Reco. The AI Shopping Assistant that knows your products better than you do.">
+  <meta name="description"
+    content="Turn reviews into revenue with Reco. The AI Shopping Assistant that knows your products better than you do.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Typing cursor animation */
+    @keyframes blink {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .cursor-blink {
+      animation: blink 1s infinite;
+    }
+
+    /* Message slide in */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-slide-in {
+      animation: slideIn 0.4s ease-out forwards;
+    }
+
+    /* Fade transition for widget states */
+    .widget-transition {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Feature section visibility */
+    .feature-section {
+      opacity: 0.4;
+      transform: translateX(-20px);
+      transition: all 0.4s ease-out;
+    }
+
+    .feature-section.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
   </style>
 </head>
+
 <body class="min-h-screen bg-white">
   <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
@@ -26,157 +104,550 @@
         <span class="text-xl font-bold text-gray-900">Reco</span>
       </div>
       <div class="flex items-center gap-8">
-        <a href="/support.html" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Support</a>
-        <a href="/privacy.html" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Privacy</a>
-        <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer" class="px-5 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-sm hover:shadow-md">
+        <a href="/support.html"
+          class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Support</a>
+        <a href="/privacy.html"
+          class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Privacy</a>
+        <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer"
+          class="px-5 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-sm hover:shadow-md">
           Install App
         </a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="pt-32 pb-20 px-6">
-    <div class="max-w-6xl mx-auto text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full mb-8 border border-gray-200">
-        <div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-        <span class="text-sm font-medium text-gray-900">AI-Powered Shopping Assistant</span>
-      </div>
+  <!-- Main Content: Split Layout -->
+  <main class="pt-20 min-h-screen flex">
 
-      <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-        Turn Reviews into<br>
-        <span class="underline decoration-4 underline-offset-8">Revenue</span> with Reco
-      </h1>
+    <!-- Left Side: Scrollable Content -->
+    <div class="w-full lg:w-1/2 custom-scrollbar">
 
-      <p class="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-        The AI Shopping Assistant that knows your products better than you do.
-        Instantly answer customer questions using real reviews.
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer" class="group px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg">
-          Install on Shopify
-          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Social Proof -->
-      <div class="mt-16 flex items-center justify-center gap-8 text-sm text-gray-500">
-        <div class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-          </svg>
-          <span class="font-medium text-gray-700">4.9/5</span>
-          <span>from 200+ stores</span>
-        </div>
-        <div class="hidden sm:block w-1 h-1 bg-gray-300 rounded-full"></div>
+      <!-- Hero Section -->
+      <section id="section-hero" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
+        data-widget-state="hero">
         <div>
-          <span class="font-medium text-gray-700">Free trial</span> available
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full mb-6 border border-gray-200">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span class="text-sm font-medium text-gray-900">AI-Powered Shopping Assistant</span>
+          </div>
+
+          <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            Turn Reviews into<br>
+            <span class="underline decoration-4 underline-offset-8 decoration-black">Revenue</span>
+          </h1>
+
+          <p class="text-xl text-gray-600 mb-8 max-w-lg leading-relaxed">
+            The AI Shopping Assistant that knows your products better than you do.
+            Instantly answer customer questions using real reviews.
+          </p>
+
+          <a href="https://apps.shopify.com/reco-chat" target="_blank"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:scale-105">
+            Install on Shopify
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+
+          <div class="mt-8 flex items-center gap-6 text-sm text-gray-500">
+            <span class="flex items-center gap-1">
+              <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20">
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span class="font-medium text-gray-700">4.9/5</span> from 200+ stores
+            </span>
+            <span>Free trial available</span>
+          </div>
+
+          <div class="mt-12 text-gray-400 text-sm animate-bounce">
+            ↓ Scroll to explore features
+          </div>
         </div>
-      </div>
+      </section>
+
+      <!-- Feature 1: Instant Answers -->
+      <section id="section-instant" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
+        data-widget-state="instant">
+        <div>
+          <div class="w-14 h-14 bg-black rounded-2xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+              </path>
+            </svg>
+          </div>
+
+          <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Instant Answers
+          </h2>
+
+          <p class="text-xl text-gray-600 mb-6 max-w-lg leading-relaxed">
+            No more searching through hundreds of reviews. Reco answers fit, fabric, and styling questions
+            <span class="font-semibold text-gray-900">instantly</span>—right when customers need them most.
+          </p>
+
+          <ul class="space-y-4 text-gray-600">
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Responds in under 2 seconds</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Handles sizing, fit, and comfort questions</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>24/7 availability, no staff needed</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Feature 2: Review-Powered -->
+      <section id="section-reviews" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
+        data-widget-state="reviews">
+        <div>
+          <div class="w-14 h-14 bg-gray-800 rounded-2xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+              </path>
+            </svg>
+          </div>
+
+          <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Review-Powered
+          </h2>
+
+          <p class="text-xl text-gray-600 mb-6 max-w-lg leading-relaxed">
+            Grounded <span class="font-semibold text-gray-900">100% in your actual customer feedback</span>.
+            No hallucinations, just authentic insights from people who've purchased your products.
+          </p>
+
+          <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 max-w-md">
+            <p class="text-sm text-gray-500 mb-3">Works with your existing review platform:</p>
+            <div class="flex flex-wrap gap-3">
+              <span
+                class="px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-gray-700 border border-gray-200">Okendo</span>
+              <span
+                class="px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-gray-700 border border-gray-200">Judge.me</span>
+              <span
+                class="px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-gray-700 border border-gray-200">Stamped</span>
+              <span
+                class="px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-gray-700 border border-gray-200">Yotpo</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature 3: Color Customization -->
+      <section id="section-customize" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
+        data-widget-state="customize">
+        <div>
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01">
+              </path>
+            </svg>
+          </div>
+
+          <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Match Your Brand
+          </h2>
+
+          <p class="text-xl text-gray-600 mb-6 max-w-lg leading-relaxed">
+            Customize the widget to <span class="font-semibold text-gray-900">perfectly match your store's
+              aesthetic</span>.
+            Choose colors, position, and style that feel native to your brand.
+          </p>
+
+          <div class="flex gap-3 mb-6">
+            <button onclick="setWidgetTheme('dark')"
+              class="w-10 h-10 rounded-full bg-gray-900 border-2 border-gray-300 hover:border-gray-900 transition-all"
+              title="Dark theme"></button>
+            <button onclick="setWidgetTheme('teal')"
+              class="w-10 h-10 rounded-full bg-teal-600 border-2 border-gray-300 hover:border-teal-600 transition-all"
+              title="Teal theme"></button>
+            <button onclick="setWidgetTheme('pink')"
+              class="w-10 h-10 rounded-full bg-pink-500 border-2 border-gray-300 hover:border-pink-500 transition-all"
+              title="Pink theme"></button>
+            <button onclick="setWidgetTheme('purple')"
+              class="w-10 h-10 rounded-full bg-purple-600 border-2 border-gray-300 hover:border-purple-600 transition-all"
+              title="Purple theme"></button>
+          </div>
+
+          <p class="text-sm text-gray-500">Click the colors above to preview →</p>
+        </div>
+      </section>
+
+      <!-- Feature 4: Easy Integration -->
+      <section id="section-integrate" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
+        data-widget-state="integrate">
+        <div>
+          <div class="w-14 h-14 bg-green-600 rounded-2xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+              </path>
+            </svg>
+          </div>
+
+          <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            2-Minute Setup
+          </h2>
+
+          <p class="text-xl text-gray-600 mb-6 max-w-lg leading-relaxed">
+            Enable the app embed in Shopify's theme editor and you're done.
+            <span class="font-semibold text-gray-900">No coding required</span>, no theme conflicts.
+          </p>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold">1
+              </div>
+              <span class="text-gray-700">Install from Shopify App Store</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold">2
+              </div>
+              <span class="text-gray-700">Enable app embed in Theme Editor</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div
+                class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm font-bold">
+                ✓</div>
+              <span class="text-gray-700 font-semibold">Start converting browsers to buyers</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section id="section-cta" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
+        data-widget-state="cta">
+        <div class="w-full max-w-lg">
+          <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Ready to boost conversions?
+          </h2>
+
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            Join hundreds of Shopify stores using Reco to turn browsers into buyers.
+          </p>
+
+          <a href="https://apps.shopify.com/reco-chat" target="_blank"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:scale-105">
+            Install on Shopify — Free Trial
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+
+          <p class="mt-6 text-sm text-gray-500">
+            No credit card required • Setup in 2 minutes
+          </p>
+
+          <!-- Footer links -->
+          <div class="mt-16 pt-8 border-t border-gray-200">
+            <div class="flex items-center gap-6 text-sm text-gray-500">
+              <a href="/support.html" class="hover:text-gray-900 transition-colors">Support</a>
+              <a href="/privacy.html" class="hover:text-gray-900 transition-colors">Privacy</a>
+              <a href="mailto:support@askreco.com" class="hover:text-gray-900 transition-colors">support@askreco.com</a>
+            </div>
+            <p class="mt-4 text-sm text-gray-400">© 2025 Reco. Built by Michael & Nakai.</p>
+          </div>
+        </div>
+      </section>
+
     </div>
-  </section>
 
-  <!-- Features Section -->
-  <section class="py-20 px-6 bg-white">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          Why Merchants Love Reco
-        </h2>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-          Transform your customer experience with AI that actually understands your products
-        </p>
-      </div>
+    <!-- Right Side: Sticky Widget Preview -->
+    <div
+      class="hidden lg:flex w-1/2 items-center justify-center sticky top-0 h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
 
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Feature 1 -->
-        <div class="group p-8 rounded-2xl bg-white border border-gray-200 hover:border-gray-400 hover:shadow-xl transition-all">
-          <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
+      <!-- Widget Container -->
+      <div id="widget-preview" class="relative w-[380px] h-[600px] widget-transition">
+
+        <!-- Widget Card -->
+        <div id="widget-card"
+          class="absolute inset-0 bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col widget-transition">
+
+          <!-- Widget Header -->
+          <div id="widget-header"
+            class="px-5 py-4 border-b border-gray-100 flex items-center gap-3 widget-transition bg-white">
+            <div id="widget-logo"
+              class="w-10 h-10 bg-black rounded-xl flex items-center justify-center widget-transition">
+              <span class="text-white font-bold text-lg">R</span>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-900">Reco Assistant</h3>
+              <p class="text-xs text-gray-500">Ask me about this product</p>
+            </div>
+            <button
+              class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+              <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Instant Answers</h3>
-          <p class="text-gray-600 leading-relaxed">
-            No more searching through reviews. Reco answers fit, fabric, and styling questions instantly—right when customers need them most.
-          </p>
+
+          <!-- Chat Messages -->
+          <div id="widget-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-[#FAF8F5]">
+
+            <!-- AI Welcome Message -->
+            <div class="flex justify-start">
+              <div class="max-w-[80%] bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100">
+                <p class="text-sm text-gray-800 leading-relaxed">Hey! Ask me anything about the <strong>Seamless Sculpt
+                    Bodysuit</strong> – fit, comfort, what to wear it under, you name it.</p>
+              </div>
+            </div>
+
+            <!-- Dynamic messages will be inserted here -->
+            <div id="dynamic-messages"></div>
+
+          </div>
+
+          <!-- Review Sources (initially hidden) -->
+          <div id="widget-sources" class="px-4 py-3 bg-white border-t border-gray-100 hidden">
+            <p class="text-xs text-gray-500 mb-2">Based on reviews from:</p>
+            <div class="flex gap-2">
+              <span class="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">Sarah M. ★★★★★</span>
+              <span class="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">Jessica T. ★★★★☆</span>
+            </div>
+          </div>
+
+          <!-- Suggestion Chips -->
+          <div id="widget-suggestions" class="px-4 py-3 flex gap-2 flex-wrap border-t border-gray-100 bg-white">
+            <button
+              class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-xs text-gray-700 transition-colors">Does
+              it show under clothes?</button>
+            <button
+              class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-xs text-gray-700 transition-colors">How's
+              the compression?</button>
+          </div>
+
+          <!-- Input Area -->
+          <div id="widget-input" class="p-4 border-t border-gray-100 bg-white">
+            <div class="flex items-center gap-2 px-4 py-3 bg-gray-50 rounded-2xl border border-gray-200">
+              <input type="text" placeholder="Ask about fit, comfort, sizing..."
+                class="flex-1 bg-transparent text-sm outline-none placeholder-gray-400">
+              <button id="send-button"
+                class="w-8 h-8 rounded-full bg-black flex items-center justify-center hover:bg-gray-800 transition-colors widget-transition">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Feature 2 -->
-        <div class="group p-8 rounded-2xl bg-white border border-gray-200 hover:border-gray-400 hover:shadow-xl transition-all">
-          <div class="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Review-Powered</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Grounded 100% in your actual customer feedback. No hallucinations, just authentic insights from people who've purchased your products.
-          </p>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="group p-8 rounded-2xl bg-white border border-gray-200 hover:border-gray-400 hover:shadow-xl transition-all">
-          <div class="w-12 h-12 bg-gray-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Seamless Integration</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Fits perfectly into your Shopify theme. Enable the app embed in seconds—no coding required, no theme conflicts.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-20 px-6 bg-gray-50">
-    <div class="max-w-4xl mx-auto text-center">
-      <div class="bg-black rounded-3xl p-12 md:p-16 shadow-2xl">
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
-          Ready to boost conversions?
-        </h2>
-        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          Join hundreds of Shopify stores using Reco to turn browsers into buyers
-        </p>
-        <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full text-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
-          Install on Shopify
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        <!-- Floating minimized state (hidden by default) -->
+        <div id="widget-fab"
+          class="absolute bottom-4 right-4 w-14 h-14 bg-black rounded-full shadow-xl flex items-center justify-center cursor-pointer hover:scale-110 transition-transform hidden">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+            </path>
           </svg>
-        </a>
-        <p class="text-sm text-gray-400 mt-6">
-          Free trial • No credit card required • Setup in 2 minutes
-        </p>
-      </div>
-    </div>
-  </section>
+        </div>
 
-  <!-- Footer -->
-  <footer class="py-12 px-6 bg-gray-900 text-gray-400">
-    <div class="max-w-6xl mx-auto">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-            <span class="text-gray-900 font-bold text-lg">R</span>
-          </div>
-          <span class="text-white font-semibold">Reco</span>
-        </div>
-        <div class="flex items-center gap-8 text-sm">
-          <a href="/support.html" class="hover:text-white transition-colors">Support</a>
-          <a href="/privacy.html" class="hover:text-white transition-colors">Privacy</a>
-          <a href="mailto:support@askreco.com" class="hover:text-white transition-colors">support@askreco.com</a>
-        </div>
       </div>
-      <div class="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
-        <p>© 2025 Reco. Built by Michael & Nakai. All rights reserved.</p>
-      </div>
+
     </div>
-  </footer>
+
+  </main>
+
+  <script>
+    // Theme colors
+    const themes = {
+      dark: { primary: '#1f2937', logo: '#1f2937', button: '#1f2937' },
+      teal: { primary: '#0d9488', logo: '#0d9488', button: '#0d9488' },
+      pink: { primary: '#ec4899', logo: '#ec4899', button: '#ec4899' },
+      purple: { primary: '#7c3aed', logo: '#7c3aed', button: '#7c3aed' }
+    };
+
+    let currentTheme = 'dark';
+
+    // Set widget theme
+    window.setWidgetTheme = function (theme) {
+      currentTheme = theme;
+      const colors = themes[theme];
+
+      document.getElementById('widget-logo').style.backgroundColor = colors.logo;
+      document.getElementById('send-button').style.backgroundColor = colors.button;
+    }
+
+    // Widget states based on scroll section
+    const widgetStates = {
+      hero: () => {
+        resetWidget();
+        showWelcomeMessage();
+      },
+      instant: () => {
+        resetWidget();
+        showTypingAnimation();
+      },
+      reviews: () => {
+        resetWidget();
+        showReviewSources();
+      },
+      customize: () => {
+        resetWidget();
+        showWelcomeMessage();
+        // Theme buttons handle color changes
+      },
+      integrate: () => {
+        showMinimizedState();
+      },
+      cta: () => {
+        resetWidget();
+        showWelcomeMessage();
+        pulseInstallButton();
+      }
+    };
+
+    function resetWidget() {
+      const card = document.getElementById('widget-card');
+      const fab = document.getElementById('widget-fab');
+      const sources = document.getElementById('widget-sources');
+      const dynamicMessages = document.getElementById('dynamic-messages');
+
+      card.classList.remove('hidden');
+      fab.classList.add('hidden');
+      sources.classList.add('hidden');
+      dynamicMessages.innerHTML = '';
+    }
+
+    function showWelcomeMessage() {
+      // Already shown by default
+    }
+
+    function showTypingAnimation() {
+      const container = document.getElementById('dynamic-messages');
+
+      // User message
+      setTimeout(() => {
+        container.innerHTML = `
+          <div class="flex justify-end animate-slide-in">
+            <div class="max-w-[80%] bg-gray-900 text-white rounded-2xl px-4 py-3">
+              <p class="text-sm">Does it show under tight dresses?</p>
+            </div>
+          </div>
+        `;
+      }, 500);
+
+      // Typing indicator
+      setTimeout(() => {
+        container.innerHTML += `
+          <div id="typing-indicator" class="flex justify-start animate-slide-in">
+            <div class="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100">
+              <div class="flex gap-1">
+                <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+                <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></span>
+                <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+              </div>
+            </div>
+          </div>
+        `;
+      }, 1200);
+
+      // AI response
+      setTimeout(() => {
+        const typing = document.getElementById('typing-indicator');
+        if (typing) typing.remove();
+
+        container.innerHTML += `
+          <div class="flex justify-start animate-slide-in">
+            <div class="max-w-[80%] bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100">
+              <p class="text-sm text-gray-800 leading-relaxed">Based on 47 reviews, customers say it's <strong>completely seamless</strong> under tight dresses! Sarah M. mentioned "no visible lines even under my white bodycon dress."</p>
+            </div>
+          </div>
+        `;
+      }, 2500);
+    }
+
+    function showReviewSources() {
+      const container = document.getElementById('dynamic-messages');
+      const sources = document.getElementById('widget-sources');
+
+      container.innerHTML = `
+        <div class="flex justify-end animate-slide-in">
+          <div class="max-w-[80%] bg-gray-900 text-white rounded-2xl px-4 py-3">
+            <p class="text-sm">Is it comfortable for all-day wear?</p>
+          </div>
+        </div>
+        <div class="flex justify-start animate-slide-in" style="animation-delay: 0.2s">
+          <div class="max-w-[80%] bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100">
+            <p class="text-sm text-gray-800 leading-relaxed">Absolutely! 89% of reviewers mention wearing it for 8+ hours comfortably. The fabric is breathable and doesn't roll up.</p>
+          </div>
+        </div>
+      `;
+
+      sources.classList.remove('hidden');
+    }
+
+    function showMinimizedState() {
+      const card = document.getElementById('widget-card');
+      const fab = document.getElementById('widget-fab');
+
+      card.classList.add('hidden');
+      fab.classList.remove('hidden');
+
+      // Expand after 2 seconds
+      setTimeout(() => {
+        fab.classList.add('hidden');
+        card.classList.remove('hidden');
+      }, 2000);
+    }
+
+    function pulseInstallButton() {
+      const button = document.getElementById('send-button');
+      button.classList.add('animate-pulse');
+      setTimeout(() => button.classList.remove('animate-pulse'), 3000);
+    }
+
+    // Intersection Observer for scroll-triggered states
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Update active section styling
+          document.querySelectorAll('.feature-section').forEach(s => s.classList.remove('active'));
+          entry.target.classList.add('active');
+
+          // Trigger widget state
+          const state = entry.target.dataset.widgetState;
+          if (state && widgetStates[state]) {
+            widgetStates[state]();
+          }
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '-10% 0px -10% 0px'
+    });
+
+    // Observe all feature sections
+    document.querySelectorAll('.feature-section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.feature-section').classList.add('active');
+    });
+  </script>
 </body>
+
 </html>
