@@ -5,19 +5,11 @@ declare global {
   var prismaGlobal: PrismaClient;
 }
 
-// For serverless environments, create a new client with connection pooling configured
-// In production on Vercel, each request gets a fresh client to avoid connection pool exhaustion
-const prisma = global.prismaGlobal ?? new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-  // Log slow queries in production for debugging
-  log: process.env.NODE_ENV === "production" ? ["error", "warn"] : ["query", "error", "warn"],
-});
+// Cache the Prisma client to avoid creating new connections on every request
+// In production, we still create a single instance but don't cache globally
+const prisma = global.prismaGlobal ?? new PrismaClient();
 
-// Cache the client in development to avoid creating too many connections
+// Cache the client in development to avoid exhausting connections
 if (process.env.NODE_ENV !== "production") {
   global.prismaGlobal = prisma;
 }

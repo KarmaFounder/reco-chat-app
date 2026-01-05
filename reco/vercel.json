@@ -1,13 +1,6 @@
 {
     "buildCommand": "npm run build",
     "installCommand": "npm install",
-    "framework": null,
-    "outputDirectory": "build/client",
-    "functions": {
-        "api/index.js": {
-            "includeFiles": "build/**"
-        }
-    },
     "rewrites": [
         {
             "source": "/landing",
@@ -28,10 +21,6 @@
         {
             "source": "/app-subscription",
             "destination": "/app-subscription.html"
-        },
-        {
-            "source": "/((?!landing|privacy|support|app-dashboard|app-subscription|_assets|favicon|okendo|judge).*)",
-            "destination": "/api/index"
         }
     ]
 }
