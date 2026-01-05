@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 export default defineSchema({
   // =========== STORE MANAGEMENT ===========
-  // Stores that have installed the Reco extension
+  // Stores that have installed the Reco extension (each store = a user)
   stores: defineTable({
     shopify_domain: v.string(), // e.g., "my-store.myshopify.com"
     shopify_store_id: v.optional(v.string()),
@@ -29,7 +29,7 @@ export default defineSchema({
   // Store analytics and usage tracking
   store_analytics: defineTable({
     store_id: v.id("stores"),
-    date: v.string(), // ISO date string
+    date: v.string(), // ISO date string (YYYY-MM-DD)
     conversations: v.number(),
     messages: v.number(),
     recommendations_shown: v.number(),
@@ -38,6 +38,39 @@ export default defineSchema({
     revenue_attributed: v.optional(v.number()),
   })
     .index("byStoreAndDate", ["store_id", "date"]),
+
+  // =========== CONVERSATIONS ===========
+  // Each chat session with a customer
+  conversations: defineTable({
+    store_id: v.optional(v.id("stores")), // Optional for demo/legacy
+    shopify_domain: v.string(), // Store domain for easy lookup
+    session_id: v.string(), // Unique session identifier from widget
+    product_id: v.optional(v.string()),
+    product_title: v.optional(v.string()),
+    status: v.string(), // "active" | "completed" | "abandoned"
+    messages_count: v.number(),
+    started_at: v.string(),
+    ended_at: v.optional(v.string()),
+    customer_metadata: v.optional(v.any()), // Browser, device, UTM params, etc.
+  })
+    .index("byShopifyDomain", ["shopify_domain"])
+    .index("bySession", ["session_id"])
+    .index("byStoreAndStatus", ["shopify_domain", "status"])
+    .index("byStartedAt", ["started_at"]),
+
+  // =========== MESSAGES ===========
+  // Individual messages within a conversation
+  messages: defineTable({
+    conversation_id: v.id("conversations"),
+    role: v.string(), // "user" | "assistant"
+    content: v.string(),
+    created_at: v.string(),
+    // For assistant messages:
+    sources_count: v.optional(v.number()), // How many review sources were used
+    suggestions: v.optional(v.array(v.string())), // Follow-up suggestions
+  })
+    .index("byConversation", ["conversation_id"])
+    .index("byCreatedAt", ["created_at"]),
 
   // =========== REVIEWS (multi-tenant) ===========
   reviews: defineTable({
@@ -62,30 +95,14 @@ export default defineSchema({
       filterFields: ["store_id", "product_id"]
     }),
 
-  // =========== CONVERSATIONS ===========
-  conversations: defineTable({
-    store_id: v.id("stores"),
-    session_id: v.string(), // Unique session identifier
-    product_id: v.optional(v.string()),
-    product_title: v.optional(v.string()),
-    status: v.string(), // "active" | "completed" | "abandoned"
-    messages_count: v.number(),
-    started_at: v.string(),
-    ended_at: v.optional(v.string()),
-    metadata: v.optional(v.any()), // Customer info, UTM params, etc.
-  })
-    .index("byStore", ["store_id"])
-    .index("bySession", ["session_id"])
-    .index("byStoreAndStatus", ["store_id", "status"]),
-
-  // =========== LEGACY TABLES (kept for compatibility) ===========
+  // =========== LEGACY TABLES (kept for demo/migration) ===========
   metadata: defineTable({
     isSeeded: v.optional(v.boolean()),
     lastUploadAt: v.optional(v.string()),
     demoThreadId: v.optional(v.string()),
   }),
 
-  // Legacy skims_reviews table (will migrate to 'reviews')
+  // Legacy skims_reviews table (used by demo, will migrate to 'reviews')
   skims_reviews: defineTable({
     external_id: v.optional(v.string()),
     product: v.optional(v.string()),
@@ -98,13 +115,4 @@ export default defineSchema({
   })
     .vectorIndex("byEmbedding", { vectorField: "embedding", dimensions: 768, filterFields: ["product"] })
     .index("byCreatedAt", ["created_at"]),
-
-  research_sessions: defineTable({
-    status: v.string(), // running|done|error
-    steps: v.array(v.string()),
-    answer: v.optional(v.string()),
-    sources: v.optional(v.any()),
-    suggestions: v.optional(v.array(v.string())),
-    created_at: v.string(),
-  }),
 });

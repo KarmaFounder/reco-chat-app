@@ -10,12 +10,12 @@
 
 import type * as agent_ui from "../agent_ui.js";
 import type * as chat from "../chat.js";
+import type * as conversations from "../conversations.js";
 import type * as files from "../files.js";
 import type * as kimAgent from "../kimAgent.js";
 import type * as metadata from "../metadata.js";
-import type * as research from "../research.js";
-import type * as research_start from "../research_start.js";
 import type * as reviews from "../reviews.js";
+import type * as stores from "../stores.js";
 
 import type {
   ApiFromModules,
@@ -23,32 +23,40 @@ import type {
   FunctionReference,
 } from "convex/server";
 
+declare const fullApi: ApiFromModules<{
+  agent_ui: typeof agent_ui;
+  chat: typeof chat;
+  conversations: typeof conversations;
+  files: typeof files;
+  kimAgent: typeof kimAgent;
+  metadata: typeof metadata;
+  reviews: typeof reviews;
+  stores: typeof stores;
+}>;
+
 /**
- * A utility for referencing Convex functions in your app's API.
+ * A utility for referencing Convex functions in your app's public API.
  *
  * Usage:
  * ```js
  * const myFunctionReference = api.myModule.myFunction;
  * ```
  */
-declare const fullApi: ApiFromModules<{
-  agent_ui: typeof agent_ui;
-  chat: typeof chat;
-  files: typeof files;
-  kimAgent: typeof kimAgent;
-  metadata: typeof metadata;
-  research: typeof research;
-  research_start: typeof research_start;
-  reviews: typeof reviews;
-}>;
-declare const fullApiWithMounts: typeof fullApi;
-
 export declare const api: FilterApi<
-  typeof fullApiWithMounts,
+  typeof fullApi,
   FunctionReference<any, "public">
 >;
+
+/**
+ * A utility for referencing Convex functions in your app's internal API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = internal.myModule.myFunction;
+ * ```
+ */
 export declare const internal: FilterApi<
-  typeof fullApiWithMounts,
+  typeof fullApi,
   FunctionReference<any, "internal">
 >;
 
@@ -173,6 +181,7 @@ export declare const components: {
             vectors: Array<Array<number> | null>;
           };
           failPendingSteps?: boolean;
+          hideFromUserIdSearch?: boolean;
           messages: Array<{
             error?: string;
             fileIds?: Array<string>;
@@ -776,6 +785,22 @@ export declare const components: {
           }>;
         }
       >;
+      cloneThread: FunctionReference<
+        "action",
+        "internal",
+        {
+          batchSize?: number;
+          copyUserIdForVectorSearch?: boolean;
+          excludeToolMessages?: boolean;
+          insertAtOrder?: number;
+          limit?: number;
+          sourceThreadId: string;
+          statuses?: Array<"pending" | "success" | "failed">;
+          targetThreadId: string;
+          upToAndIncludingMessageId?: string;
+        },
+        number
+      >;
       deleteByIds: FunctionReference<
         "mutation",
         "internal",
@@ -802,12 +827,6 @@ export declare const components: {
           result: { status: "success" } | { error: string; status: "failed" };
         },
         null
-      >;
-      getMessageSearchFields: FunctionReference<
-        "query",
-        "internal",
-        { messageId: string },
-        { embedding?: Array<number>; embeddingModel?: string; text?: string }
       >;
       getMessagesByIds: FunctionReference<
         "query",
@@ -1075,6 +1094,12 @@ export declare const components: {
             | { message: string; type: "other" }
           >;
         }>
+      >;
+      getMessageSearchFields: FunctionReference<
+        "query",
+        "internal",
+        { messageId: string },
+        { embedding?: Array<number>; embeddingModel?: string; text?: string }
       >;
       listMessagesByThreadId: FunctionReference<
         "query",

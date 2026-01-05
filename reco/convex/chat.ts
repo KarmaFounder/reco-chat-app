@@ -1,5 +1,6 @@
 import { action } from "./_generated/server";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 
 const CHAT_MODEL = "gemini-2.5-flash-preview-09-2025";
 const EMBEDDING_MODEL = "text-embedding-004"; // 768 dims
@@ -13,7 +14,6 @@ async function embed(text: string, apiKey: string): Promise<number[]> {
     apiKey
   )}`;
   const body = {
-    // New Gemini embeddings payload shape
     content: { parts: [{ text }] },
     taskType: "RETRIEVAL_QUERY",
     outputDimensionality: 768,
@@ -79,15 +79,14 @@ async function generateKimAnswer({ userQuery, topReviews, apiKey, history, mode 
 }
 
 function fallbackFromReviews(userQuery: string, topReviews: any[]) {
-  if (!topReviews?.length) return "I couldn’t find enough in the reviews to answer that confidently.";
+  if (!topReviews?.length) return "I couldn't find enough in the reviews to answer that confidently.";
   const bullets = topReviews
     .map(
-      (r: any, i: number) => `${i + 1}. ${r.rating}/5 • ${r.fit_feedback} — ${r.review_body.slice(0, 140)}${
-        r.review_body.length > 140 ? "…" : ""
-      }`
+      (r: any, i: number) => `${i + 1}. ${r.rating}/5 • ${r.fit_feedback} — ${r.review_body.slice(0, 140)}${r.review_body.length > 140 ? "…" : ""
+        }`
     )
     .join("\n");
-  return `Here’s what customers mention related to “${userQuery}”:\n\n${bullets}`;
+  return `Here's what customers mention related to "${userQuery}":\n\n${bullets}`;
 }
 
 async function generateSuggestions({ userQuery, history, topReviews, apiKey }: { userQuery: string; history: { role: string; text: string }[]; topReviews: any[]; apiKey: string }): Promise<string[]> {
@@ -106,7 +105,7 @@ async function generateSuggestions({ userQuery, history, topReviews, apiKey }: {
     try {
       const arr = JSON.parse(txt);
       if (Array.isArray(arr)) return arr.slice(0, 3).map((s) => String(s));
-    } catch {}
+    } catch { }
     // naive fallback by lines
     return txt.split(/\n|\,/).map((s: string) => s.replace(/^[\-\s\"]+|[\"\s]+$/g, "")).filter(Boolean).slice(0, 3);
   } catch {
@@ -118,16 +117,60 @@ async function generateSuggestions({ userQuery, history, topReviews, apiKey }: {
   }
 }
 
+/**
+ * Main chat action - handles user queries and saves to database
+ * 
+ * This is the primary entry point for the widget chat.
+ * It:
+ * 1. Gets or creates a conversation
+ * 2. Saves the user message
+ * 3. Generates AI response from reviews
+ * 4. Saves the assistant message
+ * 5. Returns the response with suggestions
+ */
 export const ask = action({
-  args: { query: v.string(), topK: v.optional(v.number()), history: v.optional(v.array(v.object({ role: v.string(), text: v.string() }))), product: v.optional(v.string()), research: v.optional(v.boolean()) },
-  handler: async (ctx, { query, topK, history, product, research }) => {
+  args: {
+    query: v.string(),
+    topK: v.optional(v.number()),
+    history: v.optional(v.array(v.object({ role: v.string(), text: v.string() }))),
+    product: v.optional(v.string()),
+    research: v.optional(v.boolean()),
+    // New: session tracking for message storage
+    session_id: v.optional(v.string()),
+    shopify_domain: v.optional(v.string()),
+    product_title: v.optional(v.string()),
+  },
+  handler: async (ctx, { query, topK, history, product, research, session_id, shopify_domain, product_title }) => {
     const apiKey = getEnv("GEMINI_API_KEY");
     if (!apiKey) throw new Error("GEMINI_API_KEY not set in Convex env");
 
-    // 1) Embed user query
+    // 1) Get or create conversation if session tracking is enabled
+    let conversationId: any = null;
+    if (session_id && shopify_domain) {
+      try {
+        const result = await ctx.runMutation(api.conversations.getOrCreateConversation, {
+          session_id,
+          shopify_domain,
+          product_id: product,
+          product_title,
+        });
+        conversationId = result.conversation_id;
+
+        // Save user message
+        await ctx.runMutation(api.conversations.saveMessage, {
+          conversation_id: conversationId,
+          role: "user",
+          content: query,
+        });
+      } catch (e) {
+        console.error("[chat.ask] Failed to save user message:", e);
+      }
+    }
+
+    // 2) Embed user query
     const qEmbedding = await embed(query, apiKey);
 
-    // 2) Vector search topK reviews
+    // 3) Vector search topK reviews
     const k = topK ?? (research ? 24 : 8);
     const results = await (ctx as any).vectorSearch("skims_reviews", "byEmbedding", {
       vector: qEmbedding,
@@ -141,12 +184,27 @@ export const ask = action({
     const scoreById = new Map((results || []).map((r: any) => [String(r._id), r._score]));
     const sources = topReviews.map((doc: any) => ({ _id: doc._id, _score: scoreById.get(String(doc._id)) ?? null, doc }));
 
-    // 3) Generate answer from top reviews
+    // 4) Generate answer from top reviews
     let answer = await generateKimAnswer({ userQuery: query, topReviews, apiKey, history: history || [], mode: research ? "research" : "default" });
     if (!answer?.trim()) answer = fallbackFromReviews(query, topReviews);
 
-    // Generate next-step suggestions
+    // 5) Generate next-step suggestions
     const suggestions = await generateSuggestions({ userQuery: query, history: history || [], topReviews, apiKey });
+
+    // 6) Save assistant message if tracking is enabled
+    if (conversationId) {
+      try {
+        await ctx.runMutation(api.conversations.saveMessage, {
+          conversation_id: conversationId,
+          role: "assistant",
+          content: answer,
+          sources_count: sources.length,
+          suggestions,
+        });
+      } catch (e) {
+        console.error("[chat.ask] Failed to save assistant message:", e);
+      }
+    }
 
     return { answer, sources, suggestions };
   },
