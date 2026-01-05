@@ -1,4 +1,5 @@
-import { createRequestHandler } from "@react-router/node";
+import pkg from "@react-router/node";
+const { createRequestHandler } = pkg;
 
 // Import the build - the build is bundled by Vercel
 const build = await import("../build/server/index.js");
