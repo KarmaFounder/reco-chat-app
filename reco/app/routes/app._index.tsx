@@ -10,10 +10,23 @@ import { boundary } from "@shopify/shopify-app-react-router/server";
 
 import { authenticate } from "../shopify.server";
 import { fetchConvexMetrics } from "../convexMetrics.server";
+import { registerStoreInConvex } from "../convex.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await authenticate.admin(request);
-  const { billing } = await authenticate.admin(request);
+  const { session, billing } = await authenticate.admin(request);
+
+  // Register/update the store in Convex on each access
+  // This ensures we have the store as a "user" in our database
+  try {
+    await registerStoreInConvex({
+      shopify_domain: session.shop,
+      name: session.shop.replace('.myshopify.com', ''),
+    });
+  } catch (error) {
+    console.error("Failed to register store in Convex:", error);
+  }
+
+  // Check billing (allow to fail gracefully for dev)
   try {
     await billing.require({
       plans: ["Monthly Subscription"],
@@ -45,7 +58,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       ],
   };
 
-  return { metrics };
+  return {
+    metrics,
+    shop: session.shop,
+  };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
