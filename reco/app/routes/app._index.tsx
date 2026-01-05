@@ -37,7 +37,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     console.warn("Billing check failed (likely due to non-public app distribution). Skipping...", error);
   }
 
-  const convex = await fetchConvexMetrics();
+  const convex = await fetchConvexMetrics(session.shop);
 
   // Shape used by the UI
   const metrics = {
