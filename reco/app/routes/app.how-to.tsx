@@ -61,7 +61,7 @@ export default function HowTo() {
                                     width: "3rem",
                                     height: "3rem",
                                     borderRadius: "50%",
-                                    background: "#6366f1",
+                                    background: "#000000",
                                     color: "white",
                                     display: "flex",
                                     alignItems: "center",
@@ -80,10 +80,10 @@ export default function HowTo() {
                                     <div style={{
                                         marginTop: "0.75rem",
                                         padding: "0.75rem",
-                                        background: "#f5f3ff",
+                                        background: "#f3f4f6",
                                         borderRadius: "0.5rem",
                                         fontSize: "0.875rem",
-                                        color: "#6366f1"
+                                        color: "#374151"
                                     }}>
                                         💡 <strong>Tip:</strong> {step.tip}
                                     </div>
@@ -105,7 +105,7 @@ export default function HowTo() {
                             alignItems: "center",
                             gap: "0.5rem",
                             padding: "0.75rem 1.5rem",
-                            background: "#6366f1",
+                            background: "#000000",
                             color: "white",
                             borderRadius: "0.5rem",
                             textDecoration: "none",

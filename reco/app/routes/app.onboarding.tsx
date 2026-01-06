@@ -107,7 +107,7 @@ export default function Onboarding() {
                             <div style={{ marginTop: "1.5rem" }}>
                                 <a href="/app" style={{
                                     padding: "0.75rem 1.5rem",
-                                    background: "#6366f1",
+                                    background: "#000000",
                                     color: "white",
                                     borderRadius: "0.5rem",
                                     textDecoration: "none",
@@ -175,7 +175,7 @@ export default function Onboarding() {
                                 width: "2rem",
                                 height: "2rem",
                                 borderRadius: "50%",
-                                background: step >= n ? "#6366f1" : "#e5e7eb",
+                                background: step >= n ? "#000000" : "#e5e7eb",
                                 color: step >= n ? "white" : "#6b7280",
                                 display: "flex",
                                 alignItems: "center",
@@ -189,7 +189,7 @@ export default function Onboarding() {
                                 <div style={{
                                     width: "3rem",
                                     height: "2px",
-                                    background: step > n ? "#6366f1" : "#e5e7eb",
+                                    background: step > n ? "#000000" : "#e5e7eb",
                                 }} />
                             )}
                         </div>
@@ -274,7 +274,7 @@ export default function Onboarding() {
                                     disabled={!canProceedStep1}
                                     style={{
                                         padding: "0.75rem 2rem",
-                                        background: canProceedStep1 ? "#6366f1" : "#e5e7eb",
+                                        background: canProceedStep1 ? "#000000" : "#e5e7eb",
                                         color: canProceedStep1 ? "white" : "#9ca3af",
                                         border: "none",
                                         borderRadius: "0.5rem",
@@ -306,11 +306,11 @@ export default function Onboarding() {
                                             gap: "0.75rem",
                                             padding: "1rem",
                                             border: formState.review_provider === provider.value
-                                                ? "2px solid #6366f1"
+                                                ? "2px solid #000000"
                                                 : "1px solid #e5e7eb",
                                             borderRadius: "0.5rem",
                                             cursor: "pointer",
-                                            background: formState.review_provider === provider.value ? "#f5f3ff" : "white",
+                                            background: formState.review_provider === provider.value ? "#f3f4f6" : "white",
                                         }}
                                     >
                                         <input
@@ -347,7 +347,7 @@ export default function Onboarding() {
                                     disabled={!canProceedStep2}
                                     style={{
                                         padding: "0.75rem 2rem",
-                                        background: canProceedStep2 ? "#6366f1" : "#e5e7eb",
+                                        background: canProceedStep2 ? "#000000" : "#e5e7eb",
                                         color: canProceedStep2 ? "white" : "#9ca3af",
                                         border: "none",
                                         borderRadius: "0.5rem",
@@ -459,7 +459,7 @@ export default function Onboarding() {
                                     disabled={isSubmitting}
                                     style={{
                                         padding: "0.75rem 2rem",
-                                        background: "#6366f1",
+                                        background: "#000000",
                                         color: "white",
                                         border: "none",
                                         borderRadius: "0.5rem",
