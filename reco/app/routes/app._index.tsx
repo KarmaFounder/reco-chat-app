@@ -4,13 +4,13 @@ import type {
   HeadersFunction,
   LoaderFunctionArgs,
 } from "react-router";
-import { useFetcher, useLoaderData } from "react-router";
+import { useFetcher, useLoaderData, redirect } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 
 import { authenticate } from "../shopify.server";
 import { fetchConvexMetrics } from "../convexMetrics.server";
-import { registerStoreInConvex } from "../convex.server";
+import { registerStoreInConvex, getClient, api } from "../convex.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { session, billing } = await authenticate.admin(request);
@@ -24,6 +24,25 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     });
   } catch (error) {
     console.error("Failed to register store in Convex:", error);
+  }
+
+  // Check onboarding status
+  const client = getClient();
+  let onboardingCompleted = false;
+  if (client) {
+    try {
+      const status = await client.query(api.onboarding.checkOnboardingStatus, {
+        shopify_domain: session.shop,
+      });
+      onboardingCompleted = status.completed;
+
+      // Redirect to onboarding if not completed
+      if (!status.completed) {
+        return redirect("/app/onboarding");
+      }
+    } catch (e) {
+      console.warn("Failed to check onboarding status:", e);
+    }
   }
 
   // Check billing (allow to fail gracefully for dev)
@@ -61,6 +80,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return {
     metrics,
     shop: session.shop,
+    onboardingCompleted,
   };
 };
 

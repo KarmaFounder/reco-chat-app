@@ -14,6 +14,7 @@ import type * as conversations from "../conversations.js";
 import type * as files from "../files.js";
 import type * as kimAgent from "../kimAgent.js";
 import type * as metadata from "../metadata.js";
+import type * as onboarding from "../onboarding.js";
 import type * as reviews from "../reviews.js";
 import type * as stores from "../stores.js";
 
@@ -30,6 +31,7 @@ declare const fullApi: ApiFromModules<{
   files: typeof files;
   kimAgent: typeof kimAgent;
   metadata: typeof metadata;
+  onboarding: typeof onboarding;
   reviews: typeof reviews;
   stores: typeof stores;
 }>;

@@ -13,6 +13,14 @@ export default defineSchema({
     status: v.string(), // "active" | "paused" | "uninstalled"
     installed_at: v.string(),
     uninstalled_at: v.optional(v.string()),
+    // Onboarding data
+    onboarding_completed: v.optional(v.boolean()),
+    contact_name: v.optional(v.string()),
+    contact_email: v.optional(v.string()),
+    brand_name: v.optional(v.string()),
+    review_provider: v.optional(v.string()), // "okendo" | "judge_me" | "stamped" | "yotpo" | "reviews_io" | "demo"
+    review_api_key: v.optional(v.string()),
+    // Widget settings
     settings: v.optional(v.object({
       widget_enabled: v.boolean(),
       widget_position: v.optional(v.string()), // "bottom-right" | "bottom-left"
