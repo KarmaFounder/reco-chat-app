@@ -66,6 +66,7 @@ export default function Questions() {
         return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     };
 
+
     // Filter questions by date
     const filteredQuestions = questions.filter((q: any) => {
         const now = Date.now();
@@ -81,6 +82,38 @@ export default function Questions() {
             default: return true;
         }
     });
+
+    // Helper to clean author name from various formats
+    const cleanAuthor = (author: any): string => {
+        if (!author) return "Anonymous";
+        if (typeof author === "string") {
+            // Check if it's a JSON string
+            if (author.startsWith("{") || author.startsWith("[")) {
+                try {
+                    const parsed = JSON.parse(author.replace(/'/g, '"'));
+                    return parsed.displayName || parsed.author_name || parsed.reviewer || "Anonymous";
+                } catch {
+                    // Try to extract displayName with regex
+                    const match = author.match(/'displayName':\s*'([^']+)'/);
+                    return match ? match[1] : author.slice(0, 50);
+                }
+            }
+            return author;
+        }
+        if (typeof author === "object") {
+            return author.displayName || author.author_name || author.reviewer || author.name || "Anonymous";
+        }
+        return String(author).slice(0, 50);
+    };
+
+    // Helper to clean review body
+    const cleanReviewBody = (body: any): string => {
+        if (!body) return "No review text";
+        if (typeof body === "string") return body;
+        if (typeof body === "object" && body.review_body) return body.review_body;
+        return String(body).slice(0, 200);
+    };
+
 
     // Icon components
     const ChevronDownIcon = () => (
@@ -288,7 +321,7 @@ export default function Questions() {
                                                                     fontWeight: 600,
                                                                     color: "#111827",
                                                                 }}>
-                                                                    {source.author || "Anonymous"}
+                                                                    {cleanAuthor(source.author)}
                                                                 </span>
                                                                 <span style={{ fontSize: "0.75rem", color: "#f59e0b" }}>
                                                                     {"★".repeat(source.rating || 5)}
@@ -304,7 +337,7 @@ export default function Questions() {
                                                                 WebkitLineClamp: 3,
                                                                 WebkitBoxOrient: "vertical" as any,
                                                             }}>
-                                                                {source.review_body || "No review text"}
+                                                                {cleanReviewBody(source.review_body)}
                                                             </p>
                                                         </div>
                                                     ))}
