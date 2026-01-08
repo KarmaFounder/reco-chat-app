@@ -69,12 +69,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 const REVIEW_PROVIDERS = [
-    { value: "demo", label: "Use Demo Reviews (for testing)" },
-    { value: "okendo", label: "Okendo" },
-    { value: "judge_me", label: "Judge.me" },
-    { value: "stamped", label: "Stamped" },
-    { value: "yotpo", label: "Yotpo" },
-    { value: "reviews_io", label: "Reviews.io" },
+    { value: "demo", label: "Demo Reviews", description: "Use sample data for testing", logo: null },
+    { value: "okendo", label: "Okendo", description: "Connect your Okendo reviews", logo: "/okendo-logo.png" },
+    { value: "judge_me", label: "Judge.me", description: "Connect your Judge.me reviews", logo: "/judge me logo.png" },
+    { value: "stamped", label: "Stamped", description: "Connect your Stamped reviews", logo: "/stamped-logo.jpeg" },
+    { value: "yotpo", label: "Yotpo", description: "Connect your Yotpo reviews", logo: "/yotpo-logo.jpeg" },
+    { value: "reviews_io", label: "Reviews.io", description: "Connect your Reviews.io reviews", logo: "/reviews-io-logo.jpg" },
 ];
 
 export default function Onboarding() {
@@ -303,14 +303,15 @@ export default function Onboarding() {
                                         style={{
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: "0.75rem",
+                                            gap: "1rem",
                                             padding: "1rem",
                                             border: formState.review_provider === provider.value
                                                 ? "2px solid #000000"
                                                 : "1px solid #e5e7eb",
-                                            borderRadius: "0.5rem",
+                                            borderRadius: "0.75rem",
                                             cursor: "pointer",
                                             background: formState.review_provider === provider.value ? "#f3f4f6" : "white",
+                                            transition: "all 0.15s ease",
                                         }}
                                     >
                                         <input
@@ -319,8 +320,64 @@ export default function Onboarding() {
                                             value={provider.value}
                                             checked={formState.review_provider === provider.value}
                                             onChange={(e) => handleInputChange("review_provider", e.target.value)}
+                                            style={{ display: "none" }}
                                         />
-                                        <span style={{ fontWeight: 500 }}>{provider.label}</span>
+                                        {/* Circle Logo Frame */}
+                                        <div style={{
+                                            width: "48px",
+                                            height: "48px",
+                                            borderRadius: "50%",
+                                            background: provider.value === "demo" ? "#000000" : "#f3f4f6",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            overflow: "hidden",
+                                            flexShrink: 0,
+                                            border: "2px solid #e5e7eb",
+                                        }}>
+                                            {provider.logo ? (
+                                                <img
+                                                    src={provider.logo}
+                                                    alt={provider.label}
+                                                    style={{
+                                                        width: "32px",
+                                                        height: "32px",
+                                                        objectFit: "contain"
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span style={{
+                                                    fontSize: provider.value === "demo" ? "1.25rem" : "1rem",
+                                                    fontWeight: 700,
+                                                    color: provider.value === "demo" ? "white" : "#6b7280",
+                                                }}>
+                                                    {provider.value === "demo" ? "✨" : provider.label.charAt(0)}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {/* Provider Info */}
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ fontWeight: 600, color: "#111827" }}>{provider.label}</div>
+                                            <div style={{ fontSize: "0.875rem", color: "#6b7280", marginTop: "0.125rem" }}>
+                                                {provider.description}
+                                            </div>
+                                        </div>
+                                        {/* Checkmark when selected */}
+                                        {formState.review_provider === provider.value && (
+                                            <div style={{
+                                                width: "24px",
+                                                height: "24px",
+                                                borderRadius: "50%",
+                                                background: "#000000",
+                                                color: "white",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontSize: "0.875rem",
+                                            }}>
+                                                ✓
+                                            </div>
+                                        )}
                                     </label>
                                 ))}
                             </div>
@@ -376,22 +433,63 @@ export default function Onboarding() {
 
                             {formState.review_provider === "demo" ? (
                                 <div>
-                                    <s-paragraph tone="subdued" style={{ marginBottom: "1.5rem" }}>
+                                    <p style={{ color: "#6b7280", marginBottom: "1.5rem" }}>
                                         You've selected demo mode. We'll use sample reviews to power your widget.
                                         You can connect a real review platform later from your settings.
-                                    </s-paragraph>
+                                    </p>
 
+                                    {/* Demo Reviews Connected Card */}
+                                    <div style={{
+                                        padding: "1.5rem",
+                                        background: "linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)",
+                                        borderRadius: "0.75rem",
+                                        border: "1px solid #bbf7d0",
+                                        marginBottom: "1.5rem",
+                                    }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+                                            <div style={{
+                                                width: "48px",
+                                                height: "48px",
+                                                borderRadius: "50%",
+                                                background: "#22c55e",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                color: "white",
+                                                fontSize: "1.5rem",
+                                            }}>
+                                                ✓
+                                            </div>
+                                            <div>
+                                                <div style={{ fontWeight: 700, color: "#166534", fontSize: "1.125rem" }}>
+                                                    Demo Reviews Connected
+                                                </div>
+                                                <div style={{ color: "#166534", fontSize: "0.875rem" }}>
+                                                    50+ sample reviews ready to use
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style={{ margin: 0, color: "#166534", fontSize: "0.875rem" }}>
+                                            Your widget will work immediately with sample product reviews.
+                                            Shopify reviewers can test the full experience.
+                                        </p>
+                                    </div>
+
+                                    {/* Info about what's included */}
                                     <div style={{
                                         padding: "1rem",
-                                        background: "#f0fdf4",
+                                        background: "#f9fafb",
                                         borderRadius: "0.5rem",
-                                        border: "1px solid #bbf7d0",
-                                        marginBottom: "1.5rem"
+                                        border: "1px solid #e5e7eb",
                                     }}>
-                                        <strong>✓ Demo Reviews Ready</strong>
-                                        <p style={{ margin: "0.5rem 0 0", color: "#166534" }}>
-                                            Your widget will work immediately with sample data.
-                                        </p>
+                                        <div style={{ fontWeight: 600, marginBottom: "0.5rem", color: "#374151" }}>
+                                            Demo includes:
+                                        </div>
+                                        <ul style={{ margin: 0, paddingLeft: "1.25rem", color: "#6b7280", fontSize: "0.875rem" }}>
+                                            <li>Sample product reviews with real-looking data</li>
+                                            <li>AI-powered Q&A responses</li>
+                                            <li>All widget features enabled</li>
+                                        </ul>
                                     </div>
                                 </div>
                             ) : (
