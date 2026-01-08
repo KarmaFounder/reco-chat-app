@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
             rollupOptions: {
                 input: resolve(import.meta.dirname, "widget-main.jsx"),
                 output: {
-                    entryFileNames: "reco-widget-v298.js",
+                    entryFileNames: "reco-widget-v299.js",
                     assetFileNames: "reco-[name][extname]",
                 },
             },

@@ -14,6 +14,11 @@ export const logQuestion = mutation({
         answer: v.optional(v.string()),
         product: v.optional(v.string()),
         threadId: v.optional(v.string()),
+        sources: v.optional(v.array(v.object({
+            author: v.optional(v.string()),
+            rating: v.optional(v.number()),
+            review_body: v.optional(v.string()),
+        }))),
     },
     handler: async (ctx, args) => {
         return await ctx.db.insert("questions", {
@@ -22,6 +27,7 @@ export const logQuestion = mutation({
             answer: args.answer,
             product: args.product,
             threadId: args.threadId,
+            sources: args.sources,
             createdAt: Date.now(),
         });
     },

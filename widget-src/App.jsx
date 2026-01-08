@@ -564,14 +564,25 @@ export default function App({
           // Log question to Convex for analytics
           if (shopDomain && res?.answer) {
             try {
+              // Extract simplified source reviews for storage
+              const sourcesToLog = Array.isArray(top) ? top.slice(0, 5).map((s) => {
+                const r = s.doc || s;
+                return {
+                  author: r.author_name || r.reviewer || "Anonymous",
+                  rating: r.rating || 5,
+                  review_body: (r.review_body || "").slice(0, 200),
+                };
+              }) : [];
+
               await convex.mutation("questions:logQuestion", {
                 shopify_domain: shopDomain,
                 question: q,
-                answer: String(res.answer).slice(0, 500), // Truncate for storage
+                answer: String(res.answer).slice(0, 500),
                 product: productName,
                 threadId: threadId,
+                sources: sourcesToLog,
               });
-              console.log("✅ Question logged to Convex");
+              console.log("✅ Question logged to Convex with", sourcesToLog.length, "sources");
             } catch (logErr) {
               console.warn("Failed to log question:", logErr);
             }
@@ -916,37 +927,6 @@ export default function App({
                   <ChatBubble key={m.key} role={m.role} text={m.text} className={idx === 0 ? "!mt-0" : ""} />
                 ))}
 
-                {/* Horizontal scrollable review cards - show when sources available and not loading */}
-                {!isLoading && sources.length > 0 && (
-                  <div className="mt-2 mb-4">
-                    <div className="text-xs text-gray-400 mb-2 px-1">Reviews that powered this answer:</div>
-                    <div
-                      className="flex gap-3 overflow-x-auto pb-2 cursor-grab active:cursor-grabbing"
-                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
-                    >
-                      {sources.map((s) => {
-                        const r = s.doc || s;
-                        return (
-                          <div
-                            key={s._id || r._id || r.id || Math.random()}
-                            className="flex-shrink-0 w-[220px] bg-white rounded-xl p-3 shadow-sm border border-gray-100"
-                          >
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs font-semibold text-gray-800 truncate max-w-[120px]">
-                                {cleanAuthorName(r.author_name || r.reviewer)}
-                              </span>
-                              <Stars rating={r.rating} />
-                            </div>
-                            <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
-                              {cleanReviewBody(r.review_body)?.slice(0, 150)}...
-                            </p>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
                 {isLoading && (
                   <div className="flex justify-start my-2">
                     <div className="max-w-lg rounded-2xl px-3 py-2 bg-white text-gray-800 shadow-sm border border-gray-100">
@@ -1120,7 +1100,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v298</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v299</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }

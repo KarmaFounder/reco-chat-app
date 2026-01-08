@@ -41,6 +41,11 @@ export default defineSchema({
     answer: v.optional(v.string()),
     product: v.optional(v.string()),
     threadId: v.optional(v.string()),
+    sources: v.optional(v.array(v.object({
+      author: v.optional(v.string()),
+      rating: v.optional(v.number()),
+      review_body: v.optional(v.string()),
+    }))),
     createdAt: v.number(),
   })
     .index("by_shop", ["shopify_domain"])

@@ -21,9 +21,18 @@ body:has(#reco-chat-root .fixed.inset-0) {
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Make modal container full screen on mobile */
+  /* Make modal container full screen on mobile - remove all padding */
   #reco-chat-root .fixed.inset-0 {
     padding: 0 !important;
+  }
+
+  /* Force the main layout container to full height */
+  #reco-chat-root .fixed.inset-0>div:not(.absolute) {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   /* Make chat card take full height and width on mobile */
@@ -31,6 +40,7 @@ body:has(#reco-chat-root .fixed.inset-0) {
     width: 100% !important;
     height: 100% !important;
     max-height: 100vh !important;
+    max-height: 100dvh !important;
     max-width: 100% !important;
     border-radius: 0 !important;
     margin: 0 !important;

@@ -11,9 +11,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     const { session } = await authenticate.admin(request);
 
     let questions: any[] = [];
+    let debugInfo = { clientExists: false, error: null as string | null, shopDomain: session.shop };
     const client = getClient();
 
     if (client) {
+        debugInfo.clientExists = true;
         try {
             // Try to get real questions from Convex
             const result = await client.query(api.questions.listQuestions, {
@@ -21,57 +23,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
                 limit: 50,
             });
             questions = result || [];
-        } catch (e) {
+        } catch (e: any) {
+            debugInfo.error = e?.message || String(e);
             console.warn("Failed to fetch questions:", e);
         }
     }
 
-    // If no real questions, use demo data
-    if (!questions.length) {
-        questions = [
-            {
-                _id: "1",
-                question: "What do tall buyers say about the fit?",
-                answer: "Based on customer reviews, tall customers (5'9\"+) generally find the torso length adequate. Some prefer the long-torso version for extra coverage.",
-                createdAt: Date.now() - 1000 * 60 * 30, // 30 mins ago
-                product: "Seamless Sculpt Brief Bodysuit",
-            },
-            {
-                _id: "2",
-                question: "Does the fabric pill after washing?",
-                answer: "Reviews indicate the fabric holds up well. Following care instructions (cold wash, lay flat to dry) helps maintain quality.",
-                createdAt: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
-                product: "Cotton Jersey T-Shirt",
-            },
-            {
-                _id: "3",
-                question: "Is it good for daily wear?",
-                answer: "Yes! Many reviewers mention wearing it for 8+ hours with no discomfort. The seamless design prevents digging or rolling.",
-                createdAt: Date.now() - 1000 * 60 * 60 * 5, // 5 hours ago
-                product: "Fits Everybody T-Shirt Bra",
-            },
-            {
-                _id: "4",
-                question: "Is this supportive enough for larger busts?",
-                answer: "D+ cup reviewers report good support for light to moderate activity. For high-impact activities, consider the structured styles.",
-                createdAt: Date.now() - 1000 * 60 * 60 * 24, // 1 day ago
-                product: "Fits Everybody Plunge Bra",
-            },
-            {
-                _id: "5",
-                question: "Does it show under clothes?",
-                answer: "The seamless construction and thin fabric make it virtually invisible under most clothing. Light colors work best under white tops.",
-                createdAt: Date.now() - 1000 * 60 * 60 * 48, // 2 days ago
-                product: "Soft Smoothing Seamless Brief",
-            },
-        ];
-    }
-
-    return { questions, shop: session.shop };
+    // NO DEMO FALLBACK - show real data only
+    return { questions, shop: session.shop, debugInfo };
 };
 
 export default function Questions() {
-    const { questions } = useLoaderData<typeof loader>();
+    const { questions, debugInfo, shop } = useLoaderData<typeof loader>();
     const [dateFilter, setDateFilter] = useState("all");
     const [expandedQuestion, setExpandedQuestion] = useState<string | null>(null);
 
@@ -158,8 +121,38 @@ export default function Questions() {
                         </div>
                     </div>
 
+                    {/* Debug Info - only show if no questions */}
+                    {questions.length === 0 && (
+                        <div style={{
+                            padding: "2rem",
+                            background: "#fef3c7",
+                            borderRadius: "0.5rem",
+                            marginBottom: "1rem",
+                            fontSize: "0.875rem",
+                        }}>
+                            <strong>No questions found.</strong>
+                            <br />
+                            <span style={{ color: "#92400e" }}>
+                                Shop: {shop || "unknown"}<br />
+                                Convex client: {debugInfo?.clientExists ? "✅ Connected" : "❌ Not connected"}<br />
+                                {debugInfo?.error && <>Error: {debugInfo.error}</>}
+                            </span>
+                            <br /><br />
+                            <em>Ask a question in the widget on your store, then refresh this page.</em>
+                        </div>
+                    )}
+
                     {/* Questions List - Fixed width container */}
                     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                        {filteredQuestions.length === 0 && questions.length > 0 && (
+                            <div style={{
+                                padding: "1.5rem",
+                                textAlign: "center",
+                                color: "#6b7280",
+                            }}>
+                                No questions match the selected filter.
+                            </div>
+                        )}
                         {filteredQuestions.map((q: any) => (
                             <div
                                 key={q._id}
@@ -240,6 +233,70 @@ export default function Questions() {
                                         }}>
                                             {q.answer}
                                         </div>
+
+                                        {/* Source Reviews - Horizontal Scrollable Cards */}
+                                        {q.sources && q.sources.length > 0 && (
+                                            <div style={{ marginTop: "1rem" }}>
+                                                <div style={{
+                                                    fontSize: "0.75rem",
+                                                    fontWeight: 600,
+                                                    color: "#6b7280",
+                                                    marginBottom: "0.5rem",
+                                                }}>
+                                                    REVIEWS USED:
+                                                </div>
+                                                <div style={{
+                                                    display: "flex",
+                                                    gap: "0.75rem",
+                                                    overflowX: "auto",
+                                                    paddingBottom: "0.5rem",
+                                                }}>
+                                                    {q.sources.map((source: any, idx: number) => (
+                                                        <div
+                                                            key={idx}
+                                                            style={{
+                                                                flexShrink: 0,
+                                                                width: "200px",
+                                                                padding: "0.75rem",
+                                                                background: "#f9fafb",
+                                                                borderRadius: "0.5rem",
+                                                                border: "1px solid #e5e7eb",
+                                                            }}
+                                                        >
+                                                            <div style={{
+                                                                display: "flex",
+                                                                justifyContent: "space-between",
+                                                                alignItems: "center",
+                                                                marginBottom: "0.25rem",
+                                                            }}>
+                                                                <span style={{
+                                                                    fontSize: "0.75rem",
+                                                                    fontWeight: 600,
+                                                                    color: "#111827",
+                                                                }}>
+                                                                    {source.author || "Anonymous"}
+                                                                </span>
+                                                                <span style={{ fontSize: "0.75rem", color: "#f59e0b" }}>
+                                                                    {"★".repeat(source.rating || 5)}
+                                                                </span>
+                                                            </div>
+                                                            <p style={{
+                                                                fontSize: "0.75rem",
+                                                                color: "#6b7280",
+                                                                lineHeight: 1.4,
+                                                                margin: 0,
+                                                                overflow: "hidden",
+                                                                display: "-webkit-box",
+                                                                WebkitLineClamp: 3,
+                                                                WebkitBoxOrient: "vertical" as any,
+                                                            }}>
+                                                                {source.review_body || "No review text"}
+                                                            </p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
