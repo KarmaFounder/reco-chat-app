@@ -20,6 +20,8 @@ export default function App() {
     <AppProvider embedded apiKey={apiKey} i18n={enTranslations}>
       <s-app-nav>
         <s-link href="/app">Home</s-link>
+        <s-link href="/app/feedback">Feedback</s-link>
+        <s-link href="/app/questions">Questions</s-link>
         <s-link href="/app/subscription">Subscription</s-link>
         <s-link href="/app/how-to">How to Install</s-link>
         <s-link href="/app/onboarding">Account</s-link>

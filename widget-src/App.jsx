@@ -971,7 +971,7 @@ export default function App({
 
     return (
       <>
-        <div className="mt-1 flex items-center justify-center px-4 py-2 relative">
+        <div className="flex items-center justify-center px-4 py-1 relative">
           <div
             className="group cursor-pointer w-full max-w-2xl bg-[#FAF8F5] rounded-[20px] shadow-lg border border-gray-100 px-6 py-5 relative flex items-start gap-0 hover:shadow-xl transition-all duration-300"
             onClick={() => {
@@ -1071,7 +1071,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v297</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v298</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }
