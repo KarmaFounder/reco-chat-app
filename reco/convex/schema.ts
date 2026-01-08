@@ -34,6 +34,18 @@ export default defineSchema({
     .index("byStatus", ["status"])
     .index("byPlan", ["plan"]),
 
+  // User questions from the widget
+  questions: defineTable({
+    shopify_domain: v.string(),
+    question: v.string(),
+    answer: v.optional(v.string()),
+    product: v.optional(v.string()),
+    threadId: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_shop", ["shopify_domain"])
+    .index("by_created", ["createdAt"]),
+
   // Store analytics and usage tracking
   store_analytics: defineTable({
     store_id: v.id("stores"),

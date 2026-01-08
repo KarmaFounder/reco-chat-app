@@ -22,6 +22,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return { feedbackResult: { ok: true } };
 };
 
+// Icons as components
+const MailIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+);
+
+const BookIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+    </svg>
+);
+
 export default function Feedback() {
     const fetcher = useFetcher<typeof action>();
     const shopify = useAppBridge();
@@ -59,10 +73,12 @@ export default function Feedback() {
                                     width: "100%",
                                     padding: "0.75rem",
                                     borderRadius: "0.5rem",
-                                    border: "1px solid #e5e7eb",
+                                    border: "2px solid #000000",
                                     resize: "vertical",
                                     fontSize: "1rem",
+                                    fontFamily: "inherit",
                                     boxSizing: "border-box",
+                                    outline: "none",
                                 }}
                                 placeholder="Tell us what's working well and what you'd like to improve..."
                             />
@@ -72,18 +88,24 @@ export default function Feedback() {
                         </s-stack>
                     </fetcher.Form>
                 </s-box>
+            </s-section>
 
-                <s-box padding="base" borderWidth="base" borderRadius="base" style={{ marginTop: "1rem" }}>
+            <s-section>
+                <s-box padding="base" borderWidth="base" borderRadius="base">
                     <s-heading>Quick links</s-heading>
-                    <s-paragraph tone="subdued" style={{ marginBottom: "0.75rem" }}>
+                    <s-paragraph tone="subdued" style={{ marginBottom: "1rem" }}>
                         Other ways to get help
                     </s-paragraph>
                     <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
                         <s-button onClick={() => window.open("mailto:support@getreco.ai", "_blank")}>
-                            📧 Email Support
+                            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                                <MailIcon /> Email Support
+                            </span>
                         </s-button>
                         <s-button onClick={() => shopify.toast.show("Documentation coming soon!")}>
-                            📚 Documentation
+                            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+                                <BookIcon /> Documentation
+                            </span>
                         </s-button>
                     </div>
                 </s-box>

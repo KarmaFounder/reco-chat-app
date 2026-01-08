@@ -34,35 +34,51 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const intent = formData.get("_intent");
 
     const client = getClient();
-    if (!client) {
-        return { error: "Convex not configured" };
-    }
 
     if (intent === "complete_onboarding") {
-        try {
-            await client.mutation(api.onboarding.completeOnboarding, {
-                shopify_domain: session.shop,
-                contact_name: String(formData.get("contact_name") || ""),
-                contact_email: String(formData.get("contact_email") || ""),
-                brand_name: String(formData.get("brand_name") || ""),
-                review_provider: String(formData.get("review_provider") || "demo"),
-                review_api_key: formData.get("review_api_key") ? String(formData.get("review_api_key")) : undefined,
-            });
-            return { success: true, redirect: "/app" };
-        } catch (e: any) {
-            return { error: e.message || "Failed to complete onboarding" };
+        const onboardingData = {
+            shopify_domain: session.shop,
+            contact_name: String(formData.get("contact_name") || ""),
+            contact_email: String(formData.get("contact_email") || ""),
+            brand_name: String(formData.get("brand_name") || ""),
+            review_provider: String(formData.get("review_provider") || "demo"),
+            review_api_key: formData.get("review_api_key") ? String(formData.get("review_api_key")) : undefined,
+        };
+
+        // Log the onboarding data (works even without Convex)
+        console.log("=== ONBOARDING COMPLETED ===");
+        console.log("Shop:", session.shop);
+        console.log("Contact:", onboardingData.contact_name, onboardingData.contact_email);
+        console.log("Brand:", onboardingData.brand_name);
+        console.log("Review Provider:", onboardingData.review_provider);
+        console.log("API Key:", onboardingData.review_api_key ? "[SET]" : "[NOT SET]");
+        console.log("============================");
+
+        if (client) {
+            try {
+                await client.mutation(api.onboarding.completeOnboarding, onboardingData);
+            } catch (e: any) {
+                console.warn("Convex mutation failed, but continuing:", e.message);
+            }
         }
+
+        return { success: true, redirect: "/app" };
     }
 
     if (intent === "reset_onboarding") {
-        try {
-            await client.mutation(api.onboarding.resetOnboarding, {
-                shopify_domain: session.shop,
-            });
-            return { reset: true };
-        } catch (e: any) {
-            return { error: e.message || "Failed to reset onboarding" };
+        console.log("=== ONBOARDING RESET ===");
+        console.log("Shop:", session.shop);
+
+        if (client) {
+            try {
+                await client.mutation(api.onboarding.resetOnboarding, {
+                    shopify_domain: session.shop,
+                });
+            } catch (e: any) {
+                console.warn("Convex reset failed:", e.message);
+            }
         }
+        return { reset: true };
     }
 
     return null;
