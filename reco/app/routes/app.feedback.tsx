@@ -1,128 +1,93 @@
 /**
- * Feedback Page - Shows likes/dislikes percentage for messages
+ * Feedback Page - User feedback form (moved from Home)
  */
+import { useEffect } from "react";
+import { useFetcher } from "react-router";
+import { useAppBridge } from "@shopify/app-bridge-react";
+import type { ActionFunctionArgs } from "react-router";
+import { authenticate } from "../shopify.server";
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+    await authenticate.admin(request);
+    const formData = await request.formData();
+    const feedbackText = formData.get("feedbackText");
+
+    if (!feedbackText || typeof feedbackText !== "string" || !feedbackText.trim()) {
+        return { error: "Please add some feedback before submitting." };
+    }
+
+    // In the future, persist this to Prisma or Convex
+    console.log("Reco feedback:", feedbackText.trim());
+
+    return { feedbackResult: { ok: true } };
+};
 
 export default function Feedback() {
-    // Demo data - would come from Convex in production
-    const feedbackData = {
-        totalMessages: 1247,
-        liked: 1089,
-        disliked: 158,
-        likePercentage: 87.3,
-        dislikePercentage: 12.7,
-    };
+    const fetcher = useFetcher<typeof action>();
+    const shopify = useAppBridge();
+
+    const isSendingFeedback =
+        ["loading", "submitting"].includes(fetcher.state) &&
+        fetcher.formMethod === "POST";
+
+    useEffect(() => {
+        if (fetcher.data && "feedbackResult" in fetcher.data && fetcher.data.feedbackResult) {
+            shopify.toast.show("Thanks for the feedback!");
+        }
+        if (fetcher.data && "error" in fetcher.data && fetcher.data.error) {
+            shopify.toast.show(String(fetcher.data.error));
+        }
+    }, [fetcher.data, shopify]);
 
     return (
-        <s-page title="Feedback Analytics">
-            <s-layout>
-                <s-layout-section>
-                    <s-card>
-                        <s-heading level="2">Message Feedback</s-heading>
-                        <s-paragraph tone="subdued" style={{ marginBottom: "1.5rem" }}>
-                            See how customers are responding to AI answers
-                        </s-paragraph>
-
-                        {/* Stats Grid */}
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginBottom: "2rem" }}>
-                            <div style={{
-                                padding: "1.5rem",
-                                background: "#f9fafb",
-                                borderRadius: "0.75rem",
-                                textAlign: "center",
-                            }}>
-                                <div style={{ fontSize: "2rem", fontWeight: 700, color: "#111827" }}>
-                                    {feedbackData.totalMessages.toLocaleString()}
-                                </div>
-                                <div style={{ fontSize: "0.875rem", color: "#6b7280", marginTop: "0.25rem" }}>
-                                    Total Messages
-                                </div>
-                            </div>
-
-                            <div style={{
-                                padding: "1.5rem",
-                                background: "#f0fdf4",
-                                borderRadius: "0.75rem",
-                                textAlign: "center",
-                                border: "1px solid #bbf7d0",
-                            }}>
-                                <div style={{ fontSize: "2rem", fontWeight: 700, color: "#166534" }}>
-                                    {feedbackData.likePercentage}%
-                                </div>
-                                <div style={{ fontSize: "0.875rem", color: "#166534", marginTop: "0.25rem" }}>
-                                    👍 Liked
-                                </div>
-                                <div style={{ fontSize: "0.75rem", color: "#6b7280", marginTop: "0.25rem" }}>
-                                    {feedbackData.liked.toLocaleString()} messages
-                                </div>
-                            </div>
-
-                            <div style={{
-                                padding: "1.5rem",
-                                background: "#fef2f2",
-                                borderRadius: "0.75rem",
-                                textAlign: "center",
-                                border: "1px solid #fecaca",
-                            }}>
-                                <div style={{ fontSize: "2rem", fontWeight: 700, color: "#dc2626" }}>
-                                    {feedbackData.dislikePercentage}%
-                                </div>
-                                <div style={{ fontSize: "0.875rem", color: "#dc2626", marginTop: "0.25rem" }}>
-                                    👎 Disliked
-                                </div>
-                                <div style={{ fontSize: "0.75rem", color: "#6b7280", marginTop: "0.25rem" }}>
-                                    {feedbackData.disliked.toLocaleString()} messages
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Progress Bar */}
-                        <div style={{ marginTop: "1rem" }}>
-                            <div style={{ fontSize: "0.875rem", fontWeight: 500, marginBottom: "0.5rem" }}>
-                                Satisfaction Rate
-                            </div>
-                            <div style={{
-                                height: "24px",
-                                borderRadius: "12px",
-                                overflow: "hidden",
-                                display: "flex",
-                                background: "#f3f4f6",
-                            }}>
-                                <div style={{
-                                    width: `${feedbackData.likePercentage}%`,
-                                    background: "linear-gradient(90deg, #22c55e 0%, #16a34a 100%)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    color: "white",
-                                    fontSize: "0.75rem",
-                                    fontWeight: 600,
-                                }}>
-                                    {feedbackData.likePercentage}%
-                                </div>
-                                <div style={{
-                                    width: `${feedbackData.dislikePercentage}%`,
-                                    background: "linear-gradient(90deg, #ef4444 0%, #dc2626 100%)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    color: "white",
-                                    fontSize: "0.75rem",
-                                    fontWeight: 600,
-                                }}>
-                                    {feedbackData.dislikePercentage}%
-                                </div>
-                            </div>
-                        </div>
-                    </s-card>
-
-                    <s-card style={{ marginTop: "1rem" }}>
-                        <s-heading level="3">Recent Feedback</s-heading>
+        <s-page heading="Feedback">
+            <s-section>
+                <s-box padding="base" borderWidth="base" borderRadius="base">
+                    <div style={{ marginBottom: "1rem" }}>
+                        <s-heading>Help us improve Reco</s-heading>
                         <s-paragraph tone="subdued">
-                            Coming soon: View individual message feedback with customer context.
+                            Share bugs, feature ideas, or anything that felt confusing while using Reco.
                         </s-paragraph>
-                    </s-card>
-                </s-layout-section>
-            </s-layout>
+                    </div>
+
+                    <fetcher.Form method="post">
+                        <s-stack direction="block" gap="base">
+                            <textarea
+                                name="feedbackText"
+                                rows={6}
+                                style={{
+                                    width: "100%",
+                                    padding: "0.75rem",
+                                    borderRadius: "0.5rem",
+                                    border: "1px solid #e5e7eb",
+                                    resize: "vertical",
+                                    fontSize: "1rem",
+                                    boxSizing: "border-box",
+                                }}
+                                placeholder="Tell us what's working well and what you'd like to improve..."
+                            />
+                            <s-button type="submit" {...(isSendingFeedback ? { loading: true } : {})}>
+                                Send feedback
+                            </s-button>
+                        </s-stack>
+                    </fetcher.Form>
+                </s-box>
+
+                <s-box padding="base" borderWidth="base" borderRadius="base" style={{ marginTop: "1rem" }}>
+                    <s-heading>Quick links</s-heading>
+                    <s-paragraph tone="subdued" style={{ marginBottom: "0.75rem" }}>
+                        Other ways to get help
+                    </s-paragraph>
+                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                        <s-button onClick={() => window.open("mailto:support@getreco.ai", "_blank")}>
+                            📧 Email Support
+                        </s-button>
+                        <s-button onClick={() => shopify.toast.show("Documentation coming soon!")}>
+                            📚 Documentation
+                        </s-button>
+                    </div>
+                </s-box>
+            </s-section>
         </s-page>
     );
 }

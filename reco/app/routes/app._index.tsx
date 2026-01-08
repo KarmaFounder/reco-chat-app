@@ -322,6 +322,63 @@ export default function Index() {
               </div>
             </div>
           </s-box>
+          {/* Likes % */}
+          <s-box padding="base" borderWidth="base" borderRadius="base" background="bg-surface">
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              <s-text as="p" tone="subdued" variant="bodyMd">
+                👍 Liked Messages
+              </s-text>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem" }}>
+                <span style={{ fontSize: "2.5rem", fontWeight: 700, lineHeight: 1, color: "#059669" }}>
+                  87%
+                </span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "999px",
+                    backgroundColor: "#ECFDF5",
+                    color: "#059669",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                  }}
+                >
+                  <span style={{ fontSize: "0.875rem" }}>↑</span> 2%
+                </div>
+              </div>
+            </div>
+          </s-box>
+
+          {/* Dislikes % */}
+          <s-box padding="base" borderWidth="base" borderRadius="base" background="bg-surface">
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              <s-text as="p" tone="subdued" variant="bodyMd">
+                👎 Disliked Messages
+              </s-text>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem" }}>
+                <span style={{ fontSize: "2.5rem", fontWeight: 700, lineHeight: 1, color: "#DC2626" }}>
+                  13%
+                </span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "999px",
+                    backgroundColor: "#FEF2F2",
+                    color: "#DC2626",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                  }}
+                >
+                  <span style={{ fontSize: "0.875rem" }}>↓</span> 2%
+                </div>
+              </div>
+            </div>
+          </s-box>
         </div>
       </s-section>
 
@@ -511,33 +568,6 @@ export default function Index() {
           </s-stack>
         </fetcher.Form>
       </s-section> */}
-
-      {/* Feedback section */}
-      <s-section heading="Feedback">
-        <s-paragraph tone="subdued">
-          Help us shape Reco. Share bugs, feature ideas, or anything that felt confusing while testing.
-        </s-paragraph>
-        <fetcher.Form method="post">
-          <input type="hidden" name="_intent" value="feedback" />
-          <s-stack direction="block" gap="base">
-            <textarea
-              name="feedbackText"
-              rows={4}
-              style={{
-                width: "100%",
-                padding: "0.75rem",
-                borderRadius: "0.5rem",
-                border: "1px solid var(--p-color-border-subdued, #e5e7eb)",
-                resize: "vertical",
-              }}
-              placeholder="Tell us what&apos;s working well and what you&apos;d like to improve..."
-            />
-            <s-button type="submit" {...(isSendingFeedback ? { loading: true } : {})}>
-              Send feedback
-            </s-button>
-          </s-stack>
-        </fetcher.Form>
-      </s-section>
     </s-page>
   );
 }
