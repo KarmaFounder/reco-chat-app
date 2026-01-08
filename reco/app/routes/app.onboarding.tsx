@@ -224,7 +224,11 @@ export default function Onboarding() {
                                             border: "1px solid #e5e7eb",
                                             borderRadius: "0.5rem",
                                             fontSize: "1rem",
+                                            boxSizing: "border-box",
+                                            outline: "none",
                                         }}
+                                        onFocus={(e) => e.target.style.borderColor = "#000000"}
+                                        onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                                     />
                                 </div>
 
@@ -243,7 +247,11 @@ export default function Onboarding() {
                                             border: "1px solid #e5e7eb",
                                             borderRadius: "0.5rem",
                                             fontSize: "1rem",
+                                            boxSizing: "border-box",
+                                            outline: "none",
                                         }}
+                                        onFocus={(e) => e.target.style.borderColor = "#000000"}
+                                        onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                                     />
                                 </div>
 
@@ -262,7 +270,11 @@ export default function Onboarding() {
                                             border: "1px solid #e5e7eb",
                                             borderRadius: "0.5rem",
                                             fontSize: "1rem",
+                                            boxSizing: "border-box",
+                                            outline: "none",
                                         }}
+                                        onFocus={(e) => e.target.style.borderColor = "#000000"}
+                                        onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                                     />
                                 </div>
                             </div>
@@ -340,9 +352,10 @@ export default function Onboarding() {
                                                     src={provider.logo}
                                                     alt={provider.label}
                                                     style={{
-                                                        width: "32px",
-                                                        height: "32px",
-                                                        objectFit: "contain"
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        objectFit: "cover",
+                                                        borderRadius: "50%",
                                                     }}
                                                 />
                                             ) : (
@@ -514,7 +527,11 @@ export default function Onboarding() {
                                                 border: "1px solid #e5e7eb",
                                                 borderRadius: "0.5rem",
                                                 fontSize: "1rem",
+                                                boxSizing: "border-box",
+                                                outline: "none",
                                             }}
+                                            onFocus={(e) => e.target.style.borderColor = "#000000"}
+                                            onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                                         />
                                         <p style={{ fontSize: "0.875rem", color: "#6b7280", marginTop: "0.5rem" }}>
                                             You can skip this and add it later from settings.
