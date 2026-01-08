@@ -971,7 +971,7 @@ export default function App({
 
     return (
       <>
-        <div className="mt-4 flex items-center justify-center p-4 relative">
+        <div className="mt-1 flex items-center justify-center px-4 py-2 relative">
           <div
             className="group cursor-pointer w-full max-w-2xl bg-[#FAF8F5] rounded-[20px] shadow-lg border border-gray-100 px-6 py-5 relative flex items-start gap-0 hover:shadow-xl transition-all duration-300"
             onClick={() => {
