@@ -269,9 +269,9 @@ export default function App({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [normalizing, setNormalizing] = useState(false);
   const [suggestions, setSuggestions] = useState([
-    "Does it show under clothes?",
-    "How's the compression level?",
-    "Can I wear it all day?",
+    "What do tall buyers say about the fit?",
+    "Does the fabric pill?",
+    "Is it good for daily wear?",
   ]);
   const [threadId, setThreadId] = useState(null);
   const [reviewCount, setReviewCount] = useState(0);
@@ -734,9 +734,9 @@ export default function App({
       }]);
       setSources([]);
       setSuggestions([
-        "Does it show under clothes?",
-        "How's the compression level?",
-        "Can I wear it all day?",
+        "What do tall buyers say about the fit?",
+        "Does the fabric pill?",
+        "Is it good for daily wear?",
       ]);
       // Will trigger new thread creation on next mount
       window.location.reload();
