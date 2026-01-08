@@ -1027,7 +1027,7 @@ export default function App({
                 {!input && (
                   <div className="absolute inset-0 pointer-events-none text-gray-500 font-normal truncate">
                     <SlidingSuggestions
-                      words={["Is it supportive enough for daily wear?", "Does the fabric pill after washing?", "What are tall girls saying about the fit?"]}
+                      words={["What do tall buyers say about the fit?", "Does the fabric pill?", "Is it good for daily wear?"]}
                       isFocused={isInputFocused}
                     />
                   </div>

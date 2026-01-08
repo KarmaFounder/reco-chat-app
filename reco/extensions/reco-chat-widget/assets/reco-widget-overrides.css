@@ -9,6 +9,45 @@ body:has(#reco-chat-root .fixed.inset-0) {
   overflow: hidden !important;
 }
 
+/* ============================================
+   MOBILE: Full-screen modal (no blur backdrop)
+   ============================================ */
+@media (max-width: 1023px) {
+
+  /* Remove blur backdrop on mobile - use solid background */
+  #reco-chat-root .fixed.inset-0>.absolute.inset-0 {
+    background: #FAF8F5 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Make modal container full screen on mobile */
+  #reco-chat-root .fixed.inset-0 {
+    padding: 0 !important;
+  }
+
+  /* Make chat card take full height and width on mobile */
+  #reco-chat-root .fixed.inset-0 .pointer-events-auto.bg-\[\#FAF8F5\] {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure X button is visible and properly positioned */
+  #reco-chat-root .reco-modal-header button {
+    position: relative !important;
+    z-index: 100 !important;
+  }
+
+  /* Hide sidebar on mobile when modal is fully expanded */
+  #reco-chat-root .fixed.inset-0 aside {
+    display: none !important;
+  }
+}
+
 /* Make the product card span the full reviews sidebar width with padding */
 #reco-chat-root aside .bg-\[\#262626\].flex.items-center.gap-2 {
   justify-content: flex-start;
@@ -88,7 +127,7 @@ body:has(#reco-chat-root .fixed.inset-0) {
   /* Keep beige or use variable? Keeping beige for now as it seems to be a specific design choice distinct from main bg */
   border-radius: 1.5rem !important;
   padding: 1.25rem !important;
-  padding-top: 1.5rem !important;
+  /* Equal padding on all sides - fixed from having extra top padding */
   box-shadow: none !important;
   display: flex !important;
   flex-direction: column !important;
