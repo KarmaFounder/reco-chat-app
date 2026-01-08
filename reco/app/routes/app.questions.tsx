@@ -8,29 +8,43 @@ import { authenticate } from "../shopify.server";
 import { getClient, api } from "../convex.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-    const { session } = await authenticate.admin(request);
+    try {
+        const { session } = await authenticate.admin(request);
 
-    let questions: any[] = [];
-    let debugInfo = { clientExists: false, error: null as string | null, shopDomain: session.shop };
-    const client = getClient();
+        let questions: any[] = [];
+        let debugInfo = { clientExists: false, error: null as string | null, shopDomain: session.shop };
+        const client = getClient();
 
-    if (client) {
-        debugInfo.clientExists = true;
-        try {
-            // Try to get real questions from Convex
-            const result = await client.query(api.questions.listQuestions, {
-                shopify_domain: session.shop,
-                limit: 50,
-            });
-            questions = result || [];
-        } catch (e: any) {
-            debugInfo.error = e?.message || String(e);
-            console.warn("Failed to fetch questions:", e);
+        if (client) {
+            debugInfo.clientExists = true;
+            try {
+                // Try to get real questions from Convex
+                const result = await client.query(api.questions.listQuestions, {
+                    shopify_domain: session.shop,
+                    limit: 50,
+                });
+                questions = result || [];
+            } catch (e: any) {
+                debugInfo.error = e?.message || String(e);
+                console.warn("Failed to fetch questions:", e);
+            }
         }
-    }
 
-    // NO DEMO FALLBACK - show real data only
-    return { questions, shop: session.shop, debugInfo };
+        // NO DEMO FALLBACK - show real data only
+        return { questions, shop: session.shop, debugInfo };
+    } catch (e: any) {
+        console.error("Questions loader error:", e);
+        // Return a valid response instead of throwing
+        return {
+            questions: [],
+            shop: "unknown",
+            debugInfo: {
+                clientExists: false,
+                error: `Loader error: ${e?.message || String(e)}`,
+                shopDomain: "unknown"
+            }
+        };
+    }
 };
 
 export default function Questions() {

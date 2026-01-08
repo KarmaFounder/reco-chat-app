@@ -242,6 +242,15 @@ export default function App({
   // const [isVisible, setIsVisible] = useState(false);
   const [widgetMode, setWidgetMode] = useState(embedMode ? false : initialWidgetMode);
 
+  // Mobile detection for fullscreen mode (CSS media queries don't work reliably in widget context)
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1024);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', checkMobile);
+    checkMobile(); // Check on mount
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // useEffect(() => {
   //   if (widgetMode) {
   //     setShouldRender(true);
@@ -807,21 +816,65 @@ export default function App({
             display: flex !important;
             align-items: center !important;
           }
+          
+          /* MOBILE FULLSCREEN OVERRIDES */
+          .reco-mobile-fullscreen-container {
+            padding: 0 !important;
+          }
+          .reco-mobile-fullscreen-backdrop {
+            background: #FAF8F5 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+          .reco-mobile-fullscreen-layout {
+            height: 100vh !important;
+            height: 100dvh !important;
+            max-height: none !important;
+          }
+          .reco-mobile-fullscreen-sidebar {
+            display: none !important;
+          }
+          .reco-mobile-fullscreen-chat {
+            height: 100vh !important;
+            height: 100dvh !important;
+            max-height: none !important;
+            border-radius: 0 !important;
+          }
         }
       `}</style>
-      <div className="fixed inset-0 z-[2147483647] flex items-center justify-center p-4">
+      <div
+        className="reco-mobile-fullscreen-container fixed inset-0 z-[2147483647] flex"
+        style={isMobile
+          ? { padding: 0, alignItems: 'stretch', justifyContent: 'stretch' }
+          : { padding: '1rem', alignItems: 'center', justifyContent: 'center' }
+        }
+      >
         {/* Backdrop */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setWidgetMode(false)} />
+        <div
+          className="reco-mobile-fullscreen-backdrop absolute inset-0"
+          style={isMobile
+            ? { background: '#FAF8F5' }
+            : { background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }
+          }
+          onClick={() => setWidgetMode(false)}
+        />
 
         {/* Main Layout Container (Absolute Positioning for Gliding) */}
-        <div className="relative w-full max-w-[1200px] h-[85vh] lg:h-[90vh] max-h-[900px] flex flex-col-reverse lg:flex-row items-stretch lg:items-center justify-center pointer-events-none">
+        <div
+          className="reco-mobile-fullscreen-layout relative w-full flex pointer-events-none"
+          style={isMobile
+            ? { height: '100dvh', maxHeight: 'none', maxWidth: '100%', flexDirection: 'column', alignItems: 'stretch' }
+            : { height: '90vh', maxHeight: '900px', maxWidth: '1200px', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }
+          }
+        >
 
-          {/* Sidebar Card (Glides Behind) */}
+          {/* Sidebar Card (Glides Behind) - HIDDEN on mobile */}
           <aside
-            className={`pointer-events-auto bg-[#FAF8F5] rounded-3xl shadow-2xl flex flex-col min-h-0 h-auto lg:h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] relative lg:absolute w-full lg:w-[450px] lg:top-0 lg:bottom-0
+            className={`reco-mobile-fullscreen-sidebar pointer-events-auto bg-[#FAF8F5] rounded-3xl shadow-2xl flex-col min-h-0 h-auto lg:h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] relative lg:absolute w-full lg:w-[450px] lg:top-0 lg:bottom-0
                 ${isSidebarOpen
                 ? "lg:translate-x-[-610px] z-10 opacity-100 scale-100 lg:left-1/2"
                 : "lg:translate-x-[-475px] z-0 opacity-100 scale-95 lg:left-1/2 brightness-[0.98]"}`}
+            style={{ display: isMobile ? 'none' : 'flex' }}
           >
             {/* Hide Button */}
 
@@ -888,11 +941,19 @@ export default function App({
             </div>
           </aside>
 
-          {/* Chat Card (Glides to Center) */}
-          <div className={`pointer-events-auto bg-[#FAF8F5] rounded-3xl shadow-2xl flex flex-col min-w-0 flex-1 max-h-[60vh] lg:max-h-none lg:h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] relative lg:absolute w-full lg:w-[750px] lg:top-0 lg:bottom-0
+
+
+
+          {/* Chat Card (Glides to Center) - FULLSCREEN on mobile */}
+          <div
+            className={`reco-mobile-fullscreen-chat pointer-events-auto bg-[#FAF8F5] shadow-2xl flex flex-col min-w-0 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] relative lg:absolute w-full lg:w-[750px] lg:top-0 lg:bottom-0
               ${isSidebarOpen
-              ? "lg:translate-x-[-140px] z-10 lg:left-1/2"
-              : "lg:translate-x-[-50%] z-20 lg:left-1/2 shadow-3xl"}`}
+                ? "lg:translate-x-[-140px] z-10 lg:left-1/2"
+                : "lg:translate-x-[-50%] z-20 lg:left-1/2 shadow-3xl"}`}
+            style={isMobile
+              ? { flex: 1, height: '100%', maxHeight: 'none', borderRadius: 0 }
+              : { height: '100%', maxHeight: 'none', borderRadius: '1.5rem' }
+            }
           >
 
 
@@ -980,6 +1041,56 @@ export default function App({
                   </button>
                 </div>
               </div>
+
+              {/* Mobile Reviews Section - Horizontal scroll below input */}
+              {isMobile && (
+                <div className="flex-shrink-0 px-4 pb-4">
+                  <div className="text-xs font-semibold text-gray-500 mb-2">
+                    {sources.length > 0 ? `Top Reviews • ${sources.length} shown` : 'Ask a question to see reviews'}
+                  </div>
+                  <div className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                    {(isLoading && !sources.length) ? (
+                      // Skeleton cards
+                      Array(3).fill(0).map((_, i) => (
+                        <div key={i} className="flex-shrink-0 w-[220px] p-3 bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse">
+                          <div className="flex justify-between mb-2">
+                            <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                            <div className="flex gap-0.5">
+                              {[1, 2, 3, 4, 5].map(k => <div key={k} className="w-2 h-2 bg-gray-200 rounded-full"></div>)}
+                            </div>
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="h-2.5 bg-gray-200 rounded w-full"></div>
+                            <div className="h-2.5 bg-gray-200 rounded w-[90%]"></div>
+                            <div className="h-2.5 bg-gray-200 rounded w-[75%]"></div>
+                          </div>
+                        </div>
+                      ))
+                    ) : sources.length === 0 ? (
+                      <div className="flex-shrink-0 w-[220px] p-3 bg-white rounded-xl border border-gray-100 shadow-sm text-center text-xs text-gray-400">
+                        Reviews will appear here
+                      </div>
+                    ) : (
+                      sources.map((s) => {
+                        const r = s.doc || s;
+                        return (
+                          <div key={s._id || r._id || r.id} className="flex-shrink-0 w-[220px] p-3 bg-white rounded-xl border border-gray-100 shadow-sm">
+                            <div className="flex justify-between items-center mb-1">
+                              <div className="text-xs font-semibold text-gray-900 truncate max-w-[120px]">
+                                {cleanAuthorName(r.author_name || r.reviewer)}
+                              </div>
+                              <Stars rating={r.rating} />
+                            </div>
+                            <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
+                              {cleanReviewBody(r.review_body)}
+                            </p>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              )}
             </section>
           </div>
         </div>
@@ -1100,7 +1211,7 @@ export default function App({
               </svg>
             </div>
           </div>
-          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v299</div>
+          <div className="absolute -bottom-6 w-full text-center text-[10px] text-gray-300 font-mono pointer-events-none">v304</div>
         </div >
         {widgetMode && createPortal(modal, document.body)
         }
