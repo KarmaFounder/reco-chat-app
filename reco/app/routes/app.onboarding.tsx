@@ -114,23 +114,29 @@ export default function Onboarding() {
             <s-page heading="Welcome to Reco!">
                 <s-section>
                     <s-box padding="large" borderWidth="base" borderRadius="base" background="bg-surface">
-                        <div style={{ textAlign: "center", padding: "2rem" }}>
-                            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🎉</div>
+                        <div style={{ textAlign: "center", padding: "3rem 2rem" }}>
+                            <div style={{ fontSize: "3rem", marginBottom: "1.5rem" }}>🎉</div>
                             <s-heading level="2">Setup Complete!</s-heading>
-                            <s-paragraph style={{ marginTop: "1rem" }}>
+                            <s-paragraph style={{ marginTop: "0.75rem", marginBottom: "0" }}>
                                 Your Reco widget is ready. Head to the Home page to see your analytics.
                             </s-paragraph>
-                            <div style={{ marginTop: "1.5rem" }}>
-                                <a href="/app" style={{
-                                    padding: "0.75rem 1.5rem",
-                                    background: "#000000",
-                                    color: "white",
-                                    borderRadius: "0.5rem",
-                                    textDecoration: "none",
-                                    fontWeight: 600
-                                }}>
+                            <div style={{ marginTop: "2rem" }}>
+                                <button
+                                    type="button"
+                                    onClick={() => window.location.href = '/app'}
+                                    style={{
+                                        padding: "0.75rem 1.5rem",
+                                        background: "#000000",
+                                        color: "white",
+                                        borderRadius: "0.5rem",
+                                        border: "none",
+                                        cursor: "pointer",
+                                        fontWeight: 600,
+                                        fontSize: "1rem",
+                                    }}
+                                >
                                     Go to Dashboard →
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </s-box>
@@ -320,7 +326,7 @@ export default function Onboarding() {
                     {step === 2 && (
                         <div>
                             <s-heading level="2">Connect Your Reviews</s-heading>
-                            <s-paragraph tone="subdued" style={{ marginBottom: "1.5rem" }}>
+                            <s-paragraph tone="subdued" style={{ marginBottom: "2rem" }}>
                                 Select your review platform to power Reco's AI recommendations.
                             </s-paragraph>
 

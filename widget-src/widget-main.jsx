@@ -24,6 +24,7 @@ if (container) {
     productType,
     inputHeader,
     showHeader,
+    shopDomain,
   } = container.dataset;
 
   const resolvedProductName = productName || productTitle || "Seamless Sculpt Brief Bodysuit";
@@ -44,6 +45,7 @@ if (container) {
       productHandle={productHandle}
       inputHeader={inputHeader}
       showHeader={showHeader === "true"}
+      shopDomain={shopDomain}
     />
   );
 }

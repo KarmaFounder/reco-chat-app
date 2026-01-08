@@ -97,16 +97,40 @@ export default function Feedback() {
                         Other ways to get help
                     </s-paragraph>
                     <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                        <s-button onClick={() => window.open("mailto:support@getreco.ai", "_blank")}>
-                            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                                <MailIcon /> Email Support
-                            </span>
-                        </s-button>
-                        <s-button onClick={() => shopify.toast.show("Documentation coming soon!")}>
-                            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                                <BookIcon /> Documentation
-                            </span>
-                        </s-button>
+                        <button
+                            onClick={() => window.open("mailto:support@getreco.ai", "_blank")}
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                padding: "0.625rem 1rem",
+                                background: "white",
+                                border: "1px solid #e5e7eb",
+                                borderRadius: "0.5rem",
+                                cursor: "pointer",
+                                fontSize: "0.875rem",
+                                fontWeight: 500,
+                            }}
+                        >
+                            <MailIcon /> Email Support
+                        </button>
+                        <button
+                            onClick={() => shopify.toast.show("Documentation coming soon!")}
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                padding: "0.625rem 1rem",
+                                background: "white",
+                                border: "1px solid #e5e7eb",
+                                borderRadius: "0.5rem",
+                                cursor: "pointer",
+                                fontSize: "0.875rem",
+                                fontWeight: 500,
+                            }}
+                        >
+                            <BookIcon /> Documentation
+                        </button>
                     </div>
                 </s-box>
             </s-section>

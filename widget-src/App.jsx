@@ -233,6 +233,7 @@ export default function App({
   productType,
   inputHeader,
   showHeader = true,
+  shopDomain,
 }) {
   console.log("App Component Rendering", { embedMode, initialWidgetMode, showHeader, inputHeader });
 
@@ -558,6 +559,22 @@ export default function App({
           // Update suggestions immediately from agent response
           if (Array.isArray(res?.suggestions) && res.suggestions.length) {
             setSuggestions(res.suggestions);
+          }
+
+          // Log question to Convex for analytics
+          if (shopDomain && res?.answer) {
+            try {
+              await convex.mutation("questions:logQuestion", {
+                shopify_domain: shopDomain,
+                question: q,
+                answer: String(res.answer).slice(0, 500), // Truncate for storage
+                product: productName,
+                threadId: threadId,
+              });
+              console.log("✅ Question logged to Convex");
+            } catch (logErr) {
+              console.warn("Failed to log question:", logErr);
+            }
           }
 
           // If UI messages aren't in yet, locally stream assistant so it feels live
@@ -898,6 +915,38 @@ export default function App({
                 {renderedMessages.map((m, idx) => (
                   <ChatBubble key={m.key} role={m.role} text={m.text} className={idx === 0 ? "!mt-0" : ""} />
                 ))}
+
+                {/* Horizontal scrollable review cards - show when sources available and not loading */}
+                {!isLoading && sources.length > 0 && (
+                  <div className="mt-2 mb-4">
+                    <div className="text-xs text-gray-400 mb-2 px-1">Reviews that powered this answer:</div>
+                    <div
+                      className="flex gap-3 overflow-x-auto pb-2 cursor-grab active:cursor-grabbing"
+                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
+                    >
+                      {sources.map((s) => {
+                        const r = s.doc || s;
+                        return (
+                          <div
+                            key={s._id || r._id || r.id || Math.random()}
+                            className="flex-shrink-0 w-[220px] bg-white rounded-xl p-3 shadow-sm border border-gray-100"
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-semibold text-gray-800 truncate max-w-[120px]">
+                                {cleanAuthorName(r.author_name || r.reviewer)}
+                              </span>
+                              <Stars rating={r.rating} />
+                            </div>
+                            <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
+                              {cleanReviewBody(r.review_body)?.slice(0, 150)}...
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 {isLoading && (
                   <div className="flex justify-start my-2">
                     <div className="max-w-lg rounded-2xl px-3 py-2 bg-white text-gray-800 shadow-sm border border-gray-100">
