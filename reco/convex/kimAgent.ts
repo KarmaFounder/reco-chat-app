@@ -44,7 +44,7 @@ const retrieveTool = createTool({
 });
 
 const synthesizeTool = createTool({
-  description: "Generate Kim-style answer from reviews",
+  description: "Generate answer from reviews",
   args: {} as any,
   handler: async (
     ctx: any,
@@ -52,25 +52,25 @@ const synthesizeTool = createTool({
   ) => {
     const apiKey = getEnv("GEMINI_API_KEY");
     const systemInstruction = `
-You are "Kim," the founder of Skims. Your persona blends a Relatable Best Friend with a Confident Style Expert. Your goal is to solve problems and build confidence.
+You are Reco, an AI shopping assistant. Your goal is to help shoppers make confident purchase decisions by answering their questions based on real customer reviews.
 
-Core Mandate: Only use the provided customer reviews. Ground every claim in that data while staying in persona.
+Core Mandate: Only use the provided customer reviews. Ground every claim in that data.
 
-Tone & Vibe:
-- Relatable Best Friend: warm, intimate, "in‑group". Use "babe" or "gorgeous" when addressing the user.
-- Confident Style Expert: instructive and authoritative on fit/feel/solutions; give how‑to style tips.
-
-Skims Lexicon (use naturally): buttery‑soft, comfortable, seamless, cozy, stretches, snatched, sculpting, smoothing, lifts, molding, obsessed, literally, iconic, my favorite, amazing, so good.
+Tone & Style:
+- Friendly, helpful, and knowledgeable
+- Conversational but professional
+- Supportive and encouraging
 
 Interaction:
-- Refer to customers as "you guys" to build community.
-- Reinforce: Solutionwear (problem‑solving), inclusive sizes (XXS‑4X) and tones, and confidence.
+- Be direct and helpful
+- Reference specific reviewers when quoting (e.g., "Sarah M. noted that...")
+- Provide balanced perspectives when reviews differ
 
-CRITICAL RULE #1 – Redirect: If the question isn’t covered by reviews (shipping/returns/etc.), don’t say you don’t know; redirect confidently back to fit/feel/benefits.
+CRITICAL RULE #1 – Redirect: If the question isn't covered by reviews (shipping/returns/etc.), don't say you don't know; redirect confidently back to fit/feel/benefits.
 
-CRITICAL RULE #2 – BI Hook: If the query is a business/analysis request (e.g., "show ripping reviews", "summarize complaints for size L"), be direct and data‑informed: provide a short insight summary (3–5 bullets with bold short headings) and one recommendation paragraph.
+CRITICAL RULE #2 – BI Hook: If the query is a business/analysis request (e.g., "show ripping reviews", "summarize complaints"), be direct and data-informed: provide a short insight summary (3–5 bullets with bold short headings) and one recommendation paragraph.
 
-CRITICAL RULE #3 – Standard RAG Answer: For other questions, answer ONLY using the reviews. Write one helpful paragraph in persona. You may include one short direct quote (≤20 words) if helpful, but you MUST add your own consensus in your own words; never output only quotes.
+CRITICAL RULE #3 – Standard RAG Answer: For other questions, answer ONLY using the reviews. Write one helpful paragraph. You may include one short direct quote (≤20 words) if helpful, but you MUST add your own consensus in your own words; never output only quotes.
 `;
     const reviewsBlock = reviews
       .map(
@@ -134,7 +134,7 @@ const suggestTool = createTool({
     try {
       const arr = JSON.parse(txt);
       if (Array.isArray(arr)) return { suggestions: arr.slice(0, 3) };
-    } catch {}
+    } catch { }
     return {
       suggestions: [
         "Is it breathable?",
@@ -239,9 +239,9 @@ async function forceGeminiAnswer({
   )}`;
 
   const baseSystem = `
-You are "Kim," the founder of Skims. Stay in persona. Ground everything ONLY in the provided reviews.
-OUTPUT REQUIREMENTS: Respond in natural prose with at least 2 sentences (>60 characters). Never return an empty response. If the reviews don’t cover the question directly, say that and redirect to the closest relevant fit/feel/use guidance from the reviews. Always include your own consensus beyond any quote.
-STYLE GUARDRAILS: Avoid em/en dashes (—, –). Prefer commas or short sentences. No heavy punctuation patterns or "—" framed by quotes.
+You are Reco, an AI shopping assistant. Ground everything ONLY in the provided reviews.
+OUTPUT REQUIREMENTS: Respond in natural prose with at least 2 sentences (>60 characters). Never return an empty response. If the reviews don't cover the question directly, say that and redirect to the closest relevant fit/feel/use guidance from the reviews. Always include your own consensus beyond any quote.
+STYLE GUARDRAILS: Avoid em/en dashes (—, –). Prefer commas or short sentences. No heavy punctuation patterns.
   `;
 
   const hint =
@@ -342,12 +342,11 @@ STYLE GUARDRAILS: Avoid em/en dashes (—, –). Prefer commas or short sentence
   return txt || "";
 }
 
-// Create an Agent instance (component handle populated by Convex codegen)
 const component = (generatedComponents as any).agent;
-const KimAgent = new Agent(component, {
-  name: "Kim",
+const RecoAgent = new Agent(component, {
+  name: "Reco",
   languageModel: { provider: "google", model: CHAT_MODEL } as any,
-  instructions: "Founder of Skims; warm best‑friend + confident style expert. Ground answers only in reviews; redirect irrelevant topics; for BI requests, provide brief bullet insights + recommendation; otherwise one helpful paragraph with your own consensus (optionally one short quote).",
+  instructions: "AI shopping assistant; helpful, knowledgeable, and warm. Ground answers only in reviews; redirect irrelevant topics; for BI requests, provide brief bullet insights + recommendation; otherwise one helpful paragraph with your own consensus (optionally one short quote).",
   tools: { embedTool, retrieveTool, synthesizeTool, suggestTool } as any,
 });
 
@@ -355,9 +354,9 @@ export const startThread = action({
   args: { userId: v.optional(v.string()), title: v.optional(v.string()) },
   handler: async (ctx, { userId, title }) => {
     const t0 = Date.now();
-    const { threadId } = await KimAgent.createThread(ctx as any, {
+    const { threadId } = await RecoAgent.createThread(ctx as any, {
       userId: userId ?? null,
-      title: title ?? "Skims Chat",
+      title: title ?? "Reco Chat",
     });
     console.log("[kimAgent.startThread] created", { threadId, ms: Date.now() - t0 });
     return { threadId };
@@ -374,7 +373,7 @@ export const getOrCreateDemoThread = action({
       console.log("[kimAgent.demoThread] existing", { threadId: meta.demoThreadId });
       return { threadId: meta.demoThreadId };
     }
-    const { threadId } = await KimAgent.createThread(ctx as any, {
+    const { threadId } = await RecoAgent.createThread(ctx as any, {
       userId: "demo",
       title: "Skims Demo Chat",
     });
@@ -399,7 +398,7 @@ export const ask = action({
     console.log("[kimAgent.ask] start", { threadId, product, mode, qLen: question.length });
 
     // Always persist the user's message first so the UI shows it even on failure
-    await KimAgent.saveMessage(ctx as any, {
+    await RecoAgent.saveMessage(ctx as any, {
       message: { role: "user", content: [{ type: "text", text: question }] } as any,
       threadId,
       userId: undefined,
@@ -410,18 +409,20 @@ export const ask = action({
       // Hard redirect for policy/returns/shipping queries BEFORE any retrieval
       if (isPolicyQuery(question)) {
         const safe = sanitizeAnswer(buildSafeRedirect(question));
-        await KimAgent.saveMessage(ctx as any, {
+        await RecoAgent.saveMessage(ctx as any, {
           message: { role: "assistant", content: [{ type: "text", text: safe }] } as any,
           threadId,
           userId: undefined,
           skipEmbeddings: true,
         });
         console.log("[kimAgent.ask] policy-redirect");
-        return { ok: true, answer: safe, sources: [], suggestions: [
-          "Does it show under clothes?",
-          "How's the compression level?",
-          "Can I wear it all day?",
-        ] };
+        return {
+          ok: true, answer: safe, sources: [], suggestions: [
+            "Does it show under clothes?",
+            "How's the compression level?",
+            "Can I wear it all day?",
+          ]
+        };
       }
 
       // 1) Embed the question using Gemini
@@ -458,7 +459,7 @@ export const ask = action({
         return true;
       };
       docs = (docs || []).filter(isBodysuitReview);
-      
+
       const filters = extractStructuredFilters(question);
       const needKeyword = filters.keywords && filters.keywords.length > 0;
       const needRating = typeof filters.maxRating === 'number' || typeof filters.minRating === 'number';
@@ -478,7 +479,7 @@ export const ask = action({
           try {
             const all = await (ctx.runQuery as any)("reviews:list", {});
             filtered = (all || []).filter((r: any) => isBodysuitReview(r) && within(r));
-          } catch {}
+          } catch { }
         }
         if (filtered.length) {
           docs = filtered;
@@ -491,8 +492,8 @@ export const ask = action({
       function cleanReviewText(body: any): string {
         const s = String(body || "");
         if (s.trim().startsWith("{")) {
-          try { const j = JSON.parse(s); if (typeof j.body === "string") return j.body; } catch {}
-          try { const fixed = s.replace(/'/g,'"').replace(/\bTrue\b/g,'true').replace(/\bFalse\b/g,'false'); const j2 = JSON.parse(fixed); if (typeof j2.body === "string") return j2.body; } catch {}
+          try { const j = JSON.parse(s); if (typeof j.body === "string") return j.body; } catch { }
+          try { const fixed = s.replace(/'/g, '"').replace(/\bTrue\b/g, 'true').replace(/\bFalse\b/g, 'false'); const j2 = JSON.parse(fixed); if (typeof j2.body === "string") return j2.body; } catch { }
         }
         return s.replace(/\{\'attributes\':[\s\S]*?\}\s*/g, "").trim();
       }
@@ -501,24 +502,23 @@ export const ask = action({
         ? "BI MODE: If the user specified keywords or rating thresholds, ONLY include matching reviews. First list matches as bullet lines: Reviewer (rating/5): short quoted snippet. Then add a 1-paragraph insight. No separate Evidence section."
         : "STANDARD MODE: Write one natural paragraph in persona. Weave 2–3 short reviewer attributions inline like: Abby M. (4/5) \"…\". Avoid headings or bullet sections.";
       const systemInstruction = `
-You are Kim, founder of Skims. You're warm, knowledgeable, and genuinely helpful. Ground every answer in the provided customer reviews.
+You are Reco, an AI shopping assistant. You're helpful, knowledgeable, and genuinely focused on helping customers. Ground every answer in the provided customer reviews.
 
 PERSONALITY & TONE:
-- Be conversational and friendly, but natural. Think helpful friend who knows fashion, not corporate robot.
+- Be conversational and friendly, but natural. Think helpful shopping assistant, not corporate robot.
 - Use warmth strategically:
-  • Feel free to open with personality when appropriate (e.g., "Great question," "I love this," "Here's the thing")
-  • Use "babe" or "gorgeous" occasionally for reassurance (1-2 times per 5 responses), not every single time
-  • Show enthusiasm genuinely (e.g., "this piece is perfect for that" vs. "literally iconic amazing")
+  • Feel free to open with personality when appropriate (e.g., "Great question," "Here's what customers say," "Here's the thing")
+  • Show enthusiasm genuinely when the product has positive reviews
 - Vary your openings naturally based on the question:
   • Direct questions: Jump straight to the answer
   • Concerns/worries: Use reassuring warmth
   • Compliments/excitement: Match their energy
 
 LANGUAGE GUIDELINES:
-- Say "fabric" or "material" (not "buttery-soft" every time)
-- Say "shapewear" or "this piece" (not "Solutionwear")
-- Use "customers" or "people" (not "you guys" repeatedly)
-- Show personality without overdoing brand lingo (use "love," "perfect," "really" naturally, but skip "literally" and "iconic" spam)
+- Use natural, conversational language
+- Reference reviewers by name when quoting (e.g., "Sarah M. mentioned...")
+- Say "customers" or "reviewers" naturally
+- Show personality without overdoing it
 
 CONTENT RULES:
 - Business/analysis: 3–5 bullets with insights + recommendation
@@ -560,7 +560,7 @@ STYLE: Conversational, warm, professional. No em-dashes. Natural sentence variet
       console.log("[kimAgent.ask] generated", { chars: answer?.length || 0, finish, k, ms: Date.now() - tGen });
 
       // 4) Save assistant message
-      await KimAgent.saveMessage(ctx as any, {
+      await RecoAgent.saveMessage(ctx as any, {
         message: { role: "assistant", content: [{ type: "text", text: answer }] } as any,
         threadId,
         userId: undefined,
@@ -574,14 +574,14 @@ STYLE: Conversational, warm, professional. No em-dashes. Natural sentence variet
         const q = String(question).slice(0, 80);
         const a = String(answer).slice(0, 120);
         const prompt = `Generate 3 short shopping questions about a bodysuit (5 words max each). User just asked: "${q}". Return JSON array: ["Q1?", "Q2?", "Q3?"]`;
-        
-        const sRes = await fetch(chatUrl, { 
-          method: "POST", 
-          headers: { "Content-Type": "application/json" }, 
-          body: JSON.stringify({ 
-            contents: [{ role: "user", parts: [{ text: prompt }] }], 
-            generationConfig: { 
-              temperature: 0.7, 
+
+        const sRes = await fetch(chatUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.7,
               maxOutputTokens: 512,
               candidateCount: 1
             },
@@ -591,27 +591,27 @@ STYLE: Conversational, warm, professional. No em-dashes. Natural sentence variet
               { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
               { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
             ]
-          }) 
+          })
         });
-        
+
         if (sRes.ok) {
           const sData = await sRes.json();
           const candidate = sData?.candidates?.[0];
-          console.log("[kimAgent.ask] suggestions response", { 
+          console.log("[kimAgent.ask] suggestions response", {
             hasCandidate: !!candidate,
             hasParts: !!(candidate?.content?.parts),
             finishReason: candidate?.finishReason
           });
-          
+
           const parts = candidate?.content?.parts;
           if (!parts || !Array.isArray(parts) || parts.length === 0) {
             console.log("[kimAgent.ask] suggestions no parts", { candidate });
             throw new Error("No parts in candidate response");
           }
-          
+
           const txt = parts.map((p: any) => p.text).join("\n") || "";
           console.log("[kimAgent.ask] suggestions raw", { txt, len: txt.length });
-          
+
           if (txt.trim()) {
             // Try to parse JSON array
             const cleaned = txt.replace(/```json\n?|```\n?/g, "").trim();
@@ -628,7 +628,7 @@ STYLE: Conversational, warm, professional. No em-dashes. Natural sentence variet
       } catch (err) {
         console.log("[kimAgent.ask] suggestions failed", { error: String(err) });
       }
-      
+
       // Fallback suggestions
       if (!suggestions.length) {
         suggestions = ["Does it show under clothes?", "How's the compression level?", "Can I wear it all day?"];
@@ -644,11 +644,11 @@ STYLE: Conversational, warm, professional. No em-dashes. Natural sentence variet
         const recent = await (ctx.runQuery as any)("reviews:list", {});
         const seedDocs = Array.isArray(recent) ? recent.slice(0, 8) : [];
         const aiFallback = await forceGeminiAnswer({ question, reviews: seedDocs, apiKey: apiKey!, mode });
-      const textRaw = aiFallback && String(aiFallback).trim()
+        const textRaw = aiFallback && String(aiFallback).trim()
           ? aiFallback
           : "Based on recent reviews, people talk about compression, smooth lines, and true to size with occasional sizing up for longer torsos.";
         const text = sanitizeAnswer(textRaw as string);
-        await KimAgent.saveMessage(ctx as any, {
+        await RecoAgent.saveMessage(ctx as any, {
           message: { role: "assistant", content: [{ type: "text", text: text }] } as any,
           threadId,
           userId: undefined,
@@ -657,7 +657,7 @@ STYLE: Conversational, warm, professional. No em-dashes. Natural sentence variet
         return { ok: false, answer: text, sources: seedDocs, suggestions: ["Does it show under clothes?", "How's the compression level?", "Can I wear it all day?"] };
       } catch (e2) {
         const fallback = "Babe, this bodysuit is all about snatching your waist and sculpting your body—ask me how it smooths your tummy or if it’s breathable.";
-        await KimAgent.saveMessage(ctx as any, {
+        await RecoAgent.saveMessage(ctx as any, {
           message: { role: "assistant", content: [{ type: "text", text: fallback }] } as any,
           threadId,
           userId: undefined,
