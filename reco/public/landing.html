@@ -97,11 +97,9 @@
   <!-- Navigation -->
   <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-          <span class="text-white font-bold text-lg">R</span>
-        </div>
-        <span class="text-xl font-bold text-gray-900">Reco</span>
+      <div class="flex items-center gap-0">
+        <span class="text-xl font-bold text-gray-900">reco</span>
+        <span class="text-xl font-bold text-gray-500">AI</span>
       </div>
       <div class="flex items-center gap-8">
         <a href="/support.html"
@@ -109,8 +107,8 @@
         <a href="/privacy.html"
           class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Privacy</a>
         <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer"
-          class="px-5 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-sm hover:shadow-md">
-          Install App
+          class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+          login
         </a>
       </div>
     </div>
@@ -125,43 +123,79 @@
       <!-- Hero Section -->
       <section id="section-hero" class="feature-section min-h-screen flex items-center px-8 lg:px-16 py-20"
         data-widget-state="hero">
-        <div>
-          <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full mb-6 border border-gray-200">
-            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span class="text-sm font-medium text-gray-900">AI-Powered Shopping Assistant</span>
+        <div class="w-full flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          <!-- Left: Text Content -->
+          <div class="flex-1">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              Stop <em class="not-italic font-normal">reading</em> reviews.<br>
+              <em class="not-italic font-normal">Chat</em> with them.
+            </h1>
+
+            <p class="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed">
+              Turn your existing customer reviews into a ReviewsGPT your shoppers can chat with. Let them ask product
+              questions directly in your product pages, and our AI will analyze your reviews to deliver answers they can
+              trust.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+              <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                class="inline-flex items-center gap-2 px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:scale-105">
+                Start a free trial
+              </a>
+              <a href="#section-instant"
+                class="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 rounded-full text-lg font-semibold border-2 border-gray-200 hover:border-gray-400 transition-all">
+                Book a Demo
+              </a>
+            </div>
           </div>
 
-          <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Turn Reviews into<br>
-            <span class="underline decoration-4 underline-offset-8 decoration-black">Revenue</span>
-          </h1>
+          <!-- Right: Widget Mockup -->
+          <div class="flex-1 flex justify-center">
+            <div class="w-full max-w-md">
+              <!-- Product Card with Widget -->
+              <div class="bg-[#FAF8F5] rounded-3xl shadow-xl p-6 border border-gray-100">
+                <!-- Product Header -->
+                <div class="flex items-center gap-4 mb-6">
+                  <img src="https://cdn.shopify.com/s/files/1/0786/8762/8814/files/skims-product.jpg?v=1734450128"
+                    alt="Product" class="w-16 h-16 rounded-2xl object-cover shadow-sm">
+                  <div>
+                    <div class="text-sm text-gray-500 font-medium">Skims</div>
+                    <div class="text-lg font-bold text-gray-900">Brief Bodysuit</div>
+                  </div>
+                </div>
 
-          <p class="text-xl text-gray-600 mb-8 max-w-lg leading-relaxed">
-            The AI Shopping Assistant that knows your products better than you do.
-            Instantly answer customer questions using real reviews.
-          </p>
-
-          <a href="https://apps.shopify.com/reco-chat" target="_blank"
-            class="inline-flex items-center gap-2 px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-gray-800 transition-all shadow-lg hover:scale-105">
-            Install on Shopify
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-            </svg>
-          </a>
-
-          <div class="mt-8 flex items-center gap-6 text-sm text-gray-500">
-            <span class="flex items-center gap-1">
-              <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20">
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <span class="font-medium text-gray-700">4.9/5</span> from 200+ stores
-            </span>
-            <span>Free trial available</span>
-          </div>
-
-          <div class="mt-12 text-gray-400 text-sm animate-bounce">
-            ↓ Scroll to explore features
+                <!-- Widget Input Box -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-4 flex items-center gap-3">
+                  <!-- Sparkle Icon -->
+                  <svg class="w-6 h-6 text-gray-800 flex-shrink-0" viewBox="0 0 34 32" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 3C15 9 19 12 24 12C19 12 15 15 14 21C13 15 9 12 4 12C9 12 13 9 14 3Z"
+                      fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"
+                      stroke-linecap="round" />
+                    <path
+                      d="M28 1C28.3 2.5 29.5 3.5 31 3.5C29.5 3.5 28.3 4.5 28 6C27.7 4.5 26.5 3.5 25 3.5C26.5 3.5 27.7 2.5 28 1Z"
+                      fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"
+                      stroke-linecap="round" />
+                    <path
+                      d="M28 15C28.3 16.5 29.5 17.5 31 17.5C29.5 17.5 28.3 18.5 28 20C27.7 18.5 26.5 17.5 25 17.5C26.5 17.5 27.7 16.5 28 15Z"
+                      fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"
+                      stroke-linecap="round" />
+                  </svg>
+                  <div class="flex-1">
+                    <div class="font-bold text-gray-900 text-sm mb-0.5">Ask anything about this product...</div>
+                    <div class="text-gray-400 text-sm">What are tall girls saying about the fit?</div>
+                  </div>
+                  <!-- Send Button -->
+                  <button
+                    class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-black transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                      stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
