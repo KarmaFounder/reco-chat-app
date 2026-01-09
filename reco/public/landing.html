@@ -10,10 +10,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Google Sans', 'Google Sans Flex', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     html {
@@ -22,11 +24,47 @@
 
     .feature-text {
       opacity: 0.3;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.5s ease;
     }
 
     .feature-text.active {
       opacity: 1;
+    }
+
+    .chat-message {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
+
+    .chat-message.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stacking cards */
+    .stacking-cards {
+      position: relative;
+    }
+
+    .stacking-card {
+      position: sticky;
+      top: 80px;
+      will-change: transform;
+    }
+
+    .stacking-card:nth-child(1) {
+      z-index: 1;
+    }
+
+    .stacking-card:nth-child(2) {
+      z-index: 2;
+      top: 100px;
+    }
+
+    .stacking-card:nth-child(3) {
+      z-index: 3;
+      top: 120px;
     }
   </style>
 </head>
@@ -35,7 +73,7 @@
   <!-- Navigation -->
   <nav class="fixed top-0 left-0 right-0 z-50 bg-white">
     <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-      <span class="text-2xl font-bold text-gray-900">Reco</span>
+      <span class="text-2xl font-medium text-gray-900">Reco</span>
       <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer"
         class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
         login
@@ -43,155 +81,94 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="pt-28 pb-16 px-6">
-    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
-      <!-- Left: Text Content -->
-      <div class="flex-1 pt-8">
-        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          Stop <em class="font-normal">reading</em> reviews.<br>
-          <em class="font-normal">Chat</em> with them.
-        </h1>
-
-        <p class="text-base text-gray-600 mb-8 max-w-md leading-relaxed">
-          Turn your existing customer reviews into a ReviewsGPT your shoppers can chat with. Let shoppers ask product
-          questions in your product pages, and our AI will analyze your reviews to deliver answers they can trust.
-        </p>
-
-        <div class="flex flex-wrap gap-4 items-center">
-          <a href="https://apps.shopify.com/reco-chat" target="_blank"
-            class="inline-flex items-center justify-center px-6 py-3 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-800 transition-all">
-            Start a free trial
-          </a>
-          <a href="#demo"
-            class="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-900 rounded-full text-sm font-semibold border border-gray-300 hover:border-gray-400 transition-all">
-            Book a Demo
-          </a>
-        </div>
-      </div>
-
-      <!-- Right: Widget Mockup -->
-      <div class="flex-1 flex justify-center">
-        <div class="w-full max-w-sm">
-          <!-- Product Card Header -->
-          <div class="flex items-center gap-3 mb-4">
-            <img src="https://cdn.shopify.com/s/files/1/0786/8762/8814/files/skims-product.jpg?v=1734450128"
-              alt="Product" class="w-12 h-12 rounded-xl object-cover">
-            <div>
-              <div class="text-xs text-gray-500">Skims</div>
-              <div class="text-sm font-bold text-gray-900">Brief Bodysuit</div>
-            </div>
-          </div>
-
-          <!-- Widget Input Box -->
-          <div class="bg-[#F5F5F0] rounded-2xl px-4 py-3 flex items-center gap-3 mb-3">
-            <svg class="w-5 h-5 text-gray-800 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z" />
-            </svg>
-            <div class="flex-1">
-              <div class="font-semibold text-gray-900 text-sm">Ask anything about this product...</div>
-              <div class="text-gray-400 text-xs">What are tall girls saying about the fit?</div>
-            </div>
-            <button class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- User Question Bubble -->
-          <div class="flex justify-end mb-3">
-            <div class="bg-gray-900 text-white rounded-2xl px-4 py-2 text-sm max-w-[85%]">
-              What are tall girls saying about the fit?
-            </div>
-          </div>
-
-          <!-- AI Response -->
-          <div
-            class="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 text-sm text-gray-700 leading-relaxed">
-            Based on what customers are saying, this piece does tend to be on the sheer side. Many people have noted the
-            thinness of the fabric, with some describing it as "completely see through," like Elizabeth M.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Scroll-triggered Features Section -->
-  <section class="relative">
+  <!-- Hero + Scroll Features Combined Section -->
+  <section class="pt-28 relative">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
         <!-- Left: Scrolling Text Content -->
-        <div class="flex-1 py-20 space-y-32">
+        <div class="flex-1 space-y-32 pb-20">
+
+          <!-- Hero Text -->
+          <div class="feature-text pt-8" data-feature="0" data-question="" data-answer="">
+            <h1 class="text-4xl lg:text-5xl font-normal text-gray-900 mb-6 leading-tight">
+              Stop <em>reading</em> reviews.<br>
+              <em>Chat</em> with them.
+            </h1>
+            <p class="text-base text-gray-600 mb-8 max-w-md leading-relaxed">
+              Turn your existing customer reviews into a ReviewsGPT your shoppers can chat with. Let them ask product
+              questions directly in your product pages, and our AI will analyze your reviews to deliver answers they can
+              trust.
+            </p>
+            <div class="flex flex-wrap gap-4 items-center">
+              <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                class="inline-flex items-center justify-center px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all">
+                Start a free trial
+              </a>
+              <a href="#demo"
+                class="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-900 rounded-full text-sm font-medium border border-gray-300 hover:border-gray-400 transition-all">
+                Book a Demo
+              </a>
+            </div>
+          </div>
 
           <!-- Feature 1 -->
-          <div class="feature-text" data-feature="1">
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+          <div class="feature-text" data-feature="1" data-question="What are tall girls saying about the fit?"
+            data-answer="Based on what customers are saying, this piece does tend to be on the sheer side. Many people have noted the thinness of the fabric, with some describing it as 'completely see through,' like Elizabeth M.">
+            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Give customers instant clarity,<br>without drowning in reviews
             </h2>
             <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              Nobody wants to scroll through endless reviews in the hopes of finding one that applies to their unique
-              questions or concerns. Reco instantly analyzes multiple reviews to give new buyers the answers they want
-              the second they ask.
+              People already rely on AI tools to get answers instantly. Reco brings that same chat-first experience to
+              your reviews, allowing shoppers to ask product questions and get immediate answers in a way that's already
+              familiar to them.
             </p>
           </div>
 
           <!-- Feature 2 -->
-          <div class="feature-text" data-feature="2">
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-              Provide answers tailored<br>to <em class="font-normal">their</em> needs, instantly.
+          <div class="feature-text" data-feature="2" data-question="Is it good for hot weather?"
+            data-answer="Several customers mention it's super breathable! Maria K. (5/5) said 'I wore it all day in summer and didn't feel overheated at all.' Great for warmer climates.">
+            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
+              Provide answers tailored<br>to <em>their</em> needs, instantly.
             </h2>
             <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              No two shoppers look for the same things, and static reviews rarely deliver what a customer needs. Reco
-              analyzes your entire review set in real time and returns tailored, on-point answers to whatever they ask,
-              giving them exactly what they need to feel confident.
+              Reco returns tailored, on-point answers to whatever they ask, giving them exactly what they need, when
+              they need it, to feel confident in their purchase decisions.
             </p>
           </div>
 
           <!-- Feature 3 -->
-          <div class="feature-text" data-feature="3">
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+          <div class="feature-text" data-feature="3" data-question="Does it smooth the tummy area?"
+            data-answer="Absolutely! This is one of the most praised features. Amanda R. (5/5) mentioned 'it really smooths everything out without feeling too tight.' The sculpting effect is subtle but effective.">
+            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Turn your reviews into a 24/7<br>personalized shopping assistant.
             </h2>
             <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              Shopping is always better with a friend. Turn your reviews into a live, always-on product expert. Instead
-              of leaving shoppers to hunt for answers, it gives them instant, conversational guidance powered by real
-              customer feedback. Let Reco support your brand and move shoppers confidently toward the right choice.
+              Turn your reviews into a live, always-on product expert. This is full-on conversational guidance powered
+              by what shoppers actually care about - real customer feedback. Shopping is always better with a friend.
             </p>
           </div>
 
           <!-- Feature 4 -->
-          <div class="feature-text" data-feature="4">
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-              reduce review fatigue &<br>maximize purchasing intent.
+          <div class="feature-text" data-feature="4" data-question="Will it show under a tight dress?"
+            data-answer="Great question! Most reviewers say no visible lines. Jessica L. (4/5) noted 'completely seamless under my bodycon dress.' The edges are designed to lay flat against your skin.">
+            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
+              Reduce review fatigue &<br>maximize purchasing intent.
             </h2>
             <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              Skip the review fatigue and get straight to what matters. No more cognitive overload or endless scrolling
-              — just the exact insight they need to make a confident decision, fast.
+              Skip the review fatigue and get straight to what matters. No more cognitive overload or time wasted doom
+              scrolling reviews — just the exact insight shoppers need to make confident decisions, fast.
             </p>
           </div>
 
           <!-- Feature 5 -->
-          <div class="feature-text" data-feature="5">
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-              Build shopper confidence<br>when it matters most.
-            </h2>
-            <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              When shoppers hesitate, they're already halfway out the door. Reco steps in like a trusted friend with the
-              clarity they need, right when they need it. No more digging through irrelevant reviews—just quick,
-              confidence-boosting answers that keep carts moving.
-            </p>
-          </div>
-
-          <!-- Feature 6 -->
-          <div class="feature-text" data-feature="6">
-            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+          <div class="feature-text" data-feature="5" data-question="Can I customize how it looks?"
+            data-answer="Yes! Reco is fully customizable. Match your brand colors, fonts, and style. Your widget, your brand identity.">
+            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Fully Customizable.
             </h2>
             <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              Bring your fonts, colours, and brand identify to ensure your Reco widgets look and feel they are a part of
-              your brand identity - not ours.
+              Bring your fonts, colours, and brand identity to your Reco widgets to ensure they look and feel like they
+              are a part of your brand identity - not ours.
             </p>
           </div>
 
@@ -199,26 +176,29 @@
 
         <!-- Right: Sticky Widget -->
         <div class="flex-1 hidden lg:block">
-          <div class="sticky top-32 py-20">
-            <div class="w-full max-w-sm mx-auto">
+          <div class="sticky top-28 py-8">
+            <div id="sticky-widget" class="w-full max-w-sm mx-auto">
               <!-- Product Card Header -->
               <div class="flex items-center gap-3 mb-4">
-                <img src="https://cdn.shopify.com/s/files/1/0786/8762/8814/files/skims-product.jpg?v=1734450128"
-                  alt="Product" class="w-12 h-12 rounded-xl object-cover">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=100&h=100&fit=crop&crop=face"
+                  alt="Product" class="w-12 h-12 rounded-xl object-cover bg-gray-100">
                 <div>
                   <div class="text-xs text-gray-500">Skims</div>
-                  <div class="text-sm font-bold text-gray-900">Brief Bodysuit</div>
+                  <div class="text-sm font-medium text-gray-900">Brief Bodysuit</div>
                 </div>
               </div>
 
               <!-- Widget Input Box -->
-              <div class="bg-[#F5F5F0] rounded-2xl px-4 py-3 flex items-center gap-3 mb-3">
+              <div class="bg-[#F5F5F0] rounded-2xl px-4 py-3 flex items-center gap-3 mb-4">
+                <!-- AI Sparkle Icon (4-point stars) -->
                 <svg class="w-5 h-5 text-gray-800 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z" />
+                  <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
+                  <path d="M18 14L19 17L22 18L19 19L18 22L17 19L14 18L17 17L18 14Z" />
+                  <path d="M6 16L6.75 18.25L9 19L6.75 19.75L6 22L5.25 19.75L3 19L5.25 18.25L6 16Z" />
                 </svg>
                 <div class="flex-1">
-                  <div class="font-semibold text-gray-900 text-sm">Ask anything about this product...</div>
-                  <div class="text-gray-400 text-xs">What are tall girls saying about the fit?</div>
+                  <div class="font-medium text-gray-900 text-sm">Ask anything about this product...</div>
+                  <div id="input-hint" class="text-gray-400 text-xs">What are tall girls saying about the fit?</div>
                 </div>
                 <button class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -228,19 +208,84 @@
                 </button>
               </div>
 
-              <!-- User Question Bubble -->
-              <div class="flex justify-end mb-3">
-                <div class="bg-gray-900 text-white rounded-2xl px-4 py-2 text-sm max-w-[85%]">
-                  What are tall girls saying about the fit?
-                </div>
+              <!-- Chat Messages Container -->
+              <div id="chat-container" class="space-y-3 min-h-[180px]">
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-              <!-- AI Response -->
-              <div
-                class="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 text-sm text-gray-700 leading-relaxed">
-                Based on what customers are saying, this piece does tend to be on the sheer side. Many people have noted
-                the thinness of the fabric, with some describing it as "completely see through," like Elizabeth M.
-              </div>
+  <!-- Stacking Showcase Cards -->
+  <section class="stacking-cards px-4 pb-40">
+    <!-- Card 1: Simply add our chat widget (Cyan) -->
+    <div class="stacking-card mb-8">
+      <div class="bg-[#E8F4F8] rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-3 text-center">
+          Simply add our chat widget into your product pages.
+        </h2>
+        <p class="text-sm md:text-base text-gray-600 mb-8 max-w-2xl mx-auto text-center">
+          Simply embed a Reco widget into your Shopify theme code and expose it in your product pages. Once embedded,
+          customers will be able to ask questions pertaining to that specific product.
+        </p>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl mx-auto">
+          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=500&fit=crop"
+            alt="Widget on product page" class="w-full h-auto object-cover"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="hidden items-center justify-center h-64 bg-gray-100 text-gray-400 text-center p-8">
+            <div>
+              <div class="text-4xl mb-2">🛍️</div>
+              <p>Widget embedded on product page</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Customers ask and engage (Cyan) -->
+    <div class="stacking-card mb-8">
+      <div class="bg-[#E8F4F8] rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-3 text-center">
+          Customers ask and engage
+        </h2>
+        <p class="text-sm md:text-base text-gray-600 mb-8 max-w-2xl mx-auto text-center">
+          Simply embed a Reco widget into your Shopify theme code and expose it in your product pages. Once embedded,
+          customers will be able to ask questions pertaining to that specific product.
+        </p>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl mx-auto">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop"
+            alt="Customers engaging with widget" class="w-full h-auto object-cover"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="hidden items-center justify-center h-64 bg-gray-100 text-gray-400 text-center p-8">
+            <div>
+              <div class="text-4xl mb-2">💬</div>
+              <p>Customers engage with AI chat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: See the reviews (Pink) -->
+    <div class="stacking-card mb-8">
+      <div class="bg-[#FDF2F8] rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg">
+        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-3 text-center">
+          See the reviews that formed the basis of the answer.
+        </h2>
+        <p class="text-sm md:text-base text-gray-600 mb-8 max-w-2xl mx-auto text-center">
+          Simply embed a Reco widget into your Shopify theme code and expose it in your product pages. Once embedded,
+          customers will be able to ask questions pertaining to that specific product.
+        </p>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl mx-auto">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"
+            alt="Reviews used for answer" class="w-full h-auto object-cover"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="hidden items-center justify-center h-64 bg-gray-100 text-gray-400 text-center p-8">
+            <div>
+              <div class="text-4xl mb-2">⭐</div>
+              <p>See source reviews for every answer</p>
             </div>
           </div>
         </div>
@@ -251,91 +296,71 @@
   <!-- Review Platforms Section -->
   <section class="bg-white px-6 py-20">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-12 leading-tight">
-        It's like talking to a friend who's<br>already read <span class="underline underline-offset-4">every</span>
-        review.
+      <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-6 leading-tight">
+        "It's like talking to a friend who's<br>already read <span class="underline underline-offset-4">every</span>
+        review."
       </h2>
 
-      <!-- Icon Grid -->
+      <p class="text-lg text-gray-600 mb-12">
+        Reco works seamlessly with most major reviews platforms.
+      </p>
+
+      <!-- Platform Logos Grid -->
       <div class="flex flex-wrap items-center justify-start gap-4 mb-16">
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <span class="text-lg font-mono">{}</span>
+        <!-- Okendo -->
+        <div
+          class="w-14 h-14 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden p-2">
+          <img
+            src="https://cdn.shopify.com/app-store/listing_images/d80c0e54543f1eef6f1a6c1b8e9ecb34/icon/CILLxPrN_fsCEAE=.png"
+            alt="Okendo" class="w-full h-full object-contain">
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
+        <!-- Judge.me -->
+        <div
+          class="w-14 h-14 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden p-2">
+          <img
+            src="https://cdn.shopify.com/app-store/listing_images/92f0c1b35b8e49a5ba4e5c0ef04e5e5c/icon/CPOoo8n7q_oCEAE=.png"
+            alt="Judge.me" class="w-full h-full object-contain">
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-900">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-          </svg>
+        <!-- Yotpo -->
+        <div
+          class="w-14 h-14 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden p-2">
+          <img
+            src="https://cdn.shopify.com/app-store/listing_images/21f2b7a13e04d1e7ea66c8e1b9e80e4a/icon/CL2Y_ITC__YCEAE=.png"
+            alt="Yotpo" class="w-full h-full object-contain">
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-900">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z" />
-          </svg>
+        <!-- Stamped -->
+        <div class="w-14 h-14 rounded-full bg-[#2563EB] flex items-center justify-center overflow-hidden">
+          <span class="text-xs font-medium text-white">Stamped</span>
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
+        <!-- Loox -->
+        <div class="w-14 h-14 rounded-full bg-[#7C3AED] flex items-center justify-center overflow-hidden">
+          <span class="text-xs font-medium text-white">Loox</span>
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+        <!-- Shopify -->
+        <div class="w-14 h-14 rounded-full bg-[#95BF47] flex items-center justify-center overflow-hidden">
+          <span class="text-xs font-medium text-white">Shopify</span>
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-900">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6z" />
-          </svg>
+        <!-- Fera -->
+        <div class="w-14 h-14 rounded-full bg-[#F97316] flex items-center justify-center overflow-hidden">
+          <span class="text-xs font-medium text-white">Fera</span>
         </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </div>
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="6" cy="6" r="1.5" />
-            <circle cx="12" cy="6" r="1.5" />
-            <circle cx="18" cy="6" r="1.5" />
-            <circle cx="6" cy="12" r="1.5" />
-            <circle cx="18" cy="12" r="1.5" />
-            <circle cx="6" cy="18" r="1.5" />
-            <circle cx="12" cy="18" r="1.5" />
-            <circle cx="18" cy="18" r="1.5" />
-          </svg>
+        <!-- Rivyo -->
+        <div class="w-14 h-14 rounded-full bg-[#6366F1] flex items-center justify-center overflow-hidden">
+          <span class="text-xs font-medium text-white">Rivyo</span>
         </div>
       </div>
-
-      <h3 class="text-3xl lg:text-4xl font-bold text-gray-900">
-        We work with most review<br>platforms.
-      </h3>
     </div>
   </section>
 
   <!-- FAQ Section -->
   <section class="bg-[#FDF8F8] px-6 py-20">
     <div class="max-w-3xl mx-auto">
-      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 text-center">
+      <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 text-center">
         Frequently Asked Questions
       </h2>
       <p class="text-center text-gray-500 mb-12">Still have questions? Take a look here.</p>
 
       <div class="space-y-0">
-        <!-- FAQ Item 1 -->
         <details class="group border-b border-gray-200">
           <summary class="flex items-center justify-between py-5 cursor-pointer list-none">
             <span class="font-medium text-gray-900">How does Reco work?</span>
@@ -350,7 +375,6 @@
           </div>
         </details>
 
-        <!-- FAQ Item 2 -->
         <details class="group border-b border-gray-200">
           <summary class="flex items-center justify-between py-5 cursor-pointer list-none">
             <span class="font-medium text-gray-900">How do I install Reco on my store?</span>
@@ -365,7 +389,6 @@
           </div>
         </details>
 
-        <!-- FAQ Item 3 -->
         <details class="group border-b border-gray-200">
           <summary class="flex items-center justify-between py-5 cursor-pointer list-none">
             <span class="font-medium text-gray-900">Where do you get review data from?</span>
@@ -380,7 +403,6 @@
           </div>
         </details>
 
-        <!-- FAQ Item 4 -->
         <details class="group border-b border-gray-200">
           <summary class="flex items-center justify-between py-5 cursor-pointer list-none">
             <span class="font-medium text-gray-900">How accurate are the AI responses?</span>
@@ -395,7 +417,6 @@
           </div>
         </details>
 
-        <!-- FAQ Item 5 -->
         <details class="group border-b border-gray-200">
           <summary class="flex items-center justify-between py-5 cursor-pointer list-none">
             <span class="font-medium text-gray-900">Is my customer data safe?</span>
@@ -410,7 +431,6 @@
           </div>
         </details>
 
-        <!-- FAQ Item 6 -->
         <details class="group border-b border-gray-200">
           <summary class="flex items-center justify-between py-5 cursor-pointer list-none">
             <span class="font-medium text-gray-900">Can I cancel my subscription at any time?</span>
@@ -432,14 +452,14 @@
   <section class="py-20 px-6 bg-white">
     <div class="max-w-4xl mx-auto text-center">
       <div class="bg-black rounded-3xl p-12 md:p-16 shadow-2xl">
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+        <h2 class="text-4xl md:text-5xl font-normal text-white mb-6">
           Ready to boost conversions?
         </h2>
         <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
           Join hundreds of Shopify stores using Reco to turn browsers into buyers
         </p>
         <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full text-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full text-lg font-medium hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
           Install on Shopify
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -456,7 +476,7 @@
   <footer class="py-12 px-6 bg-white border-t border-gray-100">
     <div class="max-w-6xl mx-auto">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <span class="text-xl font-bold text-gray-900">Reco</span>
+        <span class="text-xl font-medium text-gray-900">Reco</span>
         <div class="flex items-center gap-8 text-sm text-gray-500">
           <a href="/support.html" class="hover:text-gray-900 transition-colors">Support</a>
           <a href="/privacy.html" class="hover:text-gray-900 transition-colors">Privacy</a>
@@ -471,16 +491,81 @@
 
   <!-- Scroll Animation Script -->
   <script>
-    // Intersection Observer for feature sections
     const featureTexts = document.querySelectorAll('.feature-text');
+    const chatContainer = document.getElementById('chat-container');
+    const inputHint = document.getElementById('input-hint');
 
+    let currentFeatureIndex = -1;
+
+    function createQuestionBubble(text) {
+      const div = document.createElement('div');
+      div.className = 'chat-message flex justify-end';
+      div.innerHTML = `<div class="bg-gray-900 text-white rounded-2xl px-4 py-2 text-sm max-w-[85%]">${text}</div>`;
+      return div;
+    }
+
+    function createAnswerBubble(text) {
+      const div = document.createElement('div');
+      div.className = 'chat-message';
+      div.innerHTML = `<div class="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 text-sm text-gray-700 leading-relaxed">${text}</div>`;
+      return div;
+    }
+
+    function updateChat(featureIndex) {
+      if (featureIndex === currentFeatureIndex) return;
+      currentFeatureIndex = featureIndex;
+
+      const feature = featureTexts[featureIndex];
+      const question = feature?.dataset.question;
+      const answer = feature?.dataset.answer;
+
+      // Update input hint
+      if (question) {
+        inputHint.textContent = question;
+      } else {
+        inputHint.textContent = 'What are tall girls saying about the fit?';
+      }
+
+      // For hero (index 0), show initial state
+      if (featureIndex === 0 || !question) {
+        chatContainer.innerHTML = '';
+        return;
+      }
+
+      // Build conversation up to this point
+      let conversationHistory = [];
+      for (let i = 1; i <= featureIndex; i++) {
+        const f = featureTexts[i];
+        if (f && f.dataset.question && f.dataset.answer) {
+          conversationHistory.push({
+            question: f.dataset.question,
+            answer: f.dataset.answer
+          });
+        }
+      }
+
+      // Render messages (show last 2 exchanges)
+      chatContainer.innerHTML = '';
+      const showMessages = conversationHistory.slice(-2);
+      showMessages.forEach((msg, idx) => {
+        const qBubble = createQuestionBubble(msg.question);
+        const aBubble = createAnswerBubble(msg.answer);
+        chatContainer.appendChild(qBubble);
+        chatContainer.appendChild(aBubble);
+
+        setTimeout(() => qBubble.classList.add('visible'), idx * 100);
+        setTimeout(() => aBubble.classList.add('visible'), idx * 100 + 50);
+      });
+    }
+
+    // Intersection Observer
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Remove active from all
           featureTexts.forEach(ft => ft.classList.remove('active'));
-          // Add active to current
           entry.target.classList.add('active');
+          const featureIndex = parseInt(entry.target.dataset.feature) || 0;
+          updateChat(featureIndex);
         }
       });
     }, {
@@ -490,7 +575,6 @@
 
     featureTexts.forEach(ft => observer.observe(ft));
 
-    // Make first feature active by default
     if (featureTexts.length > 0) {
       featureTexts[0].classList.add('active');
     }
