@@ -30,7 +30,7 @@ async function embed(text: string, apiKey: string): Promise<number[]> {
   return values.map((x: any) => Number(x));
 }
 
-async function generateKimAnswer({ userQuery, topReviews, apiKey, history, mode }: { userQuery: string; topReviews: any[]; apiKey: string; history: { role: string; text: string }[]; mode?: "default" | "research" }) {
+async function generateAnswer({ userQuery, topReviews, apiKey, history, mode }: { userQuery: string; topReviews: any[]; apiKey: string; history: { role: string; text: string }[]; mode?: "default" | "research" }) {
   const systemInstruction =
     "You are a precise, honest product review assistant for this Shopify store. Your job is to help shoppers understand how a product feels, fits, and performs based ONLY on the information provided to you.\n\nSOURCE OF TRUTH RULE: The customer reviews (and any explicit product facts included in the prompt) are your only sources of truth. If the user asks about something that is not supported by those reviews or facts (for example shipping, returns, policies, or unrelated topics), you MUST say that you don't have enough information from the reviews to answer confidently, and you must NOT guess or invent details. When review coverage is thin, acknowledge that explicitly and then focus on a small number of clear, factual takeaways that ARE supported by the reviews. Keep answers concise, neutral, and free of marketing fluff.";
 
@@ -185,7 +185,7 @@ export const ask = action({
     const sources = topReviews.map((doc: any) => ({ _id: doc._id, _score: scoreById.get(String(doc._id)) ?? null, doc }));
 
     // 4) Generate answer from top reviews
-    let answer = await generateKimAnswer({ userQuery: query, topReviews, apiKey, history: history || [], mode: research ? "research" : "default" });
+    let answer = await generateAnswer({ userQuery: query, topReviews, apiKey, history: history || [], mode: research ? "research" : "default" });
     if (!answer?.trim()) answer = fallbackFromReviews(query, topReviews);
 
     // 5) Generate next-step suggestions

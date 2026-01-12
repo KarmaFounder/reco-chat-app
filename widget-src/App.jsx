@@ -903,7 +903,7 @@ export default function App({
                 {(isLoading && !sources.length) ? (
                   // Detailed Skeleton - 6 cards with "blocks"
                   Array(6).fill(0).map((_, i) => (
-                    <div key={i} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 animate-pulse w-full lg:flex-shrink-0 lg:w-[280px]">
+                    <div key={i} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 animate-pulse flex-shrink-0 w-[280px] lg:w-full">
                       <div className="flex justify-between items-center mb-3">
                         <div className="h-4 bg-gray-200 rounded w-1/3"></div>
                         <div className="flex gap-1">
@@ -918,14 +918,14 @@ export default function App({
                     </div>
                   ))
                 ) : !sources.length ? (
-                  <div className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400 border border-gray-100 shadow-sm w-full lg:w-auto lg:flex-shrink-0 lg:w-[280px] min-h-[100px] flex items-center justify-center">
+                  <div className="rounded-2xl bg-white p-4 text-center text-sm text-gray-400 border border-gray-100 shadow-sm flex-shrink-0 w-[280px] lg:w-full min-h-[100px] flex items-center justify-center">
                     Ask a question to see matching reviews here.
                   </div>
                 ) : (
                   sources.map((s) => {
                     const r = s.doc || s;
                     return (
-                      <div key={s._id || r._id || r.id} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 flex-shrink-0 w-[280px] lg:w-auto">
+                      <div key={s._id || r._id || r.id} className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100 flex-shrink-0 w-[280px] lg:w-full">
                         <div className="flex items-center justify-between mb-0">
                           <div className="text-sm font-bold text-gray-900">{cleanAuthorName(r.author_name || r.reviewer)}</div>
                           <Stars rating={r.rating} />
