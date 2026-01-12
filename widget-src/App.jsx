@@ -7,7 +7,7 @@ import aiLogo from "./assets/reco-ai-sparkle.png";
 // Demo flag: disable uploads in the UI
 const UPLOADS_DISABLED = true;
 
-const PRODUCT_NAME = "Seamless Sculpt Brief Bodysuit"; // default fallback when no product name is passed in
+const PRODUCT_NAME = "Classic Jogger"; // default fallback when no product name is passed in
 
 function Stars({ rating = 0 }) {
   const r = Math.max(0, Math.min(5, Number(rating || 0)));

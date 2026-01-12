@@ -27,7 +27,7 @@ if (container) {
     shopDomain,
   } = container.dataset;
 
-  const resolvedProductName = productName || productTitle || "Seamless Sculpt Brief Bodysuit";
+  const resolvedProductName = productName || productTitle || "Classic Jogger";
 
   const root = ReactDOM.createRoot(container);
   root.render(
