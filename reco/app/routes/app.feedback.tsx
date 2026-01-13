@@ -1,5 +1,5 @@
 /**
- * Feedback Page - User feedback form (moved from Home)
+ * Support Page - Quick links and user feedback form
  */
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
@@ -30,13 +30,7 @@ const MailIcon = () => (
     </svg>
 );
 
-const BookIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-    </svg>
-);
-
-export default function Feedback() {
+export default function Support() {
     const fetcher = useFetcher<typeof action>();
     const shopify = useAppBridge();
 
@@ -54,7 +48,37 @@ export default function Feedback() {
     }, [fetcher.data, shopify]);
 
     return (
-        <s-page heading="Feedback">
+        <s-page heading="Support">
+            {/* Quick Links at top */}
+            <s-section>
+                <s-box padding="base" borderWidth="base" borderRadius="base">
+                    <s-heading>Quick links</s-heading>
+                    <s-paragraph tone="subdued" style={{ marginBottom: "1rem" }}>
+                        Get help with Reco
+                    </s-paragraph>
+                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                        <button
+                            onClick={() => window.open("mailto:support@getreco.ai", "_blank")}
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                padding: "0.625rem 1rem",
+                                background: "white",
+                                border: "1px solid #e5e7eb",
+                                borderRadius: "0.5rem",
+                                cursor: "pointer",
+                                fontSize: "0.875rem",
+                                fontWeight: 500,
+                            }}
+                        >
+                            <MailIcon /> Email Support
+                        </button>
+                    </div>
+                </s-box>
+            </s-section>
+
+            {/* Feedback form below */}
             <s-section>
                 <s-box padding="base" borderWidth="base" borderRadius="base">
                     <div style={{ marginBottom: "1rem" }}>
@@ -87,51 +111,6 @@ export default function Feedback() {
                             </s-button>
                         </s-stack>
                     </fetcher.Form>
-                </s-box>
-            </s-section>
-
-            <s-section>
-                <s-box padding="base" borderWidth="base" borderRadius="base">
-                    <s-heading>Quick links</s-heading>
-                    <s-paragraph tone="subdued" style={{ marginBottom: "1rem" }}>
-                        Other ways to get help
-                    </s-paragraph>
-                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                        <button
-                            onClick={() => window.open("mailto:support@getreco.ai", "_blank")}
-                            style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "0.5rem",
-                                padding: "0.625rem 1rem",
-                                background: "white",
-                                border: "1px solid #e5e7eb",
-                                borderRadius: "0.5rem",
-                                cursor: "pointer",
-                                fontSize: "0.875rem",
-                                fontWeight: 500,
-                            }}
-                        >
-                            <MailIcon /> Email Support
-                        </button>
-                        <button
-                            onClick={() => shopify.toast.show("Documentation coming soon!")}
-                            style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "0.5rem",
-                                padding: "0.625rem 1rem",
-                                background: "white",
-                                border: "1px solid #e5e7eb",
-                                borderRadius: "0.5rem",
-                                cursor: "pointer",
-                                fontSize: "0.875rem",
-                                fontWeight: 500,
-                            }}
-                        >
-                            <BookIcon /> Documentation
-                        </button>
-                    </div>
                 </s-box>
             </s-section>
         </s-page>

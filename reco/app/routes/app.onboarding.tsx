@@ -111,33 +111,75 @@ export default function Onboarding() {
     // If already onboarded and action redirected, show success
     if (actionData?.success) {
         return (
-            <s-page heading="Welcome to Reco!">
+            <s-page heading="Your Widget is Ready!">
                 <s-section>
                     <s-box padding="large" borderWidth="base" borderRadius="base" background="bg-surface">
-                        <div style={{ textAlign: "center", padding: "3rem 2rem" }}>
-                            <div style={{ fontSize: "3rem", marginBottom: "1.5rem" }}>🎉</div>
-                            <s-heading level="2">Setup Complete!</s-heading>
-                            <s-paragraph style={{ marginTop: "0.75rem", marginBottom: "0" }}>
-                                Your Reco widget is ready. Head to the Home page to see your analytics.
+                        <div style={{ textAlign: "center", padding: "2rem" }}>
+                            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🎉</div>
+                            <s-heading level="2">Your widget is ready!</s-heading>
+                            <s-paragraph tone="subdued" style={{ marginTop: "0.5rem", marginBottom: "2rem" }}>
+                                Here's how to add Reco to your product pages:
                             </s-paragraph>
-                            <div style={{ marginTop: "2rem" }}>
-                                <button
-                                    type="button"
-                                    onClick={() => window.location.href = '/app'}
-                                    style={{
-                                        padding: "0.75rem 1.5rem",
-                                        background: "#000000",
-                                        color: "white",
-                                        borderRadius: "0.5rem",
-                                        border: "none",
-                                        cursor: "pointer",
-                                        fontWeight: 600,
-                                        fontSize: "1rem",
-                                    }}
-                                >
-                                    Go to Dashboard →
-                                </button>
+                        </div>
+
+                        {/* Installation Steps */}
+                        <div style={{ maxWidth: "600px", margin: "0 auto", textAlign: "left" }}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                                <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#000", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: "0.875rem", flexShrink: 0 }}>1</div>
+                                    <div>
+                                        <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>Go to Online Store → Themes</div>
+                                        <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>In your Shopify admin, navigate to your theme settings</div>
+                                    </div>
+                                </div>
+                                <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#000", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: "0.875rem", flexShrink: 0 }}>2</div>
+                                    <div>
+                                        <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>Click Customize on your active theme</div>
+                                        <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>This opens the theme editor</div>
+                                    </div>
+                                </div>
+                                <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#000", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: "0.875rem", flexShrink: 0 }}>3</div>
+                                    <div>
+                                        <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>Navigate to a Product page</div>
+                                        <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>Use the dropdown at the top to select "Products → Default product"</div>
+                                    </div>
+                                </div>
+                                <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#000", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: "0.875rem", flexShrink: 0 }}>4</div>
+                                    <div>
+                                        <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>Enable Reco App Embed</div>
+                                        <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>Click "App embeds" in the left sidebar and toggle Reco on</div>
+                                    </div>
+                                </div>
+                                <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#22c55e", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: "0.875rem", flexShrink: 0 }}>5</div>
+                                    <div>
+                                        <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>Save your changes</div>
+                                        <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>Click Save in the top right corner</div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+
+                        <div style={{ textAlign: "center", marginTop: "2rem" }}>
+                            <button
+                                type="button"
+                                onClick={() => window.location.href = '/app/how-to'}
+                                style={{
+                                    padding: "0.75rem 1.5rem",
+                                    background: "#000000",
+                                    color: "white",
+                                    borderRadius: "0.5rem",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    fontWeight: 600,
+                                    fontSize: "1rem",
+                                }}
+                            >
+                                Go to How to Install →
+                            </button>
                         </div>
                     </s-box>
                 </s-section>
@@ -157,6 +199,35 @@ export default function Onboarding() {
                             <div><strong>Brand:</strong> {onboardingData.brand_name}</div>
                             <div><strong>Review Provider:</strong> {onboardingData.review_provider}</div>
                             <div><strong>API Key:</strong> {onboardingData.has_api_key ? "••••••••" : "Not set"}</div>
+                        </div>
+                    </s-box>
+                </s-section>
+
+                <s-section heading="Subscription">
+                    <s-box padding="base" borderWidth="base" borderRadius="base">
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            <div>
+                                <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>Your Plan</div>
+                                <s-paragraph tone="subdued" style={{ margin: 0 }}>
+                                    Manage your Reco subscription and billing
+                                </s-paragraph>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => window.location.href = '/app/subscription'}
+                                style={{
+                                    padding: "0.5rem 1rem",
+                                    background: "#000000",
+                                    color: "white",
+                                    borderRadius: "0.5rem",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    fontWeight: 500,
+                                    fontSize: "0.875rem",
+                                }}
+                            >
+                                Manage Subscription
+                            </button>
                         </div>
                     </s-box>
                 </s-section>
@@ -225,10 +296,8 @@ export default function Onboarding() {
                     {/* Step 1: Contact Info */}
                     {step === 1 && (
                         <div>
-                            <s-heading level="2">Tell us about yourself</s-heading>
-                            <s-paragraph tone="subdued" style={{ marginBottom: "1.5rem" }}>
-                                We'll use this to personalize your experience and keep you updated.
-                            </s-paragraph>
+                            <s-heading level="2">Create your RECO account</s-heading>
+
 
                             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                                 <div>
@@ -463,7 +532,7 @@ export default function Onboarding() {
                             <input type="hidden" name="review_provider" value={formState.review_provider} />
 
                             <s-heading level="2">
-                                {formState.review_provider === "demo" ? "Ready to Go!" : "Connect Your API"}
+                                {formState.review_provider === "demo" ? "Ready to Go!" : "Connect your review API key"}
                             </s-heading>
 
                             {formState.review_provider === "demo" ? (
@@ -555,9 +624,12 @@ export default function Onboarding() {
                                             onFocus={(e) => e.target.style.borderColor = "#000000"}
                                             onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                                         />
-                                        <p style={{ fontSize: "0.875rem", color: "#6b7280", marginTop: "0.5rem" }}>
-                                            You can skip this and add it later from settings.
-                                        </p>
+
+                                        <div style={{ marginTop: "1.5rem" }}>
+                                            <p style={{ fontSize: "0.875rem", color: "#6b7280" }}>
+                                                You can skip this and add it later from settings.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             )}
