@@ -87,39 +87,45 @@
     </div>
   </nav>
 
-  <!-- Hero + Scroll Features Combined Section -->
-  <section class="pt-28 relative">
+  <!-- Hero Section -->
+  <section class="pt-40 pb-20 bg-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-5xl lg:text-7xl font-normal text-gray-900 mb-10 leading-tight">
+        Don't just read customer reviews.<br>
+        <span class="text-gray-400">Chat with them.</span>
+      </h1>
+
+      <!-- Hero Input Widget -->
+      <div
+        class="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-2 pl-5 flex items-center gap-4 max-w-lg mx-auto transition-transform hover:scale-[1.01] duration-300">
+        <svg class="w-5 h-5 text-gray-900 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
+          <path d="M18 14L19 17L22 18L19 19L18 22L17 19L14 18L17 17L18 14Z" />
+        </svg>
+        <div class="flex-1 text-left">
+          <div class="font-medium text-gray-900 text-sm">Ask anything about this product...</div>
+          <div class="text-gray-400 text-xs mt-0.5">What are tall girls saying about the fit?</div>
+        </div>
+        <button
+          class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+            class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll Features Section -->
+  <section class="py-20 relative">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
         <!-- Left: Scrolling Text Content -->
         <div class="flex-1 space-y-32 pb-20">
 
-          <!-- Hero Text -->
-          <div class="feature-text pt-8" data-feature="0" data-question="" data-answer="">
-            <h1 class="text-4xl lg:text-5xl font-normal text-gray-900 mb-6 leading-tight">
-              Don't just read customer reviews.<br>
-              <span class="text-gray-400">Chat with them.</span>
-            </h1>
-            <div class="bg-[#F5F5F0] rounded-2xl px-4 py-3 flex items-center gap-3 mb-8 max-w-md">
-              <svg class="w-5 h-5 text-gray-800 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
-                <path d="M18 14L19 17L22 18L19 19L18 22L17 19L14 18L17 17L18 14Z" />
-              </svg>
-              <div class="flex-1">
-                <div class="font-medium text-gray-900 text-sm">Ask anything about this product...</div>
-                <div class="text-gray-400 text-xs">What are tall girls saying about the fit?</div>
-              </div>
-              <button class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                  stroke="currentColor" class="w-4 h-4">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- How? Section - Feature 1 -->
-          <div class="feature-text" data-feature="1" data-question="What are tall girls saying about the fit?"
+          <!-- How? Section - Feature 0 -->
+          <div class="feature-text pt-8" data-feature="0" data-question="What are tall girls saying about the fit?"
             data-answer="Based on what customers are saying, this piece does tend to be on the sheer side. Many people have noted the thinness of the fabric, with some describing it as 'completely see through,' like Elizabeth M.">
             <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               How?
@@ -141,8 +147,8 @@
             </div>
           </div>
 
-          <!-- Feature 2 -->
-          <div class="feature-text" data-feature="2" data-question="Is it good for hot weather?"
+          <!-- Feature 1 -->
+          <div class="feature-text" data-feature="1" data-question="Is it good for hot weather?"
             data-answer="Several customers mention it's super breathable! Maria K. (5/5) said 'I wore it all day in summer and didn't feel overheated at all.' Great for warmer climates.">
             <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Provide answers tailored<br>to <em>their</em> needs, instantly.
@@ -153,8 +159,8 @@
             </p>
           </div>
 
-          <!-- Feature 3 -->
-          <div class="feature-text" data-feature="3" data-question="Does it smooth the tummy area?"
+          <!-- Feature 2 -->
+          <div class="feature-text" data-feature="2" data-question="Does it smooth the tummy area?"
             data-answer="Absolutely! This is one of the most praised features. Amanda R. (5/5) mentioned 'it really smooths everything out without feeling too tight.' The sculpting effect is subtle but effective.">
             <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Turn your reviews into a 24/7<br>personalized shopping assistant.
@@ -165,8 +171,8 @@
             </p>
           </div>
 
-          <!-- Feature 4 -->
-          <div class="feature-text" data-feature="4" data-question="Will it show under a tight dress?"
+          <!-- Feature 3 -->
+          <div class="feature-text" data-feature="3" data-question="Will it show under a tight dress?"
             data-answer="Great question! Most reviewers say no visible lines. Jessica L. (4/5) noted 'completely seamless under my bodycon dress.' The edges are designed to lay flat against your skin.">
             <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Reduce review fatigue &<br>maximize purchasing intent.
@@ -177,8 +183,8 @@
             </p>
           </div>
 
-          <!-- Feature 5 -->
-          <div class="feature-text" data-feature="5" data-question="Can I customize how it looks?"
+          <!-- Feature 4 -->
+          <div class="feature-text" data-feature="4" data-question="Can I customize how it looks?"
             data-answer="Yes! Reco is fully customizable. Match your brand colors, fonts, and style. Your widget, your brand identity.">
             <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
               Fully Customizable.
@@ -519,14 +525,14 @@
       }
 
       // For hero (index 0), show initial state
-      if (featureIndex === 0 || !question) {
+      if (!question) {
         chatContainer.innerHTML = '';
         return;
       }
 
       // Build conversation up to this point
       let conversationHistory = [];
-      for (let i = 1; i <= featureIndex; i++) {
+      for (let i = 0; i <= featureIndex; i++) {
         const f = featureTexts[i];
         if (f && f.dataset.question && f.dataset.answer) {
           conversationHistory.push({
