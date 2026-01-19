@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reco - AI Shopping Assistant for Shopify</title>
+  <title>RecoAI - AI Shopping Assistant for Shopify</title>
   <meta name="description"
     content="Turn reviews into revenue with Reco. The AI Shopping Assistant that knows your products better than you do.">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -73,11 +73,11 @@
   <!-- Navigation -->
   <nav class="fixed top-0 left-0 right-0 z-50 bg-white">
     <div class="w-full px-8 py-5 flex items-center justify-between">
-      <span class="text-2xl font-medium text-gray-900">Reco</span>
+      <span class="text-2xl font-medium text-gray-900">RecoAI</span>
       <div class="flex items-center gap-4">
-        <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer"
-          class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
-          login
+        <a href="#demo"
+          class="px-4 py-2 bg-white text-gray-900 text-sm font-medium rounded-full border border-gray-300 hover:border-gray-400 transition-colors">
+          Book a Demo
         </a>
         <a href="https://apps.shopify.com/reco-chat" target="_blank" rel="noopener noreferrer"
           class="px-4 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors">
@@ -97,37 +97,48 @@
           <!-- Hero Text -->
           <div class="feature-text pt-8" data-feature="0" data-question="" data-answer="">
             <h1 class="text-4xl lg:text-5xl font-normal text-gray-900 mb-6 leading-tight">
-              Stop <em>reading</em> reviews.<br>
-              <em>Chat</em> with them.
+              Don't just read customer reviews.<br>
+              <span class="text-gray-400">Chat with them.</span>
             </h1>
-            <p class="text-base text-gray-600 mb-8 max-w-md leading-relaxed">
-              Turn your existing customer reviews into a ReviewsGPT your shoppers can chat with. Let them ask product
-              questions directly in your product pages, and our AI will analyze your reviews to deliver answers they can
-              trust.
+            <div class="bg-[#F5F5F0] rounded-2xl px-4 py-3 flex items-center gap-3 mb-8 max-w-md">
+              <svg class="w-5 h-5 text-gray-800 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
+                <path d="M18 14L19 17L22 18L19 19L18 22L17 19L14 18L17 17L18 14Z" />
+              </svg>
+              <div class="flex-1">
+                <div class="font-medium text-gray-900 text-sm">Ask anything about this product...</div>
+                <div class="text-gray-400 text-xs">What are tall girls saying about the fit?</div>
+              </div>
+              <button class="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                  stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- How? Section - Feature 1 -->
+          <div class="feature-text" data-feature="1" data-question="What are tall girls saying about the fit?"
+            data-answer="Based on what customers are saying, this piece does tend to be on the sheer side. Many people have noted the thinness of the fabric, with some describing it as 'completely see through,' like Elizabeth M.">
+            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
+              How?
+            </h2>
+            <p class="text-base text-gray-600 max-w-md leading-relaxed mb-6">
+              Reco turns your existing customer reviews into a ReviewsGPT your shoppers can chat with. Let shoppers ask
+              product questions directly in your product pages, and our AI will analyze your reviews to deliver answers
+              they can trust.
             </p>
             <div class="flex flex-wrap gap-4 items-center">
-              <a href="https://apps.shopify.com/reco-chat" target="_blank"
-                class="inline-flex items-center justify-center px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all">
-                Start a free trial
-              </a>
               <a href="#demo"
                 class="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-900 rounded-full text-sm font-medium border border-gray-300 hover:border-gray-400 transition-all">
                 Book a Demo
               </a>
+              <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                class="inline-flex items-center justify-center px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all">
+                Start a free trial
+              </a>
             </div>
-          </div>
-
-          <!-- Feature 1 -->
-          <div class="feature-text" data-feature="1" data-question="What are tall girls saying about the fit?"
-            data-answer="Based on what customers are saying, this piece does tend to be on the sheer side. Many people have noted the thinness of the fabric, with some describing it as 'completely see through,' like Elizabeth M.">
-            <h2 class="text-3xl lg:text-4xl font-normal text-gray-900 mb-4 leading-tight">
-              Give customers instant clarity,<br>without drowning in reviews
-            </h2>
-            <p class="text-base text-gray-600 max-w-md leading-relaxed">
-              People already rely on AI tools to get answers instantly. Reco brings that same chat-first experience to
-              your reviews, allowing shoppers to ask product questions and get immediate answers in a way that's already
-              familiar to them.
-            </p>
           </div>
 
           <!-- Feature 2 -->
@@ -226,16 +237,12 @@
 
   <!-- Stacking Showcase Cards -->
   <section class="stacking-cards px-4 pb-40">
-    <!-- Card 1: Simply add our chat widget (Cyan) -->
+    <!-- Card 1: Simply add our widget -->
     <div class="stacking-card mb-8">
-      <div class="bg-[#E8F4F8] rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg">
-        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-3 text-center">
-          Simply add our chat widget into your product pages.
+      <div class="bg-white rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg border border-gray-200">
+        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-8 text-center">
+          Simply add our widget to your product pages<br>and let our AI do the work.
         </h2>
-        <p class="text-sm md:text-base text-gray-600 mb-8 max-w-2xl mx-auto text-center">
-          Simply embed a Reco widget into your Shopify theme code and expose it in your product pages. Once embedded,
-          customers will be able to ask questions pertaining to that specific product.
-        </p>
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl mx-auto">
           <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=500&fit=crop"
             alt="Widget on product page" class="w-full h-auto object-cover"
@@ -250,40 +257,23 @@
       </div>
     </div>
 
-    <!-- Card 2: Customers ask and engage (Cyan) -->
+    <!-- Card 2: AI analyzes reviews -->
     <div class="stacking-card mb-8">
-      <div class="bg-[#E8F4F8] rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg">
-        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-3 text-center">
-          Customers ask and engage
+      <div class="bg-white rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg border border-gray-200">
+        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-8 text-center">
+          When prompted, Reco's AI will analyze your product-specific customer reviews to deliver concise, trustworthy
+          answers in a familiar ChatGPT style experience.
         </h2>
-        <p class="text-sm md:text-base text-gray-600 mb-8 max-w-2xl mx-auto text-center">
-          Simply embed a Reco widget into your Shopify theme code and expose it in your product pages. Once embedded,
-          customers will be able to ask questions pertaining to that specific product.
-        </p>
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl mx-auto">
-          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop"
-            alt="Customers engaging with widget" class="w-full h-auto object-cover"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="hidden items-center justify-center h-64 bg-gray-100 text-gray-400 text-center p-8">
-            <div>
-              <div class="text-4xl mb-2">💬</div>
-              <p>Customers engage with AI chat</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
-    <!-- Card 3: See the reviews (Pink) -->
+    <!-- Card 3: Reviews pairing -->
     <div class="stacking-card mb-8">
-      <div class="bg-[#FDF2F8] rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg">
-        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-3 text-center">
-          See the reviews that formed the basis of the answer.
+      <div class="bg-white rounded-3xl p-8 md:p-12 max-w-5xl mx-auto shadow-lg border border-gray-200">
+        <h2 class="text-2xl md:text-3xl font-normal text-gray-900 mb-8 text-center">
+          Reco also pairs each response with the exact customer reviews that informed it, so shoppers understand
+          <em>why</em> an answer was given.
         </h2>
-        <p class="text-sm md:text-base text-gray-600 mb-8 max-w-2xl mx-auto text-center">
-          Simply embed a Reco widget into your Shopify theme code and expose it in your product pages. Once embedded,
-          customers will be able to ask questions pertaining to that specific product.
-        </p>
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl mx-auto">
           <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"
             alt="Reviews used for answer" class="w-full h-auto object-cover"
