@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoAI - AI Shopping Assistant for Shopify</title>
+    <meta name="description"
+        content="Turn reviews into revenue with Reco. The AI Shopping Assistant that knows your products better than you do.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-white">
+
+    <!-- ===================== SECTION 1: HERO ===================== -->
+    <section class="min-h-screen flex flex-col">
+        <!-- Navigation -->
+        <nav class="w-full px-8 py-6 flex items-center justify-between">
+            <span class="text-xl font-semibold text-gray-900 tracking-tight">RecoAI</span>
+            <a href="#demo"
+                class="px-5 py-2.5 text-sm font-medium text-gray-900 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+                Book a Demo
+            </a>
+        </nav>
+
+        <!-- Hero Content -->
+        <div class="flex-1 flex flex-col items-center justify-center px-6 -mt-20">
+            <h1 class="text-4xl md:text-5xl font-semibold text-gray-900 text-center mb-2 tracking-tight">
+                Don't just read customer reviews.
+            </h1>
+            <p class="text-4xl md:text-5xl font-semibold text-gray-300 text-center mb-12 tracking-tight">
+                Chat with them.
+            </p>
+
+            <!-- Widget Input Preview -->
+            <div class="bg-[#F5F5F0] rounded-2xl px-5 py-4 flex items-center gap-4 w-full max-w-md shadow-sm">
+                <svg class="w-5 h-5 text-gray-900 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
+                    <path d="M18 14L19 17L22 18L19 19L18 22L17 19L14 18L17 17L18 14Z" />
+                </svg>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900 text-sm">Ask anything about this product...</div>
+                    <div class="text-gray-400 text-xs mt-0.5">What are tall girls saying about the fit?</div>
+                </div>
+                <button class="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SECTION 2: HOW? ===================== -->
+    <section class="py-24 px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <!-- Nav for this section -->
+            <div class="mb-16">
+                <span class="text-xl font-semibold text-gray-900 tracking-tight">Reco</span>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-16 lg:gap-24">
+                <!-- Left: Text Content -->
+                <div class="flex-1 max-w-lg">
+                    <h2 class="text-4xl font-normal text-gray-300 mb-6">How?</h2>
+                    <p class="text-lg text-gray-900 leading-relaxed mb-8">
+                        Reco turns your existing customer reviews into a ReviewsGPT your shoppers can chat with. Let
+                        shoppers ask product questions directly in your product pages, and our AI will analyze your
+                        reviews to deliver answers they can trust.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#demo"
+                            class="px-6 py-3 text-sm font-medium text-gray-900 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+                            Book a Demo
+                        </a>
+                        <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                            class="px-6 py-3 text-sm font-medium text-white bg-gray-900 rounded-full hover:bg-gray-800 transition-colors">
+                            Start a free trial
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Widget Demo -->
+                <div class="flex-1 flex justify-center">
+                    <div class="w-full max-w-md">
+                        <!-- Product Card Header -->
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=100&h=100&fit=crop&crop=face"
+                                alt="Product" class="w-12 h-12 rounded-xl object-cover bg-gray-100">
+                            <div>
+                                <div class="text-xs text-gray-500">Skims</div>
+                                <div class="text-sm font-medium text-gray-900">Brief Bodysuit $89</div>
+                            </div>
+                        </div>
+
+                        <!-- Widget Input -->
+                        <div class="bg-[#F5F5F0] rounded-2xl px-4 py-3 flex items-center gap-3 mb-4">
+                            <svg class="w-5 h-5 text-gray-800 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
+                                <path d="M18 14L19 17L22 18L19 19L18 22L17 19L14 18L17 17L18 14Z" />
+                            </svg>
+                            <div class="flex-1">
+                                <div class="font-medium text-gray-900 text-sm">Ask anything about this product...</div>
+                                <div class="text-gray-400 text-xs">What are tall girls saying about the fit?</div>
+                            </div>
+                            <button
+                                class="w-9 h-9 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div class="space-y-3">
+                            <!-- User avatars + message -->
+                            <div class="flex items-start gap-2">
+                                <div class="flex -space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop&crop=face"
+                                        class="w-8 h-8 rounded-full border-2 border-white object-cover">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face"
+                                        class="w-8 h-8 rounded-full border-2 border-white object-cover">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face"
+                                        class="w-8 h-8 rounded-full border-2 border-white object-cover">
+                                </div>
+                                <div
+                                    class="bg-gray-900 text-white text-xs px-3 py-2 rounded-2xl rounded-tl-sm max-w-[200px]">
+                                    I'm 5 foot 9 with a long torso. What are tall girls saying about the fit?
+                                </div>
+                            </div>
+
+                            <!-- AI Response -->
+                            <div class="bg-white border border-gray-100 rounded-2xl p-3 shadow-sm">
+                                <p class="text-xs text-gray-700 leading-relaxed">
+                                    Based on what customers are saying, this piece does tend to be on the sheer side.
+                                    Many people have noted the thinness of the fabric, with some describing it as
+                                    "completely see through," like Elizabeth M.
+                                </p>
+                            </div>
+
+                            <!-- Follow-up -->
+                            <div class="flex justify-end">
+                                <div
+                                    class="bg-gray-900 text-white text-xs px-3 py-2 rounded-2xl rounded-tr-sm max-w-[220px]">
+                                    Amazing. So have other tall girls sized up?
+                                </div>
+                            </div>
+
+                            <!-- AI Response 2 -->
+                            <div class="bg-white border border-gray-100 rounded-2xl p-3 shadow-sm">
+                                <p class="text-xs text-gray-700 leading-relaxed">
+                                    Based on what customers are saying, this piece does tend to be on the sheer side.
+                                    Many people have noted the thinness of the fabric, like Jessie K.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SECTION 3: PRODUCT PAGE DEMO ===================== -->
+    <section class="py-24 px-8 bg-white">
+        <!-- Nav -->
+        <div class="max-w-7xl mx-auto flex items-center justify-between mb-12">
+            <span class="text-xl font-semibold text-gray-900 tracking-tight">Reco</span>
+            <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                login
+            </a>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 leading-tight">
+                Simply add our widget to your product pages<br>and let our AI do the work.
+            </h2>
+        </div>
+
+        <!-- Product Page Mockup -->
+        <div class="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+            <!-- Store Nav -->
+            <div class="border-b border-gray-100 px-6 py-3 flex items-center justify-between text-xs text-gray-500">
+                <div class="flex items-center gap-6">
+                    <span>NEW</span><span>MEN</span><span>WOMEN</span>
+                </div>
+                <span class="text-base font-semibold text-gray-900 tracking-wide">FREEBIRD</span>
+                <div class="flex items-center gap-6">
+                    <span>ACTIVE</span><span>LIFESTYLE</span><span>SWIM</span>
+                </div>
+            </div>
+
+            <!-- Product Content -->
+            <div class="flex flex-col md:flex-row">
+                <!-- Product Image -->
+                <div class="md:w-1/2 p-8">
+                    <div class="bg-[#F5EFE6] rounded-2xl overflow-hidden aspect-[3/4]">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=800&fit=crop"
+                            alt="Angelica Jogger" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-1">Angelica Jogger</h3>
+                    <p class="text-gray-900 mb-2">$120</p>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="flex">
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                            </svg>
+                            <svg class="w-4 h-4 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                            </svg>
+                        </div>
+                        <span class="text-xs text-gray-500">300 Reviews</span>
+                    </div>
+
+                    <!-- Embedded Widget -->
+                    <div class="bg-[#FDF8F5] rounded-xl px-4 py-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-400 text-xs">✦</span>
+                            <div>
+                                <div class="text-xs font-medium text-gray-700">Ask anything about this product...</div>
+                                <div class="text-xs text-gray-400">I'm 5'9". What are tall girls saying about the fit?
+                                </div>
+                            </div>
+                            <button class="ml-auto w-6 h-6 bg-gray-900 rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                        An oversized essential with substance. Made from dense 100% cotton heavyweight fleece, this
+                        jogger offers cozy softness, an elastic waistband with drawstring adjustability, and side
+                        pockets for everyday wear.
+                    </p>
+
+                    <div class="mb-4">
+                        <span class="text-sm font-medium text-gray-900">Size</span>
+                        <div class="flex gap-3 mt-2">
+                            <span class="text-sm text-gray-600 underline">S</span>
+                            <span class="text-sm text-gray-600">M</span>
+                            <span class="text-sm text-gray-600">L</span>
+                            <span class="text-sm text-gray-600">XL</span>
+                        </div>
+                    </div>
+
+                    <button
+                        class="w-full py-3 border border-gray-900 rounded-full text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors">
+                        Add To Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SECTION 4: AI ANALYSIS ===================== -->
+    <section class="py-24 px-8 bg-white">
+        <!-- Nav -->
+        <div class="max-w-7xl mx-auto flex items-center justify-between mb-12">
+            <span class="text-xl font-semibold text-gray-900 tracking-tight">Reco</span>
+            <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                login
+            </a>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-2xl md:text-3xl font-semibold text-gray-900 leading-tight">
+                When prompted, Reco's AI will analyze your product-specific customer reviews to deliver concise,
+                trustworthy answers in a familiar ChatGPT style experience.
+            </h2>
+        </div>
+
+        <!-- Side by Side Cards -->
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-0 rounded-3xl overflow-hidden shadow-2xl">
+                <!-- Left: Reviews Card -->
+                <div class="md:w-1/2 bg-white p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop&crop=face"
+                            class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <div class="text-sm font-semibold text-gray-900">Brief Bodysuit</div>
+                            <div class="text-xs text-gray-500">Top Referenced Reviews • 2 shown</div>
+                        </div>
+                    </div>
+
+                    <!-- Review 1 -->
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-gray-900">JESSICA G.</span>
+                            <div class="flex">
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            I am 5'9 and usually wear a medium but natch I ordered a large here and the shoulders fit so
+                            bad. They keep riding up and I have to pull them down constantly. Kind of embarrassing.
+                        </p>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-gray-900">Mary A.D.</span>
+                            <div class="flex">
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            I wish it didn't ride up and I wish it was just a little longer. I am thin with a little
+                            longer torso so this rides up a bit on me.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Chat Card -->
+                <div class="md:w-1/2 bg-white p-6 border-l border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xl font-bold tracking-wide">SKIMS</span>
+                        <button class="text-gray-400 hover:text-gray-600">✕</button>
+                    </div>
+
+                    <div class="space-y-4 text-xs text-gray-700">
+                        <p class="leading-relaxed">
+                            to pull them down constantly." Even when people try to compensate, like Christina S. (4/5)
+                            who "sized up to try and get it a bit bigger, but was still a bit short," they still found
+                            the length challenging, so keep that in mind if you have a very long torso.
+                        </p>
+
+                        <div class="flex justify-end">
+                            <div class="bg-gray-100 text-gray-700 px-3 py-2 rounded-2xl text-xs">
+                                Hows the fit for tall girls?
+                            </div>
+                        </div>
+
+                        <p class="leading-relaxed">
+                            That is a great question, gorgeous, because the fit for height can definitely be tricky
+                            depending on the piece and your specific proportions. Based on what people are saying, if
+                            you have a longer torso or are on the taller side, you might experience some issues with the
+                            vertical length. For example, Mary A. D. (3/5) mentioned that she wished it was "just a
+                            little longer" because she found it rode up a bit on her. We've seen similar feedback from
+                            taller customers, like JESSICA G. (2/5) who is 5'9" and noted that the fit caused the
+                            shoulders to "keep riding up" and require constant adjustment. It sounds like if you are on
+                            the taller side, especially if you have a longer torso, you might find the vertical length a
+                            bit short.
+                        </p>
+                    </div>
+
+                    <!-- Suggestions -->
+                    <div class="flex flex-wrap gap-2 mt-4 mb-4">
+                        <span class="text-xs text-gray-500 px-3 py-1 border border-gray-200 rounded-full">Is the bottom
+                            a thong?</span>
+                        <span class="text-xs text-gray-500 px-3 py-1 border border-gray-200 rounded-full">Are the snaps
+                            comfortable?</span>
+                        <span class="text-xs text-gray-500 px-3 py-1 border border-gray-200 rounded-full">How thick is
+                            the fabric?</span>
+                    </div>
+
+                    <!-- Input -->
+                    <div class="flex items-center gap-2 border-t border-gray-100 pt-4">
+                        <input type="text" placeholder="Ask anything about the bodysuit..."
+                            class="flex-1 text-xs text-gray-500 outline-none">
+                        <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SECTION 5: REVIEWS PAIRING ===================== -->
+    <section class="py-24 px-8 bg-white">
+        <!-- Nav -->
+        <div class="max-w-7xl mx-auto flex items-center justify-between mb-12">
+            <span class="text-xl font-semibold text-gray-900 tracking-tight">Reco</span>
+            <a href="https://apps.shopify.com/reco-chat" target="_blank"
+                class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                login
+            </a>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-2xl md:text-3xl font-semibold text-gray-900 leading-tight">
+                Reco also pairs each response with the exact customer reviews that informed it, so shoppers understand
+                <em class="not-italic">why</em> an answer was given.
+            </h2>
+        </div>
+
+        <!-- Side by Side Cards (same as section 4) -->
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-0 rounded-3xl overflow-hidden shadow-2xl">
+                <!-- Left: Reviews Card -->
+                <div class="md:w-1/2 bg-white p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop&crop=face"
+                            class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <div class="text-sm font-semibold text-gray-900">Brief Bodysuit</div>
+                            <div class="text-xs text-gray-500">Top Referenced Reviews • 2 shown</div>
+                        </div>
+                    </div>
+
+                    <!-- Review 1 -->
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-gray-900">JESSICA G.</span>
+                            <div class="flex">
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            I am 5'9 and usually wear a medium but natch I ordered a large here and the shoulders fit so
+                            bad. They keep riding up and I have to pull them down constantly. Kind of embarrassing.
+                        </p>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-gray-900">Mary A.D.</span>
+                            <div class="flex">
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                                <svg class="w-3 h-3 text-gray-200 fill-current" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            I wish it didn't ride up and I wish it was just a little longer. I am thin with a little
+                            longer torso so this rides up a bit on me.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Chat Card -->
+                <div class="md:w-1/2 bg-white p-6 border-l border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xl font-bold tracking-wide">SKIMS</span>
+                        <button class="text-gray-400 hover:text-gray-600">✕</button>
+                    </div>
+
+                    <div class="space-y-4 text-xs text-gray-700">
+                        <p class="leading-relaxed">
+                            to pull them down constantly." Even when people try to compensate, like Christina S. (4/5)
+                            who "sized up to try and get it a bit bigger, but was still a bit short," they still found
+                            the length challenging, so keep that in mind if you have a very long torso.
+                        </p>
+
+                        <div class="flex justify-end">
+                            <div class="bg-gray-100 text-gray-700 px-3 py-2 rounded-2xl text-xs">
+                                Hows the fit for tall girls?
+                            </div>
+                        </div>
+
+                        <p class="leading-relaxed">
+                            That is a great question, gorgeous, because the fit for height can definitely be tricky
+                            depending on the piece and your specific proportions. Based on what people are saying, if
+                            you have a longer torso or are on the taller side, you might experience some issues with the
+                            vertical length. For example, Mary A. D. (3/5) mentioned that she wished it was "just a
+                            little longer" because she found it rode up a bit on her. We've seen similar feedback from
+                            taller customers, like JESSICA G. (2/5) who is 5'9" and noted that the fit caused the
+                            shoulders to "keep riding up" and require constant adjustment. It sounds like if you are on
+                            the taller side, especially if you have a longer torso, you might find the vertical length a
+                            bit short.
+                        </p>
+                    </div>
+
+                    <!-- Suggestions -->
+                    <div class="flex flex-wrap gap-2 mt-4 mb-4">
+                        <span class="text-xs text-gray-500 px-3 py-1 border border-gray-200 rounded-full">Is the bottom
+                            a thong?</span>
+                        <span class="text-xs text-gray-500 px-3 py-1 border border-gray-200 rounded-full">Are the snaps
+                            comfortable?</span>
+                        <span class="text-xs text-gray-500 px-3 py-1 border border-gray-200 rounded-full">How thick is
+                            the fabric?</span>
+                    </div>
+
+                    <!-- Input -->
+                    <div class="flex items-center gap-2 border-t border-gray-100 pt-4">
+                        <input type="text" placeholder="Ask anything about the bodysuit..."
+                            class="flex-1 text-xs text-gray-500 outline-none">
+                        <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="py-12 px-8 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <span class="text-lg font-semibold text-gray-900">Reco</span>
+            <div class="flex items-center gap-8 text-sm text-gray-500">
+                <a href="/support" class="hover:text-gray-900 transition-colors">Support</a>
+                <a href="/privacy" class="hover:text-gray-900 transition-colors">Privacy</a>
+                <a href="mailto:support@askreco.com"
+                    class="hover:text-gray-900 transition-colors">support@askreco.com</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-100 text-center text-xs text-gray-400">
+            © 2025 Reco. Built by Michael & Nakai. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+
+</html>

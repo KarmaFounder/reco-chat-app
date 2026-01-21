@@ -3,6 +3,10 @@
     "installCommand": "npm install",
     "rewrites": [
         {
+            "source": "/landing-v2",
+            "destination": "/landing-v2.html"
+        },
+        {
             "source": "/landing",
             "destination": "/landing.html"
         },
